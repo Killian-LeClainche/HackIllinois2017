@@ -6,7 +6,12 @@ import java.io.IOException;
 
 import javax.imageio.ImageIO;
 
-public class Classification 
+/**
+ * A (image, classification) pair used to train the neural network or access the
+ * fitness of the neural network
+ *
+ */
+public class Classification
 {
 	
 	/**
@@ -44,7 +49,7 @@ public class Classification
 				values[i][j] = 0.2126 * red + 0.7152 * green + 0.0722 * blue;
 			}
 		}
-		
+
 		return new Classification(name, values);
 	}
 	
@@ -56,7 +61,7 @@ public class Classification
 	 * The converted data to RAM exclusive luminance.
 	 */
 	private double[][] imageInputNodes;
-	
+
 	/**
 	 * Constructor of the Classification, it should be kept private.
 	 * @param name : Name of the classification
