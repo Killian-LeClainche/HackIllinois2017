@@ -7,18 +7,25 @@ import java.util.List;
  */
 public class Neuron implements Node
 {
-    private List<Node> incoming;
-    private List<Double> weights;
+    private List<Node> incomingNodes;
+    private List<Double> incomingWeights;
     private double value;
 
+    /**
+     * @return The logistic (sigmoid) function of the input.
+     */
+    public static double LOGISTIC(double input)
+    {
+        return 1 / (1 + Math.pow(Math.E, -1 * input));
+    }
 
     /**
      * Initializes empty values for the new Neuron.
      */
     public Neuron()
     {
-        this.incoming = new ArrayList<>();
-        this.weights = new ArrayList<>();
+        this.incomingNodes = new ArrayList<>();
+        this.incomingWeights = new ArrayList<>();
         this.value = 0.0;
     }
 
@@ -26,9 +33,9 @@ public class Neuron implements Node
      * @return Nodes that point to this Neuron.
      */
     @Override
-    public List<Node> getIncoming()
+    public List<Node> getIncomingNodes()
     {
-        return this.incoming;
+        return this.incomingNodes;
     }
 
     /**
@@ -37,11 +44,11 @@ public class Neuron implements Node
     @Override
     public List<Double> getIncomingWeights()
     {
-        return this.weights;
+        return this.incomingWeights;
     }
 
     /**
-     * @return this Neuron's value.
+     * @return This Neuron's squashed value.
      */
     @Override
     public double getValue()
@@ -55,7 +62,13 @@ public class Neuron implements Node
      */
     public double squash()
     {
+        double weightedSum = 0;
+        for (int i = 0; i < this.incomingNodes.size(); i++)
+        {
+            weightedSum += this.incomingWeights.get(i) * this.incomingNodes.get(i).getValue();
+        }
 
-        return 0;
+        this.value = Neuron.LOGISTIC(weightedSum);
+        return value;
     }
 }
