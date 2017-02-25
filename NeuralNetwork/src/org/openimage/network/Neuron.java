@@ -5,8 +5,8 @@ import java.util.List;
 
 
 /**
- * A Neuron is the most basic unit of a neural network. It computes the sum of the incoming values from other
- * TODO
+ * A Neuron is the most basic unit of a neural network. It computes the sum of the incoming values multiplied by
+ * their respective weights, then squashes the sum using a sigmoid function to produce an output signal.
  * 
  * @author Max O'Cull
  */
