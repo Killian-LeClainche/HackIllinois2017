@@ -1,19 +1,42 @@
 package org.openimage.genetic;
 
+import java.util.ArrayList;
+
 /**
  * Contains the Genome of a NeuralNet and the fitness of the network.
  *
  */
-public class Genome
+public class Genome implements Comparable<Genome>
 {
+	public ArrayList<Double>weights;
+	public double fitness;
 	public Genome()
 	{
-		// TODO Auto-generated constructor stub
+		fitness = 0;
 	}
 
-	public static Genome getSeed()
+	public Genome(ArrayList<Double> weights, double fitness)
 	{
-		// TODO Auto-generated method stub
-		return null;
+		this.weights = weights;
+		this.fitness = fitness;
 	}
+
+	@Override
+	public int compareTo(Genome g) 
+	{
+		if(this.fitness < g.fitness)
+		{
+			return -1;
+		}
+		else if(this.fitness > g.fitness)
+		{
+			return 1;
+		}
+		else
+		{
+			return 0;
+		}
+
+	}
+	
 }
