@@ -12,6 +12,7 @@ import java.util.List;
  */
 public class Neuron implements Node
 {
+	
 	protected List<Node> incomingNodes;
 	private List<Double> incomingWeights;
 	protected double value;
@@ -51,8 +52,8 @@ public class Neuron implements Node
 	 */
 	public Neuron(SquashFunction squash)
 	{
-		this.incomingNodes = new ArrayList<>();
-		this.incomingWeights = new ArrayList<>();
+		this.incomingNodes = new ArrayList<Node>();
+		this.incomingWeights = new ArrayList<Double>();
 		this.value = 0.0;
 		this.squash = squash;
 	}
@@ -63,8 +64,8 @@ public class Neuron implements Node
 	 */
 	public Neuron()
 	{
-		this.incomingNodes = new ArrayList<>();
-		this.incomingWeights = new ArrayList<>();
+		this.incomingNodes = new ArrayList<Node>();
+		this.incomingWeights = new ArrayList<Double>();
 		this.value = 0.0;
 		this.squash = SquashFunction.LOGISTIC;
 	}
@@ -139,5 +140,13 @@ public class Neuron implements Node
 		return "Neuron { id: " + this.hashCode() + ", incomingNodes: " + Arrays.toString(this.incomingNodes.toArray())
 				+ " " + ", incomingWeights: " + Arrays.toString(this.incomingNodes.toArray()) + " " + ", value: "
 				+ this.value + " }";
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	public void reset()
+	{
+		value = 0.0;
 	}
 }

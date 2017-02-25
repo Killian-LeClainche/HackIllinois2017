@@ -36,7 +36,7 @@ public class LSTM implements Node
 
 	public List<Node> getIncomingNodes()
 	{
-		List<Node> nodes = new ArrayList<>();
+		List<Node> nodes = new ArrayList<Node>();
 
 		nodes.addAll(this.keep.getIncomingNodes());
 		nodes.addAll(this.write.getIncomingNodes());
@@ -49,7 +49,7 @@ public class LSTM implements Node
 
 	public List<Double> getIncomingWeights()
 	{
-		List<Double> weights = new ArrayList<>();
+		List<Double> weights = new ArrayList<Double>();
 
 		weights.addAll(this.keep.getIncomingWeights());
 		weights.addAll(this.write.getIncomingWeights());
@@ -98,5 +98,13 @@ public class LSTM implements Node
 		this.memory.activate();
 
 		return 0;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	public void reset()
+	{
+		// TODO
 	}
 }

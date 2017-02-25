@@ -1,10 +1,7 @@
 package org.openimage.network;
 
-import java.util.Iterator;
-import java.util.List;
-
 import org.openimage.genetic.Genome;
-import org.openimage.io.Classification;
+import org.openimage.io.SamplePool;
 
 /**
  * This class finds the fitness of a genome.
@@ -27,27 +24,26 @@ public class FitnessFinder
 
 	/**
 	 * 
-	 * @param trainingSet
-	 *            A list of classification training images
+	 * @param classificationNames
+	 *            The name of the classifications
+	 * @param classifications
+	 *            A list of random samplings from the pools.
 	 * @return
 	 */
-	public double find(List<Classification> trainingSet)
+	public double find(String[] classificationNames, double[][][] classifications)
 	{
 		double fitnessTotal = 0.0;
+		String result;
 
-		Iterator<Classification> trainingIter = trainingSet.iterator();
-		while (trainingIter.hasNext())
+		for(int i = 0; i < classifications.length; i++)
 		{
-			Classification trainingElem = trainingIter.next();
-
-			double[][] imageInputNodes = trainingElem.getImageInputNodes();
-			String expected = trainingElem.getClassification();
-
-			String result = network.classify(imageInputNodes);
-
-			if (result.equals(expected))
+			for(int j = 0; j < classifications[i].length; j++)
 			{
-				fitnessTotal++;
+				result = network.classify(classifications[i][j]);
+				if(result.equals(classificationNames[i]))
+				{
+					fitnessTotal++;
+				}
 			}
 		}
 
