@@ -3,6 +3,10 @@ package org.openimage.server;
 public class Server 
 {
 	
+	/**
+	 * Main launch of the server implementation, updates network listeners and can compute anything you particularly think the server
+	 * should be doing.
+	 */
 	public void run()
 	{
 		new Thread()
@@ -28,6 +32,9 @@ public class Server
 		}.start();
 	}
 	
+	/**
+	 * Called from network/PacketImage when the packet is being handled.
+	 */
 	public void handleImageReceive()
 	{
 		System.out.println("RECEIVED!");

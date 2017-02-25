@@ -15,15 +15,23 @@ public class ServerStart
 	
 	public static void main(String[] args) throws IOException
 	{
+		System.out.println("STARTING!");
 		serverListener = ServerListener.create(8888);
 		serverListener.launch();
+		
+		System.out.println("LAUNCHED LISTENER!");
 		
 		server = new Server();
 		server.run();
 		
+		System.out.println("LAUNCHED SERVER!");
+		
 		Scanner scanner = new Scanner(System.in);
 		scanner.nextLine();
 		scanner.close();
+		
+		System.out.println("CLOSING SYSTEM DOWN!");
+		
 		stopServerThread = true;
 	}
 
