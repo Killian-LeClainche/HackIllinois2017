@@ -113,7 +113,11 @@ public class GeneticAlgorithm
 	 */
 	private void computeStatistics()
 	{
-		
+		population.forEach(genome -> averageFitness += genome.fitness);
+		totalFitness = averageFitness;
+		averageFitness /= population.size();
+		bestFitness = population.get(0).fitness;
+		worstFitness = population.get(population.size() - 1).fitness;
 	}
 	
 	/**
