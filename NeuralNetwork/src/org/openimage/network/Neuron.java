@@ -150,10 +150,4 @@ public class Neuron implements Node
 	{
 		this.value = 0.0;
 	}
-
-	@Override
-	public void setNode(double value)
-	{
-		this.value = value;
-	}
 }
