@@ -47,7 +47,7 @@ public class FitnessFinder
 				}
 			}
 		}
-		
+
 		return fitnessTotal;
 	}
 }

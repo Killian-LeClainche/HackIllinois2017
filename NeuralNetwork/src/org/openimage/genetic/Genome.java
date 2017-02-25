@@ -8,8 +8,9 @@ import java.util.ArrayList;
  */
 public class Genome implements Comparable<Genome>
 {
-	public ArrayList<Double>weights;
+	public ArrayList<Double> weights;
 	public double fitness;
+
 	public Genome()
 	{
 		fitness = 0;
@@ -22,21 +23,19 @@ public class Genome implements Comparable<Genome>
 	}
 
 	@Override
-	public int compareTo(Genome g) 
+	public int compareTo(Genome g)
 	{
-		if(this.fitness < g.fitness)
+		if (this.fitness < g.fitness)
 		{
 			return -1;
-		}
-		else if(this.fitness > g.fitness)
+		} else if (this.fitness > g.fitness)
 		{
 			return 1;
-		}
-		else
+		} else
 		{
 			return 0;
 		}
 
 	}
-	
+
 }

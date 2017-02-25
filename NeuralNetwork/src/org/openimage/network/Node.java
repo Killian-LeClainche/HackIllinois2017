@@ -48,7 +48,7 @@ public interface Node
 	 *         respective weights, then squashed.
 	 */
 	public double activate();
-	
+
 	/**
 	 * Reset the value of the node;
 	 */
