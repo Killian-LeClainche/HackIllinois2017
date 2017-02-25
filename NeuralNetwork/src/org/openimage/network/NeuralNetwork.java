@@ -32,8 +32,8 @@ public class NeuralNetwork
 
 	public String classify(double[][] imageInputNodes)
 	{
-		// TODO
-		return null;
+		int index = findHeaviestWeightIndex(imageInputNodes);
+		return classifications.get(index);
 	}
 
 	/**
@@ -45,7 +45,7 @@ public class NeuralNetwork
 	 * @param expected
 	 * @return
 	 */
-	public double fitnessTest(double[][] imageInputNodes, String expected)
+	public int findHeaviestWeightIndex(double[][] imageInputNodes)
 	{
 		reset();
 
@@ -93,13 +93,16 @@ public class NeuralNetwork
 			ticks++;
 		}
 
-		for (int i = 0; i < trackedOutputValues.length; i++)
+		int maxIndex = 0;
+		for (int i = 1; i < trackedOutputValues.length; i++)
 		{
-			trackedOutputValues[i] = trackedOutputValues[i] / ticks;
+			if (trackedOutputValues[maxIndex] < trackedOutputValues[i])
+			{
+				maxIndex = i;
+			}
 		}
 
-		int index = classifications.indexOf(expected);
-		return trackedOutputValues[index];
+		return maxIndex;
 	}
 
 	/**
