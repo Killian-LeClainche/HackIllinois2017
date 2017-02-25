@@ -5,6 +5,8 @@ import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 
+import org.openimage.server.ServerStart;
+
 public class PacketImage extends Packet
 {
 	
@@ -64,7 +66,7 @@ public class PacketImage extends Packet
 	@Override
 	public void handle(Network network) 
 	{
-		
+		ServerStart.server.handleImageReceive();
 	}
 
 }
