@@ -287,4 +287,11 @@ public class LSTM implements Node
         this.input.setValue(0);
         this.output.setValue(0);
     }
+
+	@Override
+	public void setNode(double node)
+	{
+		// TODO Auto-generated method stub
+		
+	}
 }
