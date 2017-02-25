@@ -20,7 +20,7 @@ public class Main
 
 	public static void main(String[] args)
 	{
-		
+
 		Genome parent = Genome.getSeed();
 		List<ImageInput> inputList = InputFiles.getInputs();
 		
@@ -29,5 +29,10 @@ public class Main
 		{
 			ImageInput input = inputIter.next();
 		}
+	}
+
+	public static void testNeuron()
+	{
+
 	}
 }
