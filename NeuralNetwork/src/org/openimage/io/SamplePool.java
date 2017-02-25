@@ -21,7 +21,6 @@ public class SamplePool
 		//Find all sub folders
 		File[] subFolders = imageFolder.listFiles(new FileFilter() {
 
-			@Override
 			public boolean accept(File arg0) 
 			{
 				return arg0.isDirectory();

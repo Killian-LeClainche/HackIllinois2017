@@ -47,8 +47,8 @@ public class Neuron implements Node
      */
     public Neuron(SquashFunction squash)
     {
-        this.incomingNodes = new ArrayList<>();
-        this.incomingWeights = new ArrayList<>();
+        this.incomingNodes = new ArrayList<Node>();
+        this.incomingWeights = new ArrayList<Double>();
         this.value = 0.0;
         this.squash = squash;
     }
@@ -57,8 +57,8 @@ public class Neuron implements Node
      * Initializes empty values and defaults to a logistic squash function for the new Neuron.
      */
     public Neuron () {
-        this.incomingNodes = new ArrayList<>();
-        this.incomingWeights = new ArrayList<>();
+        this.incomingNodes = new ArrayList<Node>();
+        this.incomingWeights = new ArrayList<Double>();
         this.value = 0.0;
         this.squash = SquashFunction.LOGISTIC;
     }
