@@ -6,18 +6,36 @@ import java.net.Socket;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.openimage.server.ServerStart;
+
 public class ServerListener 
 {
 	
-	private static boolean stopServerThread = false;
+	public static ServerListener create(int port)
+	{
+		try
+		{
+			return new ServerListener(port);
+		}
+		catch(IOException e)
+		{
+			System.err.println("COULD NOT CREATE SERVER LISTENER!");
+			e.printStackTrace();
+			return null;
+		}
+	}
 	
-	private Map<String, ServerNetwork> playerNetworks;
+	public Map<String, ServerNetwork> playerNetworks;
 	private ServerSocket listener;
 	
-	public void launch() throws IOException
+	private ServerListener(int port) throws IOException
 	{
 		listener = new ServerSocket(8888);
 		playerNetworks = new HashMap<String, ServerNetwork>();
+	}
+	
+	public void launch()
+	{
 		new Thread()
 		{
 			@Override
@@ -25,7 +43,7 @@ public class ServerListener
 			{
 				Socket clientSocket;
 				ServerNetwork newClient;
-				while(!stopServerThread)
+				while(!ServerStart.stopServerThread)
 				{
 					try 
 					{
