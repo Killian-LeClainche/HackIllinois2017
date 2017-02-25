@@ -39,6 +39,14 @@ public class Server
 		}.start();
 	}
 	
+	public void printValues(int width, int height) 
+	{
+		for(int i = 0; i < values.length; i++) 
+		{
+			System.out.println("x: "+ i%width + "y: "+ i%height+ "Value: "+values[i]);
+		}
+	}
+	
 	/**
 	 * Called from network/PacketImage when the packet is being handled.
 	 */
@@ -55,9 +63,9 @@ public class Server
 				long bits = rgb;
 				bits >>= 12; //shifting into mantissa position
 				bits |= 0x3FE0000000000000L; //setting exponent to -1
-				values[i] = Double.longBitsToDouble(bits);
+				values[i] = Double.longBitsToDouble(bits);		
 		}
-		
+		printValues(width, height);
 		/*Alternative implementation
 		//Storing two pixels per value; number of values is cut in half,
 		//or cut in half + 1 for odd number of pixels
