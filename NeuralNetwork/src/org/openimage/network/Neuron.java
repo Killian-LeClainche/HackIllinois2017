@@ -104,6 +104,11 @@ public class Neuron implements Node
 		return this.value;
 	}
 
+	public void setValue(double value)
+	{
+		this.value = value;
+	}
+
 	public double getPrevious()
 	{
 		return this.previous;

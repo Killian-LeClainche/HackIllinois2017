@@ -36,6 +36,10 @@ public interface Node
 	public double getValue();
 
 	/**
+	 * Set the Node's value. This should be used sparingly.
+	 */
+	public void setValue(double value);
+	/**
 	 * @return The Neuron's value before being squashed.
 	 */
 	public double getPrevious();
