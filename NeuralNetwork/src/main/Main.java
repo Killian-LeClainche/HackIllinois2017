@@ -7,6 +7,7 @@ import fileSystem.ImageInput;
 import fileSystem.InputFiles;
 import genAlg.GeneticAlgorithm;
 import genAlg.Genome;
+import network.NeuralNetwork;
 import util.Param;
 
 public class Main
@@ -15,12 +16,14 @@ public class Main
 	{
 		
 		Genome parent = Genome.getSeed();
+		GeneticAlgorithm genAlg = new GeneticAlgorithm(parent);
 		List<ImageInput> inputList = InputFiles.getInputs();
 		
-		// TODO Add threadpool and network
-		Iterator<ImageInput> inputIter = inputList.iterator();
-		while (inputIter.hasNext())
+		while (true)
 		{
+			// TODO Add threadpool and network
+			NeuralNetwork network = new NeuralNetwork(genAlg.generateChild());
+			Iterator<ImageInput> inputIter = inputList.iterator();
 			ImageInput input = inputIter.next();
 		}
 	}
