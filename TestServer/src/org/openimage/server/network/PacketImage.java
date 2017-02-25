@@ -66,6 +66,20 @@ public class PacketImage extends Packet
 	@Override
 	public void handle(Network network) 
 	{
+		//TEST HERE, WILL BE REMOVED!
+		System.out.println("RECEIVED IMAGE");
+		System.out.print("WIDTH: " + width + " HEIGHT: " + height + " IS VALID: ");
+		boolean flag = false;
+		for(int i = 0; i < pixels.length && !flag; i++)
+		{
+			for(int j = 0; j < pixels[i].length && !flag; j++)
+			{
+				if(pixels[i][j] != 0)
+					flag = true;
+			}
+		}
+		System.out.println(flag);
+		//CONTINUE TO NON-TEST CODE
 		ServerStart.server.handleImageReceive(pixels);
 	}
 
