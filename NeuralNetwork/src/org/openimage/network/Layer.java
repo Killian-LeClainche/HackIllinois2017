@@ -19,9 +19,31 @@ public class Layer
         // TODO Connect synapses from each Node in Before pointing to each Node in After.
     }
 
-    public void activate()
+    public ArrayList<Double> getValue()
     {
-        // TODO Activate each Node in the Layer.
+        // TODO Return an ArrayList of the current outputs.
+        return null;
+    }
+
+    public ArrayList<Double> activate()
+    {
+        // TODO Activate each Node in the Layer. Return an ArrayList of the outputs.
+        return null;
+    }
+
+    public void addNode(Node node)
+    {
+        // TODO Add node to the layer and connect it to adjacent Layers (if possible).
+    }
+
+    public void normalizeWeights()
+    {
+        // TODO Normalize the weights of each Node in the layer.
+    }
+
+    public void reset()
+    {
+        // TODO Set all Node values in the Layer to 0.
     }
 
     public String toString()
