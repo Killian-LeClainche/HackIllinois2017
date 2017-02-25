@@ -33,6 +33,7 @@ public class ServerStart
 		System.out.println("CLOSING SYSTEM DOWN!");
 		
 		stopServerThread = true;
+		System.exit(1);
 	}
 
 }
