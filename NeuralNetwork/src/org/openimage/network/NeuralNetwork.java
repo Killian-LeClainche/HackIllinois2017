@@ -130,6 +130,11 @@ public class NeuralNetwork
 	 */
 	private void reset()
 	{
-		// TODO
+		Iterator<Node> nodeIter1 = completeNodeList.iterator();
+		while (nodeIter1.hasNext())
+		{
+			Node node = nodeIter1.next();
+			node.reset();
+		}
 	}
 }

@@ -140,4 +140,13 @@ public class Neuron implements Node
 				+ " " + ", incomingWeights: " + Arrays.toString(this.incomingNodes.toArray()) + " " + ", value: "
 				+ this.value + " }";
 	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public void reset()
+	{
+		value = 0.0;
+	}
 }

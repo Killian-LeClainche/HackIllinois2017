@@ -99,4 +99,13 @@ public class LSTM implements Node
 
 		return 0;
 	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public void reset()
+	{
+		// TODO
+	}
 }
