@@ -66,7 +66,7 @@ public class PacketImage extends Packet
 	@Override
 	public void handle(Network network) 
 	{
-		ServerStart.server.handleImageReceive();
+		ServerStart.server.handleImageReceive(pixels);
 	}
 
 }
