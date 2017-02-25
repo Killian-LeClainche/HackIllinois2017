@@ -12,10 +12,10 @@ import java.util.List;
  */
 public class Neuron implements Node
 {
-    private List<Node> incomingNodes;
+    protected List<Node> incomingNodes;
     private List<Double> incomingWeights;
-    private double value;
-    private double previous;
+    protected double value;
+    protected double previous;
     private SquashFunction squash;
 
     /**
