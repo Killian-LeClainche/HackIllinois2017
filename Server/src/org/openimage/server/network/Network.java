@@ -1,4 +1,4 @@
-package org.openimage.server;
+package org.openimage.server.network;
 
 import java.io.ByteArrayOutputStream;
 import java.io.DataInputStream;
