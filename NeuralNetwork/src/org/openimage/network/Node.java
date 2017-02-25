@@ -54,7 +54,7 @@ public interface Node
 	public double activate();
 
 	/**
-	 * Reset the value of the node;
+	 * Reset the value of the node.
 	 */
 	public void reset();
 }
