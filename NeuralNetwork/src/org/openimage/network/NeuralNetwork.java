@@ -16,65 +16,54 @@ public class NeuralNetwork
 	private List<Node> inputs;
 	private List<Node> outputs;
 	private List<String> classifications;
-	
+	private List<Node> completeNodeList;
+
 	/**
 	 * Initialized empty values for the new NeuralNet.
-	 * @param genome 
+	 * 
+	 * @param genome
 	 */
 	public NeuralNetwork(Genome genome)
 	{
 		inputs = new ArrayList<Node>();
 		outputs = new ArrayList<Node>();
+		createCompleteNodeList();
 	}
 
-	public String classify(double[][] imageInputNodes)
-	{
-		// TODO
-		return null;
-	}
-	
 	/**
-	 * Give the fitness of the algorithm from a single input.
+	 * This method outputs the classification of the most likely node.
 	 * 
-	 * TODO Assess the inaccuracy of the non-expected false values.
+	 * @param imageInputNodes
+	 *            A 2D array represented as a 1D array
+	 * @return
+	 */
+	public String classify(double[] imageInputNodes)
+	{
+		int index = findHeaviestWeightIndex(imageInputNodes);
+		return classifications.get(index);
+	}
+
+	/**
+	 * This method finds the most likely classification of the most likely node.
 	 * 
 	 * @param imageInputNodes
 	 * @param expected
 	 * @return
 	 */
-	public double fitnessTest(double[][] imageInputNodes, String expected)
+	public int findHeaviestWeightIndex(double[] imageInputNodes)
 	{
 		reset();
-		
+
 		int ticks = 0;
 
-		int row = imageInputNodes.length - Param.BLOCK_SIZE + 1;
-		int col = imageInputNodes[0].length - Param.BLOCK_SIZE + 1;
-		
-		double[] trackedOutputValues = new double[outputs.size()];
-		
-		for (int i = 0; i < row; i++)
-		{
-			for (int j = 0; j < col; j++)
-			{
-				// TODO Actual network tick
+		int row = ((int) Math.sqrt(imageInputNodes.length)) - Param.BLOCK_SIZE + 1;
 
-				// Write the output of the node to the tracker
-				int count = 0;
-				Iterator<Node> outputIter = outputs.iterator();
-				while (outputIter.hasNext())
-				{
-					Node node = outputIter.next();
-					trackedOutputValues[count++] = node.getValue();
-				}
-				
-				ticks++;
-			}
-		}
-		
-		for (int i = 0; i < Param.FITNESS_CASE_SIZE; i++)
+		double[] trackedOutputValues = new double[outputs.size()];
+
+		for (int i = 0; i < row; i += Param.BLOCK_SIZE)
 		{
 			// TODO Actual network tick
+			tick();
 
 			// Write the output of the node to the tracker
 			int count = 0;
@@ -88,13 +77,56 @@ public class NeuralNetwork
 			ticks++;
 		}
 
-		for (int i = 0; i < trackedOutputValues.length; i++)
+		for (int i = 0; i < Param.FITNESS_CASE_SIZE; i++)
 		{
-			trackedOutputValues[i] = trackedOutputValues[i]/ticks;
+			// TODO Actual network tick
+			tick();
+
+			// Write the output of the node to the tracker
+			int count = 0;
+			Iterator<Node> outputIter = outputs.iterator();
+			while (outputIter.hasNext())
+			{
+				Node node = outputIter.next();
+				trackedOutputValues[count++] = node.getValue();
+			}
+
+			ticks++;
 		}
-		
-		int index = classifications.indexOf(expected);
-		return trackedOutputValues[index];
+
+		int maxIndex = 0;
+		for (int i = 1; i < trackedOutputValues.length; i++)
+		{
+			if (trackedOutputValues[maxIndex] < trackedOutputValues[i])
+			{
+				maxIndex = i;
+			}
+		}
+
+		return maxIndex;
+	}
+
+	/**
+	 * 
+	 */
+	private void createCompleteNodeList()
+	{
+		completeNodeList = null;
+	}
+
+	private void tick()
+	{
+		Iterator<Node> nodeIter1 = completeNodeList.iterator();
+		while (nodeIter1.hasNext())
+		{
+			Node node = nodeIter1.next();
+			node.activate();
+		}
+
+		/*
+		 * Iterator<Node> nodeIter2 = completeNodeList.iterator(); while
+		 * (nodeIter2.hasNext()) { Node node = nodeIter2.next(); node. }
+		 */
 	}
 
 	/**
@@ -102,6 +134,11 @@ public class NeuralNetwork
 	 */
 	private void reset()
 	{
-		// TODO
+		Iterator<Node> nodeIter1 = completeNodeList.iterator();
+		while (nodeIter1.hasNext())
+		{
+			Node node = nodeIter1.next();
+			node.reset();
+		}
 	}
 }

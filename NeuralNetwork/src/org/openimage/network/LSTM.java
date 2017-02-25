@@ -246,4 +246,9 @@ public class LSTM implements Node
 
         return 0;
     }
+
+    public void reset()
+    {
+        // TODO
+    }
 }
