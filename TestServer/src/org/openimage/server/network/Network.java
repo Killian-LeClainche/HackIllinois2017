@@ -9,6 +9,8 @@ import java.net.SocketException;
 import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.LinkedBlockingQueue;
 
+import org.openimage.server.ServerStart;
+
 
 public abstract class Network
 {
@@ -60,7 +62,7 @@ public abstract class Network
 			{
 				try 
 				{
-					while(isConnected)
+					while(isConnected && !ServerStart.stopServerThread)
 					{
 						int packet = inputStream.readShort();
 						byte[] data = new byte[inputStream.readInt()];
@@ -85,7 +87,7 @@ public abstract class Network
 			{
 				try
 				{
-					while(isConnected)
+					while(isConnected && !ServerStart.stopServerThread)
 					{
 						Packet packetToSend = packetsToSend.take();
 						ByteArrayOutputStream data = new ByteArrayOutputStream();

@@ -6,6 +6,8 @@ import java.net.Socket;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.openimage.server.ServerStart;
+
 public class ServerListener 
 {
 	
@@ -23,9 +25,7 @@ public class ServerListener
 		}
 	}
 	
-	private static boolean stopServerThread = false;
-	
-	private Map<String, ServerNetwork> playerNetworks;
+	public Map<String, ServerNetwork> playerNetworks;
 	private ServerSocket listener;
 	
 	private ServerListener(int port) throws IOException
@@ -43,7 +43,7 @@ public class ServerListener
 			{
 				Socket clientSocket;
 				ServerNetwork newClient;
-				while(!stopServerThread)
+				while(!ServerStart.stopServerThread)
 				{
 					try 
 					{
