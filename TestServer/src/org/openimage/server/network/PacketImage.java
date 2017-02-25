@@ -53,9 +53,9 @@ public class PacketImage extends Packet
 		
 		pixels = new int[width * height];
 		
-		for(int i = 0; i < width * height; i++)
+		for(int i = 0; i < pixels.length; i++)
 		{
-				pixels[i] = data.readInt();
+			pixels[i] = data.readInt();
 		}
 	}
 
@@ -77,7 +77,7 @@ public class PacketImage extends Packet
 		System.out.println(flag + " TIME RECEIVED: " + System.currentTimeMillis());
 		*/
 		//CONTINUE TO NON-TEST CODE
-		ServerStart.server.handleImageReceive(pixels, width, height);
+		ServerStart.server.handleImageReceive(pixels, width);
 	}
 
 }
