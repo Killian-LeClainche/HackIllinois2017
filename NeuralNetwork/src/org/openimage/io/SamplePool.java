@@ -58,6 +58,21 @@ public class SamplePool
 		classifications = names;
 	}
 	
+	public int getClassificationSize()
+	{
+		return classifications.length;
+	}
+	
+	public int getPoolSize(int index)
+	{
+		return classifications[index].getPoolSize();
+	}
+	
+	public String getClassificationName(int index)
+	{
+		return classifications[index].getName();
+	}
+	
 	/**
 	 * 
 	 * @param classification
