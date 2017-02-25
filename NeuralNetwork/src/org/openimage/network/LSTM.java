@@ -1,4 +1,4 @@
-package network;
+package org.openimage.network;
 
 import java.util.ArrayList;
 import java.util.List;

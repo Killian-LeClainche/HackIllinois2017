@@ -13,3 +13,6 @@ local.properties
 Server/bin/
 Server/.classpath
 Server/.project
+TestServer/.classpath
+TestServer/.gitignore
+TestServer/.project

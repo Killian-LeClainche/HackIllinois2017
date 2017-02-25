@@ -55,8 +55,9 @@ public class Server
 		for(int i = 0; i < pixels.length; i++) 
 		{
 			long bits = pixels[i];
-			bits >>= 11; //shifting into mantissa position
-			bits |= 0x3FE; //setting exponent to -1
+			bits &= 16777215;
+			bits <<= 28; //shifting into mantissa position
+			bits |= 0x3FE0000000000000L; //setting exponent to -1
 			
 			values[i] = Double.longBitsToDouble(bits);
 		}
