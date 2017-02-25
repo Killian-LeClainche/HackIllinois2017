@@ -5,8 +5,8 @@ import java.util.Arrays;
 import java.util.List;
 
 /**
- * A Neuron is the most basic unit of a neural network. It computes the sum of
- * the incoming values from other TODO
+ * A Neuron is the most basic unit of a neural network. It computes the sum of the incoming values multiplied by
+ * their respective weights, then squashes the sum using a sigmoid function to produce an output signal.
  * 
  * @author Max O'Cull
  */
@@ -22,8 +22,7 @@ public class Neuron implements Node
 	/**
 	 * A sigmoid curve that interpolates between 0 and 1.
 	 * 
-	 * @param input
-	 *            A double of the input value to be squashed.
+	 * @param input A double of the input value to be squashed.
 	 * @return The logistic (sigmoid) squash function of the input.
 	 */
 	public static double LOGISTIC(double input)
@@ -142,11 +141,8 @@ public class Neuron implements Node
 				+ this.value + " }";
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	public void reset()
 	{
-		value = 0.0;
+		this.value = 0.0;
 	}
 }

@@ -3,6 +3,7 @@ package org.openimage;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.Random;
 
 import org.ini4j.Ini;
 import org.ini4j.InvalidFileFormatException;
@@ -18,7 +19,13 @@ public class Param
 {
 	public static final int BLOCK_SIZE;
 	public static final int FITNESS_CASE_SIZE;
+<<<<<<< HEAD
+	public static Random rng = new Random();
+
+
+=======
 	public static final double MAX_PERTURBATION;
+>>>>>>> e320fe5fa28a5df9337940ed6fa40feee524f9ac
 	static
 	{
 		Wini ini = loadParamsFile();
