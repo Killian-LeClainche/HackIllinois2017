@@ -46,7 +46,7 @@ public class Classification
 				double red = (bits >> 16) & 0xFF;
 				double green = (bits >> 8) & 0xFF;
 				double blue = bits & 0xFF;
-				values[i][j] = 0.2126 * red + 0.7152 * green + 0.0722 * blue;
+				values[i][j] = (0.2126 * red + 0.7152 * green + 0.0722 * blue) / 255d;
 			}
 		}
 
