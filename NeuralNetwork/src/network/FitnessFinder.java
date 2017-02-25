@@ -3,20 +3,24 @@ package network;
 import java.util.Iterator;
 import java.util.List;
 
+import org.openimage.genetic.Genome;
 import org.openimage.io.Classification;
 
-public class NetworkRunner
+public class FitnessFinder
 {
 	private NeuralNetwork network;
-	private double fitness;
 	
-	public NetworkRunner(NeuralNetwork network)
+	public FitnessFinder(Genome genome)
 	{
-		this.network = network;
-		fitness = 0.0;
+		this(new NeuralNetwork(genome));
 	}
 	
-	public void run(List<Classification> trainingSet)
+	public FitnessFinder(NeuralNetwork network)
+	{
+		this.network = network;
+	}
+	
+	public double run(List<Classification> trainingSet)
 	{
 		double fitnessTotal = 0.0;
 
@@ -33,5 +37,6 @@ public class NetworkRunner
 			fitnessTotal += result;
 		}
 		
+		return fitnessTotal;
 	}
 }

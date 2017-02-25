@@ -5,6 +5,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.openimage.Param;
+import org.openimage.genetic.Genome;
 
 /**
  * TODO
@@ -18,8 +19,9 @@ public class NeuralNetwork
 	
 	/**
 	 * Initialized empty values for the new NeuralNet.
+	 * @param genome 
 	 */
-	public NeuralNetwork()
+	public NeuralNetwork(Genome genome)
 	{
 		inputs = new ArrayList<Node>();
 		outputs = new ArrayList<Node>();
