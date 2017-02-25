@@ -1,9 +1,6 @@
 package org.openimage.network;
 
-import java.util.Iterator;
-
 import org.openimage.genetic.Genome;
-import org.openimage.io.Classification;
 import org.openimage.io.SamplePool;
 
 /**
@@ -31,20 +28,23 @@ public class FitnessFinder
 	 *            A list of classification training images
 	 * @return
 	 */
-	public double find(SamplePool pool)
+	public double find(SamplePool pool, double[][] ... classifications)
 	{
 		double fitnessTotal = 0.0;
 
-		int size = pool.getClassificationSize();
-		for(int i = 0; i < size; i++)
+		for(int i = 0; i < classifications.length; i++)
 		{
-			int poolSize = pool.getPoolSize(i);
-			double[][] imageDatas = pool.getSamplePool(i, (int) Math.sqrt(poolSize));
+			String name = pool.getClassificationName(i);
 			
-			String result = network.classify(imageDatas);
-			if(result.equals(pool.getClassificationName(i)))
+			String result;
+			
+			for(int j = 0; j < classifications[i].length; j++)
 			{
-				fitnessTotal++;
+				result = network.classify(classifications[i][j]);
+				if(result.equals(pool.getClassificationName(i)))
+				{
+					fitnessTotal++;
+				}
 			}
 		}
 		
