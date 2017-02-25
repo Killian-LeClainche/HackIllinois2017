@@ -30,6 +30,12 @@ public class NeuralNetwork
 		createCompleteNodeList();
 	}
 
+	/**
+	 * This method outputs the classification of the most likely node.
+	 * 
+	 * @param imageInputNodes
+	 * @return
+	 */
 	public String classify(double[][] imageInputNodes)
 	{
 		int index = findHeaviestWeightIndex(imageInputNodes);
@@ -37,9 +43,7 @@ public class NeuralNetwork
 	}
 
 	/**
-	 * Give the fitness of the algorithm from a single input.
-	 * 
-	 * TODO Assess the inaccuracy of the non-expected false values.
+	 * This method finds the most likely classification of the most likely node.
 	 * 
 	 * @param imageInputNodes
 	 * @param expected
