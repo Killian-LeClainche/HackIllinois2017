@@ -54,32 +54,29 @@ public class NeuralNetwork
 	{
 		reset();
 
-		int ticks = 0;
-
-		int row = ((int) Math.sqrt(imageInputNodes.length)) - Param.BLOCK_SIZE + 1;
+		int n = (int) Math.sqrt(imageInputNodes.length);
 
 		double[] trackedOutputValues = new double[outputs.size()];
-
-		for (int i = 0; i < row; i += Param.BLOCK_SIZE)
+		
+		for (int y = 0; y + Param.BLOCK_SIZE < n; y += Param.BLOCK_SIZE)
 		{
-			// TODO Actual network tick
-			tick();
-
-			// Write the output of the node to the tracker
-			int count = 0;
-			Iterator<Node> outputIter = outputs.iterator();
-			while (outputIter.hasNext())
+			for (int x = 0; x + Param.BLOCK_SIZE < x; x += Param.BLOCK_SIZE)
 			{
-				Node node = outputIter.next();
-				trackedOutputValues[count++] = node.getValue();
+				tick(imageInputNodes, n, x, y);
+	
+				// Write the output of the node to the tracker
+				int count = 0;
+				Iterator<Node> outputIter = outputs.iterator();
+				while (outputIter.hasNext())
+				{
+					Node node = outputIter.next();
+					trackedOutputValues[count++] = node.getValue();
+				}
 			}
-
-			ticks++;
 		}
 
 		for (int i = 0; i < Param.FITNESS_CASE_SIZE; i++)
 		{
-			// TODO Actual network tick
 			tick();
 
 			// Write the output of the node to the tracker
@@ -90,8 +87,6 @@ public class NeuralNetwork
 				Node node = outputIter.next();
 				trackedOutputValues[count++] = node.getValue();
 			}
-
-			ticks++;
 		}
 
 		int maxIndex = 0;
@@ -114,6 +109,30 @@ public class NeuralNetwork
 		completeNodeList = null;
 	}
 
+	/**
+	 * 
+	 * @param imageInputNodes 2D array represented as a 1D array
+	 * @param index The block number of the array.
+	 * @param n width of the array
+	 */
+	private void tick(double[] imageInputNodes, int size, int row, int col)
+	{
+		Iterator<Node> nodeIter = inputs.iterator();
+		
+		int k;
+		for (int i = row; i < row + Param.BLOCK_SIZE; i++)
+		{
+			for (int j = col; j < col + Param.BLOCK_SIZE; j++)
+			{
+				Node node = nodeIter.next();
+				k = i + (j * size);
+				node.setValue(imageInputNodes[k]);
+			}
+		}
+		
+		tick();
+	}
+	
 	private void tick()
 	{
 		Iterator<Node> nodeIter1 = completeNodeList.iterator();
@@ -122,11 +141,6 @@ public class NeuralNetwork
 			Node node = nodeIter1.next();
 			node.activate();
 		}
-
-		/*
-		 * Iterator<Node> nodeIter2 = completeNodeList.iterator(); while
-		 * (nodeIter2.hasNext()) { Node node = nodeIter2.next(); node. }
-		 */
 	}
 
 	/**

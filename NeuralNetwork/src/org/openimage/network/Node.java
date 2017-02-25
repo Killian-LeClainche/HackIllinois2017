@@ -61,7 +61,7 @@ public interface Node
 	public double activate(double input);
 
 	/**
-	 * Reset the value of the node;
+	 * Reset the value of the node.
 	 */
 	public void reset();
 }
