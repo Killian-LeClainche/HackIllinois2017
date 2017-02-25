@@ -1,6 +1,7 @@
 package genAlg;
 
-import fileSystem.ImageInput;
+import org.openimage.io.ImageInput;
+
 import network.NeuralNetwork;
 
 /**
