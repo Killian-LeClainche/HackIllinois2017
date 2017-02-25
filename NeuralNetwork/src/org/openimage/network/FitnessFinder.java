@@ -41,7 +41,7 @@ public class FitnessFinder
 			for(int j = 0; j < classifications[i].length; j++)
 			{
 				result = network.classify(classifications[i][j]);
-				if(result.equals(pool.getClassificationName(i)))
+				if(result.equals(name))
 				{
 					fitnessTotal++;
 				}
