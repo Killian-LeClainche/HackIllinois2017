@@ -34,9 +34,10 @@ public class NeuralNetwork
 	 * This method outputs the classification of the most likely node.
 	 * 
 	 * @param imageInputNodes
+	 *            A 2D array represented as a 1D array
 	 * @return
 	 */
-	public String classify(double[][] imageInputNodes)
+	public String classify(double[] imageInputNodes)
 	{
 		int index = findHeaviestWeightIndex(imageInputNodes);
 		return classifications.get(index);
@@ -49,35 +50,31 @@ public class NeuralNetwork
 	 * @param expected
 	 * @return
 	 */
-	public int findHeaviestWeightIndex(double[][] imageInputNodes)
+	public int findHeaviestWeightIndex(double[] imageInputNodes)
 	{
 		reset();
 
 		int ticks = 0;
 
-		int row = imageInputNodes.length - Param.BLOCK_SIZE + 1;
-		int col = imageInputNodes[0].length - Param.BLOCK_SIZE + 1;
+		int row = ((int) Math.sqrt(imageInputNodes.length)) - Param.BLOCK_SIZE + 1;
 
 		double[] trackedOutputValues = new double[outputs.size()];
 
-		for (int i = 0; i + Param.BLOCK_SIZE < row; i += Param.BLOCK_SIZE)
+		for (int i = 0; i < row; i += Param.BLOCK_SIZE)
 		{
-			for (int j = 0; j + Param.BLOCK_SIZE < col; j += Param.BLOCK_SIZE)
+			// TODO Actual network tick
+			tick();
+
+			// Write the output of the node to the tracker
+			int count = 0;
+			Iterator<Node> outputIter = outputs.iterator();
+			while (outputIter.hasNext())
 			{
-				// TODO Actual network tick
-				tick();
-
-				// Write the output of the node to the tracker
-				int count = 0;
-				Iterator<Node> outputIter = outputs.iterator();
-				while (outputIter.hasNext())
-				{
-					Node node = outputIter.next();
-					trackedOutputValues[count++] = node.getValue();
-				}
-
-				ticks++;
+				Node node = outputIter.next();
+				trackedOutputValues[count++] = node.getValue();
 			}
+
+			ticks++;
 		}
 
 		for (int i = 0; i < Param.FITNESS_CASE_SIZE; i++)
