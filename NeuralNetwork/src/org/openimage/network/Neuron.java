@@ -15,8 +15,12 @@ public class Neuron implements Node
     private List<Node> incomingNodes;
     private List<Double> incomingWeights;
     private double value;
+    private double previous;
+    private SquashFunction squash;
 
     /**
+     * A sigmoid curve that interpolates between 0 and 1.
+     * @param input A double of the input value to be squashed.
      * @return The logistic (sigmoid) squash function of the input.
      */
     public static double LOGISTIC(double input)
@@ -25,17 +29,42 @@ public class Neuron implements Node
     }
 
     /**
+     * A rising edge function centered at 0.5.
+     * @param input A double of the input value to be squashed.
+     * @return The step squash function of the input.
+     */
+    public static double STEP(double input)
+    {
+        if (input <= 0.5)
+        {
+            return 0;
+        }
+        return 1;
+    }
+
+    /**
      * Initializes empty values for the new Neuron.
      */
-    public Neuron()
+    public Neuron(SquashFunction squash)
     {
         this.incomingNodes = new ArrayList<>();
         this.incomingWeights = new ArrayList<>();
         this.value = 0.0;
+        this.squash = squash;
     }
 
     /**
-     * @return Nodes that point to this Neuron.
+     * Initializes empty values and defaults to a logistic squash function for the new Neuron.
+     */
+    public Neuron () {
+        this.incomingNodes = new ArrayList<>();
+        this.incomingWeights = new ArrayList<>();
+        this.value = 0.0;
+        this.squash = SquashFunction.LOGISTIC;
+    }
+
+    /**
+     * {@inheritDoc}
      */
     @Override
     public List<Node> getIncomingNodes()
@@ -44,7 +73,7 @@ public class Neuron implements Node
     }
 
     /**
-     * @return Weights that correspond to each of the incoming Neurons.
+     * {@inheritDoc}
      */
     @Override
     public List<Double> getIncomingWeights()
@@ -53,7 +82,39 @@ public class Neuron implements Node
     }
 
     /**
-     * @return This Neuron's squashed value.
+     * {@inheritDoc}
+     */
+    @Override
+    public void addIncomingNode(Node node)
+    {
+        this.incomingNodes.add(node);
+        this.incomingWeights.add((1 / Math.sqrt(this.incomingNodes.size())) * Math.random());
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void addIncomingNode(Node node, double weight)
+    {
+        this.incomingNodes.add(node);
+        this.incomingWeights.add(weight);
+    }
+
+    /**
+     * {inheritDoc}
+     */
+    @Override
+    public void normalizeWeights()
+    {
+        for (int i = 0; i < this.incomingWeights.size(); i++)
+        {
+            this.incomingWeights.set(i, (1 / Math.sqrt(this.incomingNodes.size())) * Math.random());
+        }
+    }
+
+    /**
+     * {@inheritDoc}
      */
     @Override
     public double getValue()
@@ -62,11 +123,21 @@ public class Neuron implements Node
     }
 
     /**
-     * The activation function computes an output for this Neuron based on inputs and weights.
-     * @return The sum of the incoming node values multiplied by their respective weights, then squashed.
+     * {@inheritDoc}
+     */
+    @Override
+    public double getPrevious()
+    {
+        return this.previous;
+    }
+
+    /**
+     * {@inheritDoc}
      */
     public double activate()
     {
+        this.previous = this.value;
+
         double weightedSum = 0;
         for (int i = 0; i < this.incomingNodes.size(); i++)
         {
@@ -74,8 +145,16 @@ public class Neuron implements Node
         }
 
         // Use the logistic sigmoid curve for squashing.
-        this.value = Neuron.LOGISTIC(weightedSum);
-        return value;
+        if (this.squash == SquashFunction.LOGISTIC) {
+            this.value = Neuron.LOGISTIC(weightedSum);
+            return value;
+        } else if (this.squash == SquashFunction.STEP) {
+            this.value = Neuron.STEP(weightedSum);
+            return value;
+        }
+
+        System.err.println("[ERROR] Unknown squash function: " + this.squash);
+        return 0;
     }
 
     /**
