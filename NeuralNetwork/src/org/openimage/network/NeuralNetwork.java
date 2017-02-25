@@ -101,7 +101,7 @@ public class NeuralNetwork
 		int index = classifications.indexOf(expected);
 		return trackedOutputValues[index];
 	}
-	
+
 	/**
 	 * 
 	 */
@@ -109,7 +109,7 @@ public class NeuralNetwork
 	{
 		completeNodeList = null;
 	}
-	
+
 	private void tick()
 	{
 		Iterator<Node> nodeIter1 = completeNodeList.iterator();
@@ -120,13 +120,9 @@ public class NeuralNetwork
 		}
 
 		/*
-		Iterator<Node> nodeIter2 = completeNodeList.iterator();
-		while (nodeIter2.hasNext())
-		{
-			Node node = nodeIter2.next();
-			node.
-		}
-		*/
+		 * Iterator<Node> nodeIter2 = completeNodeList.iterator(); while
+		 * (nodeIter2.hasNext()) { Node node = nodeIter2.next(); node. }
+		 */
 	}
 
 	/**
@@ -134,6 +130,11 @@ public class NeuralNetwork
 	 */
 	private void reset()
 	{
-		// TODO
+		Iterator<Node> nodeIter1 = completeNodeList.iterator();
+		while (nodeIter1.hasNext())
+		{
+			Node node = nodeIter1.next();
+			node.reset();
+		}
 	}
 }

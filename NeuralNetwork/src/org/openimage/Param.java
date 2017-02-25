@@ -17,13 +17,15 @@ public class Param
 {
 	public static final int BLOCK_SIZE;
 	public static final int FITNESS_CASE_SIZE;
-	
+	public static final double MAX_PERTURBATION;
 	static
 	{
 		Wini ini = loadParamsFile();
 		Ini.Section section = ini.get("start");
 		BLOCK_SIZE = Integer.parseInt(section.get("blockSize"));
 		FITNESS_CASE_SIZE = Integer.parseInt(section.get("fitnessCaseSize"));
+		MAX_PERTURBATION = Integer.parseInt(section.get("maxPerturbation"));
+
 	}
 
 	/**
