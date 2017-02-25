@@ -11,23 +11,22 @@ import org.openimage.network.FitnessFinder;
 public class GeneticAlgorithm
 {
 	private Genome parent;
-	private ArrayList<Genome> population; // Holds the entire population of
-											// genomes
-	private int populationSize; // Size of the population
-	private int chromosomeLength; // Weights per chromosome
-	private int fittestGenome; // index of the best genome in population
+	private ArrayList<Genome> population; //Holds the entire population of genomes
+	private int populationSize; //Size of the population
+	private int chromosomeLength; //Weights per chromosome
+	private int fittestGenome; //index of the best genome in population
 
-	// Learning Statistics (current population)
+	//Learning Statistics (current population)
 	private int genomeCount;
 	private double totalFitness;
 	private double bestFitness;
 	private double averageFitness;
 	private double worstFitness;
-
-	// Evolutionary Probabilities
+	
+	
+	//Evolutionary Probabilities
 	private double MutationRate;
 	private double crossoverRate;
-
 	
 	
 	public geneticAlgorithm(Genome parent)
@@ -39,27 +38,22 @@ public class GeneticAlgorithm
 	{
 		return null;
 	}
-
-	// Evolutonary Methods
-
+	
+	//Evolutonary Methods
+	
 	/**
-	 * Performs crossover and outputs the resulting genomes according to the
-	 * genetic algorithm's crossover rate.
-	 * 
-	 * @param mother
-	 *            the first genome used to perform crossover
-	 * @param father
-	 *            the second genome used to perform crossover
-	 * @param child1
-	 *            storage location for the first output genome
-	 * @param child2
-	 *            storage location for the second output genome
+	 * Performs crossover and outputs the resulting genomes 
+	 * according to the genetic algorithm's crossover rate.
+	 * @param mother the first genome used to perform crossover
+	 * @param father the second genome used to perform crossover
+	 * @param child1 storage location for the first output genome
+	 * @param child2 storage location for the second output genome
 	 */
 	private void crossover(ArrayList<Double>mother, ArrayList<Double>father, ArrayList<Double>child1, ArrayList<Double>child2)
 	{
-
+		
 	}
-
+	
 	/**
 	 * Performs mutation on a chromosome according to the 
 	 * genetic algorithm's mutation rate. Mutates by perturbing 
@@ -68,9 +62,9 @@ public class GeneticAlgorithm
 	 */
 	private void mutate(ArrayList<Double>chromosome)
 	{
-
+		
 	}
-
+	
 	/**
 	 * Selects a chromosome using Roulette selection
 	 * @return chromosome to be used in crossover
@@ -94,33 +88,23 @@ public class GeneticAlgorithm
 	
 	private void computeStatistics()
 	{
-
+		
 	}
 	
 	private void reset()
 	{
-
+		
 	}
 	
-	/**
-	 * Calculates one generation's fitnesses, 
-	 * moving the network forward one generation
-	 * @param oldPopulation the population of the current network, 
-	 * to be modified using fitness values then returned
-	 * @return then new population
-	 */
 	public ArrayList<Genome> epoch(ArrayList<Genome> oldPopulation)
 	{
-		String[] classificationNames = null; //we have to figure out how to get this 
-		double[][][] classifications = null; // this too
-		
 		//For each genome in the old population, create a 
 		//new FitnessFinder and dispatch it to a thread
 		//Store all fitnesses in an array for analysis
 		
 		//EXAMPLE
 		FitnessFinder finder = new FitnessFinder(oldPopulation.get(0));
-		double fitness = finder.find(classificationNames, classifications);
+		double fitness = finder.find();
 		//END EXAMPLE
 		
 		//Create new population
