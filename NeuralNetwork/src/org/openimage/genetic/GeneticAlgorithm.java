@@ -30,16 +30,6 @@ public class GeneticAlgorithm
 
 	
 	
-	public geneticAlgorithm(Genome parent)
-	{
-		this.parent = parent;
-	}
-
-	public Genome generateChild()
-	{
-		return null;
-	}
-
 	// Evolutonary Methods
 
 	/**
@@ -83,23 +73,42 @@ public class GeneticAlgorithm
 	/** 
 	 * Introduces elitism by selecting the most fit genomes 
 	 * to propagate into the next generation
+	 * Precondition: population is sorted by fitness
 	 * @param n the number of most fit genomes to select
-	 * @param numCopies 
-	 * @param population the output population of highly fit genomes
+	 * @param numCopies number of copies of each n most fit genomes
+	 * @param population the output population of most fit genomes
 	 */
 	private void grabNBestGenomes(int n, int numCopies, ArrayList<Genome>population)
+	{
+		while(n > 0)
+		{
+			int genomeIndex = populationSize - 1 - n; //index of the most fit genome not currently added numCopies times
+			for(int i = 0; i < numCopies; i++)
+			{
+				population.add(this.population.get(genomeIndex));
+			}
+			n--;
+		}
+	}
+	
+	/**
+	 * Computes fitness statistics for current generation stored in 
+	 * totalFitness, averageFitness, bestFitness, worstFitness
+	 */
+	private void computeStatistics()
 	{
 		
 	}
 	
-	private void computeStatistics()
-	{
-
-	}
-	
+	/**
+	 * Resets all relevant variables for a new generation
+	 */
 	private void reset()
 	{
-
+		totalFitness = 0;
+		averageFitness = 0;
+		bestFitness = 0;
+		worstFitness = 0;
 	}
 	
 	/**
@@ -124,7 +133,27 @@ public class GeneticAlgorithm
 		//END EXAMPLE
 		
 		//Create new population
-		ArrayList<Genome> newPopulation;
+		ArrayList<Genome> newPopulation = null;
 		return newPopulation;
+	}
+
+
+	public ArrayList<Genome> getPopulation() 
+	{
+		return population;
+	}
+	
+	/**
+	 * Finds the average fitness of the current generation
+	 * @return average fitness
+	 */
+	double averageFitness()
+	{
+		return totalFitness / populationSize;
+	}
+	
+	double bestFitness()
+	{
+		return bestFitness;
 	}
 }
