@@ -78,7 +78,7 @@ public class PacketImage extends Packet
 					flag = true;
 			}
 		}
-		System.out.println(flag);
+		System.out.println(flag + " TIME RECEIVED: " + System.currentTimeMillis());
 		//CONTINUE TO NON-TEST CODE
 		ServerStart.server.handleImageReceive(pixels);
 	}
