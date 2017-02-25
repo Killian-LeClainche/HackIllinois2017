@@ -1,9 +1,9 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
-	<groupId>HackIllinois</groupId>
-	<artifactId>HackIllinois</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<groupId>OpenImage</groupId>
+	<artifactId>OpenImage</artifactId>
+	<version>0.0.1</version>
 	<build>
 		<sourceDirectory>src</sourceDirectory>
 		<pluginManagement>
@@ -13,7 +13,7 @@
 					<configuration>
 						<archive>
 							<manifest>
-								<mainClass>com.nebby.server.Server</mainClass>
+								<mainClass>org.openimage.server.ServerStart</mainClass>
 							</manifest>
 						</archive>
 						<descriptorRefs>
@@ -28,17 +28,6 @@
 						<source>1.8</source>
 						<target>1.8</target>
 						<forceJavacCompilerUse>true</forceJavacCompilerUse>
-					</configuration>
-				</plugin>
-				<plugin>
-					<groupId>org.apache.maven.plugins</groupId>
-					<artifactId>maven-jar-plugin</artifactId>
-					<configuration>
-						<archive>
-							<manifest>
-								<mainClass>org.openimage.server.ServerStart</mainClass>
-							</manifest>
-						</archive>
 					</configuration>
 				</plugin>
 			</plugins>

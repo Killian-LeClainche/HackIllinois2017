@@ -1,4 +1,4 @@
-package genAlg;
+package org.openimage.genetic;
 
 import java.util.ArrayList;
 
@@ -31,7 +31,7 @@ public class GeneticAlgorithm
 	{
 		this.parent = parent;
 	}
-	
+
 	public Genome generateChild()
 	{
 		return null;
@@ -69,7 +69,7 @@ public class GeneticAlgorithm
 	 */
 	private Genome GetChromosomeRoulette()
 	{
-		
+		return null;
 	}
 	//Elitism
 	private void GrabNBestGenomes(int N, int numCopies, ArrayList<Genome>population)

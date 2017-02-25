@@ -1,32 +1,40 @@
-package util;
+package org.openimage;
 
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+
+import org.ini4j.Ini;
 import org.ini4j.InvalidFileFormatException;
 import org.ini4j.Wini;
-
-import main.Param;
 
 /**
  * This class loads the parameters for the application from the params.ini into a Param object.
  * 
  * @author Jarett Lee
  */
-public class ParamReader
+public class Param
 {
+	public static final int BLOCK_SIZE;
+	public static final int FITNESS_CASE_SIZE;
+	
+	static
+	{
+		Wini ini = loadParamsFile();
+		Ini.Section section = ini.get("start");
+		BLOCK_SIZE = Integer.parseInt(section.get("blockSize"));
+		FITNESS_CASE_SIZE = Integer.parseInt(section.get("fitnessCaseSize"));
+	}
+
 	/**
 	 * Read a param.ini file and output a Param object.
+	 * @return 
 	 */
-	public static Param loadParamsFile()
+	public static Wini loadParamsFile()
 	{
-		Wini ini = null;
-		Param param = null;
-		
 		try
 		{
-			ini = new Wini(new File("params.ini"));
-			param = new Param(ini);
+			return new Wini(new File("params.ini"));
 		}
 		catch (FileNotFoundException e)
 		{
@@ -41,16 +49,6 @@ public class ParamReader
 			e.printStackTrace();
 		}
 
-		assert param != null;
-		return param;
-	}
-	
-	/*
-	 * Test for the file.
-	 */
-	public static void main(String[] args)
-	{
-		Param param = loadParamsFile();
-		System.out.println(param);
+		throw new RuntimeException("No params file loaded");
 	}
 }
