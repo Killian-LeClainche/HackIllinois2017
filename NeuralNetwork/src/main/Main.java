@@ -7,23 +7,17 @@ import fileSystem.ImageInput;
 import fileSystem.InputFiles;
 import genAlg.GeneticAlgorithm;
 import genAlg.Genome;
-import util.ParamReader;
+import util.Param;
 
 public class Main
 {
-	public static final Param PARAM;
-	
-	static
-	{
-		PARAM = ParamReader.loadParamsFile();
-	}
-
 	public static void main(String[] args)
 	{
 		
 		Genome parent = Genome.getSeed();
 		List<ImageInput> inputList = InputFiles.getInputs();
 		
+		// TODO Add threadpool and network
 		Iterator<ImageInput> inputIter = inputList.iterator();
 		while (inputIter.hasNext())
 		{
