@@ -1,4 +1,4 @@
-package genAlg;
+package org.openimage.genetic;
 
 /**
  * This class generates new Genomes from a parent Genome.

@@ -1,8 +1,4 @@
-package genAlg;
-
-import org.openimage.io.ImageInput;
-
-import network.NeuralNetwork;
+package org.openimage.genetic;
 
 /**
  * Contains the Genome of a NeuralNet and the fitness of the network.
@@ -10,7 +6,7 @@ import network.NeuralNetwork;
  */
 public class Genome
 {
-	public Genome(ImageInput input)
+	public Genome()
 	{
 		// TODO Auto-generated constructor stub
 	}
