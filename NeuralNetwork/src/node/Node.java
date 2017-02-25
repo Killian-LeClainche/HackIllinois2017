@@ -1,3 +1,4 @@
+package node;
 import java.util.List;
 
 public interface Node
