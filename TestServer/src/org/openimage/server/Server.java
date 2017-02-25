@@ -1,5 +1,9 @@
 package org.openimage.server;
 
+import java.awt.Color;
+
+import org.openimage.server.network.PacketImage;
+
 public class Server 
 {
 	
@@ -35,9 +39,18 @@ public class Server
 	/**
 	 * Called from network/PacketImage when the packet is being handled.
 	 */
-	public void handleImageReceive()
+	public void handleImageReceive(int[][] data)
 	{
-		System.out.println("RECEIVED!");
+		int width = data.length;
+		int height = data[0].length;
+		//setting exponent of IEEE 754 double representation to -1
+		for(int i = 0; i < width; i++) 
+		{
+			for(int j = 0; j < height; j++) {
+				String bits = "0x3f";
+				
+			}
+		}
 	}
 
 }
