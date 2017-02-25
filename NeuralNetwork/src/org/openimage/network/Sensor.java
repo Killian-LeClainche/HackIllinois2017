@@ -32,6 +32,7 @@ public class Sensor extends Neuron
 	 * @param input
 	 *            The signal to be propagated.
 	 */
+	@Override
 	public double activate(double input)
 	{
 		this.previous = this.value;
