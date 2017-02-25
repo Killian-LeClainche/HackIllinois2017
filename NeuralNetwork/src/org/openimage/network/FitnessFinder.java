@@ -1,25 +1,34 @@
 package org.openimage.network;
 
+import org.openimage.genetic.GeneticAlgorithm;
 import org.openimage.genetic.Genome;
-import org.openimage.io.SamplePool;
 
 /**
  * This class finds the fitness of a genome.
  * 
  * @author Jarett Lee
  */
-public class FitnessFinder
+public class FitnessFinder extends Thread
 {
-	private NeuralNetwork network;
+	private Genome genome;
+	private NeuralNetwork neuralNetwork;
+	private GeneticAlgorithm geneticAlgorithm;
 
 	/**
 	 * The constructor generates a networks from the genome
 	 * 
 	 * @param genome
 	 */
-	public FitnessFinder(Genome genome)
+	public FitnessFinder(Genome gen, GeneticAlgorithm genetic)
 	{
-		this.network = new NeuralNetwork(genome);
+		this.genome = gen;
+		this.neuralNetwork = new NeuralNetwork(gen);
+		this.geneticAlgorithm = genetic;
+	}
+	
+	public void run()
+	{
+		this.genome.fitness = find(geneticAlgorithm.getClassificationNames(), geneticAlgorithm.getClassifications());
 	}
 
 	/**
@@ -39,7 +48,7 @@ public class FitnessFinder
 		{
 			for(int j = 0; j < classifications[i].length; j++)
 			{
-				result = network.classify(classifications[i][j]);
+				result = neuralNetwork.classify(classifications[i][j]);
 				if(result.equals(classificationNames[i]))
 				{
 					fitnessTotal++;

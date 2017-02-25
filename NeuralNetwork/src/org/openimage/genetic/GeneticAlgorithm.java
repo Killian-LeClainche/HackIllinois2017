@@ -1,7 +1,13 @@
 package org.openimage.genetic;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.concurrent.Future;
 
+import org.openimage.Main;
+import org.openimage.io.SamplePool;
 import org.openimage.network.FitnessFinder;
 
 /**
@@ -10,7 +16,8 @@ import org.openimage.network.FitnessFinder;
  */
 public class GeneticAlgorithm
 {
-	private Genome parent;
+	private SamplePool samplePool;
+	
 	private ArrayList<Genome> population; // Holds the entire population of
 											// genomes
 	private int populationSize; // Size of the population
@@ -28,8 +35,17 @@ public class GeneticAlgorithm
 	private double MutationRate;
 	private double crossoverRate;
 
+	private String[] classificationNames; //we have to figure out how to get this 
+	private double[][][] classifications; // this too
 	
-	
+	public GeneticAlgorithm() throws IOException
+	{
+		samplePool = SamplePool.create(new File("images"));
+		classificationNames = new String[samplePool.getClassificationSize()];
+		classifications = new double[samplePool.getClassificationSize()][][];
+	}
+
+
 	// Evolutonary Methods
 
 	/**
@@ -119,24 +135,39 @@ public class GeneticAlgorithm
 	 * @return then new population
 	 */
 	public ArrayList<Genome> epoch(ArrayList<Genome> oldPopulation)
-	{
-		String[] classificationNames = null; //we have to figure out how to get this 
-		double[][][] classifications = null; // this too
+	{		
+		for(int i = 0; i < classificationNames.length; i++)
+		{
+			classificationNames[i] = samplePool.getClassificationName(i);
+			classifications[i] = samplePool.getSamplePool(i, samplePool.getPoolSize(i) / 2);
+		}
 		
-		//For each genome in the old population, create a 
-		//new FitnessFinder and dispatch it to a thread
-		//Store all fitnesses in an array for analysis
+		for(int i = 0; i < oldPopulation.size() - 1; i++)
+		{
+			Main.taskExecutor.execute(new FitnessFinder(oldPopulation.get(i), this));
+		}
+		Future<?> future = Main.taskExecutor.submit(new FitnessFinder(oldPopulation.get(oldPopulation.size() - 1), this));
 		
-		//EXAMPLE
-		FitnessFinder finder = new FitnessFinder(oldPopulation.get(0));
-		double fitness = finder.find(classificationNames, classifications);
-		//END EXAMPLE
+		while(future.isDone())
+		{
+			try
+			{
+				Thread.sleep(1);
+			} 
+			catch (InterruptedException e)
+			{
+				e.printStackTrace();
+			}
+		}
+		
+		Collections.sort(oldPopulation);
 		
 		//Create new population
+		//Future feature: optimize to reuse old population arrayList
 		ArrayList<Genome> newPopulation = null;
+		
 		return newPopulation;
 	}
-
 
 	public ArrayList<Genome> getPopulation() 
 	{
@@ -155,5 +186,15 @@ public class GeneticAlgorithm
 	double bestFitness()
 	{
 		return bestFitness;
+	}
+	
+	public String[] getClassificationNames()
+	{
+		return classificationNames;
+	}
+	
+	public double[][][] getClassifications()
+	{
+		return classifications;
 	}
 }
