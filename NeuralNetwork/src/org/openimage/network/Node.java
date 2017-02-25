@@ -54,7 +54,13 @@ public interface Node
 	public double activate();
 
 	/**
-	 * Reset the value of the node;
+	 * Reset the value of the node.
 	 */
 	public void reset();
+	
+	/**
+	 * Set the value of the input nodes
+	 * TODO create specific input nodes
+	 */
+	public void setNode(double node);
 }
