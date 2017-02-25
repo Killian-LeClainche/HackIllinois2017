@@ -9,15 +9,33 @@ import java.util.Map;
 public class ServerListener 
 {
 	
+	public static ServerListener create(int port)
+	{
+		try
+		{
+			return new ServerListener(port);
+		}
+		catch(IOException e)
+		{
+			System.err.println("COULD NOT CREATE SERVER LISTENER!");
+			e.printStackTrace();
+			return null;
+		}
+	}
+	
 	private static boolean stopServerThread = false;
 	
 	private Map<String, ServerNetwork> playerNetworks;
 	private ServerSocket listener;
 	
-	public void launch() throws IOException
+	private ServerListener(int port) throws IOException
 	{
 		listener = new ServerSocket(8888);
 		playerNetworks = new HashMap<String, ServerNetwork>();
+	}
+	
+	public void launch()
+	{
 		new Thread()
 		{
 			@Override
