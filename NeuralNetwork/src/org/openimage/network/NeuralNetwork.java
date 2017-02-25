@@ -16,6 +16,7 @@ public class NeuralNetwork
 	private List<Node> inputs;
 	private List<Node> outputs;
 	private List<String> classifications;
+	private List<Node> completeNodeList;
 
 	/**
 	 * Initialized empty values for the new NeuralNet.
@@ -26,6 +27,7 @@ public class NeuralNetwork
 	{
 		inputs = new ArrayList<Node>();
 		outputs = new ArrayList<Node>();
+		createCompleteNodeList();
 	}
 
 	public String classify(double[][] imageInputNodes)
@@ -59,6 +61,7 @@ public class NeuralNetwork
 			for (int j = 0; j + Param.BLOCK_SIZE < col; j += Param.BLOCK_SIZE)
 			{
 				// TODO Actual network tick
+				tick();
 
 				// Write the output of the node to the tracker
 				int count = 0;
@@ -76,6 +79,7 @@ public class NeuralNetwork
 		for (int i = 0; i < Param.FITNESS_CASE_SIZE; i++)
 		{
 			// TODO Actual network tick
+			tick();
 
 			// Write the output of the node to the tracker
 			int count = 0;
@@ -96,6 +100,33 @@ public class NeuralNetwork
 
 		int index = classifications.indexOf(expected);
 		return trackedOutputValues[index];
+	}
+	
+	/**
+	 * 
+	 */
+	private void createCompleteNodeList()
+	{
+		completeNodeList = null;
+	}
+	
+	private void tick()
+	{
+		Iterator<Node> nodeIter1 = completeNodeList.iterator();
+		while (nodeIter1.hasNext())
+		{
+			Node node = nodeIter1.next();
+			node.activate();
+		}
+
+		/*
+		Iterator<Node> nodeIter2 = completeNodeList.iterator();
+		while (nodeIter2.hasNext())
+		{
+			Node node = nodeIter2.next();
+			node.
+		}
+		*/
 	}
 
 	/**
