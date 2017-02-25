@@ -6,21 +6,32 @@ import java.util.List;
 import org.openimage.genetic.Genome;
 import org.openimage.io.Classification;
 
+/**
+ * This class finds the fitness of a genome.
+ * 
+ * @author Jarett Lee
+ */
 public class FitnessFinder
 {
 	private NeuralNetwork network;
 
+	/**
+	 * The constructor generates a networks from the genome
+	 * 
+	 * @param genome
+	 */
 	public FitnessFinder(Genome genome)
 	{
-		this(new NeuralNetwork(genome));
+		this.network = new NeuralNetwork(genome);
 	}
 
-	public FitnessFinder(NeuralNetwork network)
-	{
-		this.network = network;
-	}
-
-	public double run(List<Classification> trainingSet)
+	/**
+	 * 
+	 * @param trainingSet
+	 *            A list of classification training images
+	 * @return
+	 */
+	public double find(List<Classification> trainingSet)
 	{
 		double fitnessTotal = 0.0;
 
@@ -32,9 +43,12 @@ public class FitnessFinder
 			double[][] imageInputNodes = trainingElem.getImageInputNodes();
 			String expected = trainingElem.getClassification();
 
-			double result = network.fitnessTest(imageInputNodes, expected);
+			String result = network.classify(imageInputNodes);
 
-			fitnessTotal += result;
+			if (result.equals(expected))
+			{
+				fitnessTotal++;
+			}
 		}
 
 		return fitnessTotal;

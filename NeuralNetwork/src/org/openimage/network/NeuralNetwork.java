@@ -16,10 +16,11 @@ public class NeuralNetwork
 	private List<Node> inputs;
 	private List<Node> outputs;
 	private List<String> classifications;
-	
+
 	/**
 	 * Initialized empty values for the new NeuralNet.
-	 * @param genome 
+	 * 
+	 * @param genome
 	 */
 	public NeuralNetwork(Genome genome)
 	{
@@ -32,7 +33,7 @@ public class NeuralNetwork
 		// TODO
 		return null;
 	}
-	
+
 	/**
 	 * Give the fitness of the algorithm from a single input.
 	 * 
@@ -45,17 +46,17 @@ public class NeuralNetwork
 	public double fitnessTest(double[][] imageInputNodes, String expected)
 	{
 		reset();
-		
+
 		int ticks = 0;
 
 		int row = imageInputNodes.length - Param.BLOCK_SIZE + 1;
 		int col = imageInputNodes[0].length - Param.BLOCK_SIZE + 1;
-		
+
 		double[] trackedOutputValues = new double[outputs.size()];
-		
-		for (int i = 0; i < row; i++)
+
+		for (int i = 0; i + Param.BLOCK_SIZE < row; i += Param.BLOCK_SIZE)
 		{
-			for (int j = 0; j < col; j++)
+			for (int j = 0; j + Param.BLOCK_SIZE < col; j += Param.BLOCK_SIZE)
 			{
 				// TODO Actual network tick
 
@@ -67,11 +68,11 @@ public class NeuralNetwork
 					Node node = outputIter.next();
 					trackedOutputValues[count++] = node.getValue();
 				}
-				
+
 				ticks++;
 			}
 		}
-		
+
 		for (int i = 0; i < Param.FITNESS_CASE_SIZE; i++)
 		{
 			// TODO Actual network tick
@@ -90,9 +91,9 @@ public class NeuralNetwork
 
 		for (int i = 0; i < trackedOutputValues.length; i++)
 		{
-			trackedOutputValues[i] = trackedOutputValues[i]/ticks;
+			trackedOutputValues[i] = trackedOutputValues[i] / ticks;
 		}
-		
+
 		int index = classifications.indexOf(expected);
 		return trackedOutputValues[index];
 	}
