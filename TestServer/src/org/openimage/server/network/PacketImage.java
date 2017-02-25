@@ -11,7 +11,7 @@ public class PacketImage extends Packet
 {
 	
 	private int width, height;
-	private int[][] pixels;
+	private int[] pixels;
 	
 	public PacketImage() {}
 	
@@ -20,13 +20,15 @@ public class PacketImage extends Packet
 		width = image.getWidth();
 		height = image.getHeight();
 		
-		pixels = new int[width][height];
+		pixels = new int[width*height];
 		
+		int x = 0;
 		for(int i = 0; i < width; i++)
 		{
 			for(int j = 0; j < height; j++)
 			{
-				pixels[i][j] = image.getRGB(i, j);
+				pixels[x] = image.getRGB(i, j);
+				x++;
 			}
 		}
 	}
@@ -37,12 +39,9 @@ public class PacketImage extends Packet
 		output.writeInt(width);
 		output.writeInt(height);
 		
-		for(int i = 0; i < width; i++)
+		for(int i = 0; i < width * height; i++)
 		{
-			for(int j = 0; j < height; j++)
-			{
-				output.writeInt(pixels[i][j]);
-			}
+			output.writeInt(pixels[i]);
 		}
 	}
 
@@ -52,14 +51,11 @@ public class PacketImage extends Packet
 		width = data.readInt();
 		height = data.readInt();
 		
-		pixels = new int[width][height];
+		pixels = new int[width * height];
 		
-		for(int i = 0; i < width; i++)
+		for(int i = 0; i < width * height; i++)
 		{
-			for(int j = 0; j < height; j++)
-			{
-				pixels[i][j] = data.readInt();
-			}
+				pixels[i] = data.readInt();
 		}
 	}
 
@@ -78,9 +74,10 @@ public class PacketImage extends Packet
 					flag = true;
 			}
 		}
-		System.out.println(flag + " TIME RECEIVED: " + System.currentTimeMillis()); */
+		System.out.println(flag + " TIME RECEIVED: " + System.currentTimeMillis());
+		*/
 		//CONTINUE TO NON-TEST CODE
-		ServerStart.server.handleImageReceive(pixels);
+		ServerStart.server.handleImageReceive(pixels, width, height);
 	}
 
 }
