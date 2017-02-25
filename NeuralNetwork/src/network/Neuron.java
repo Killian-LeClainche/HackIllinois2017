@@ -1,5 +1,6 @@
 package network;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 
@@ -16,7 +17,7 @@ public class Neuron implements Node
     private double value;
 
     /**
-     * @return The logistic (sigmoid) function of the input.
+     * @return The logistic (sigmoid) squash function of the input.
      */
     public static double LOGISTIC(double input)
     {
@@ -61,10 +62,10 @@ public class Neuron implements Node
     }
 
     /**
-     * The squash function computes an output for this Neuron based on inputs and weights.
-     * @return The sum of the incoming node values multiplied by their respective weights.
+     * The activation function computes an output for this Neuron based on inputs and weights.
+     * @return The sum of the incoming node values multiplied by their respective weights, then squashed.
      */
-    public double squash()
+    public double activate()
     {
         double weightedSum = 0;
         for (int i = 0; i < this.incomingNodes.size(); i++)
@@ -72,7 +73,20 @@ public class Neuron implements Node
             weightedSum += this.incomingWeights.get(i) * this.incomingNodes.get(i).getValue();
         }
 
+        // Use the logistic sigmoid curve for squashing.
         this.value = Neuron.LOGISTIC(weightedSum);
         return value;
+    }
+
+    /**
+     * @return A String representation of the object and its data.
+     */
+    @Override
+    public String toString()
+    {
+        return "Neuron { id: " + this.hashCode() +
+                ", incomingNodes: " + Arrays.toString(this.incomingNodes.toArray()) + " " +
+                ", incomingWeights: " + Arrays.toString(this.incomingNodes.toArray()) + " " +
+                ", value: " + this.value + " }";
     }
 }
