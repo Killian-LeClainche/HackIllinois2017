@@ -9,7 +9,8 @@ import org.ini4j.InvalidFileFormatException;
 import org.ini4j.Wini;
 
 /**
- * This class loads the parameters for the application from the params.ini into a Param object.
+ * This class loads the parameters for the application from the params.ini into
+ * a Param object.
  * 
  * @author Jarett Lee
  */
@@ -30,23 +31,21 @@ public class Param
 
 	/**
 	 * Read a param.ini file and output a Param object.
-	 * @return 
+	 * 
+	 * @return
 	 */
 	public static Wini loadParamsFile()
 	{
 		try
 		{
 			return new Wini(new File("params.ini"));
-		}
-		catch (FileNotFoundException e)
+		} catch (FileNotFoundException e)
 		{
 			e.printStackTrace();
-		}
-		catch (InvalidFileFormatException e)
+		} catch (InvalidFileFormatException e)
 		{
 			e.printStackTrace();
-		}
-		catch (IOException e)
+		} catch (IOException e)
 		{
 			e.printStackTrace();
 		}

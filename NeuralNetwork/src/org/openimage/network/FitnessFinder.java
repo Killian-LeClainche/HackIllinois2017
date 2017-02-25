@@ -36,18 +36,18 @@ public class FitnessFinder
 		double fitnessTotal = 0.0;
 
 		int size = pool.getClassificationSize();
-		for(int i = 0; i < size; i++)
+		for (int i = 0; i < size; i++)
 		{
 			int poolSize = pool.getPoolSize(i);
 			double[][] imageDatas = pool.getSamplePool(i, (int) Math.sqrt(poolSize));
-			
+
 			String result = network.classify(imageDatas);
-			if(result.equals(pool.getClassificationName(i)))
+			if (result.equals(pool.getClassificationName(i)))
 			{
 				fitnessTotal++;
 			}
 		}
-		
+
 		return fitnessTotal;
 	}
 }
