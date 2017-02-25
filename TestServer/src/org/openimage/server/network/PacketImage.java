@@ -67,7 +67,7 @@ public class PacketImage extends Packet
 	public void handle(Network network) 
 	{
 		//TEST HERE, WILL BE REMOVED!
-		System.out.println("RECEIVED IMAGE");
+		/*System.out.println("RECEIVED IMAGE");
 		System.out.print("WIDTH: " + width + " HEIGHT: " + height + " IS VALID: ");
 		boolean flag = false;
 		for(int i = 0; i < pixels.length && !flag; i++)
@@ -78,7 +78,7 @@ public class PacketImage extends Packet
 					flag = true;
 			}
 		}
-		System.out.println(flag + " TIME RECEIVED: " + System.currentTimeMillis());
+		System.out.println(flag + " TIME RECEIVED: " + System.currentTimeMillis()); */
 		//CONTINUE TO NON-TEST CODE
 		ServerStart.server.handleImageReceive(pixels);
 	}
