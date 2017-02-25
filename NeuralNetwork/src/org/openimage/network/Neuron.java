@@ -63,48 +63,28 @@ public class Neuron implements Node
         this.squash = SquashFunction.LOGISTIC;
     }
 
-    /**
-     * {@inheritDoc}
-     */
-    @Override
     public List<Node> getIncomingNodes()
     {
         return this.incomingNodes;
     }
 
-    /**
-     * {@inheritDoc}
-     */
-    @Override
     public List<Double> getIncomingWeights()
     {
         return this.incomingWeights;
     }
 
-    /**
-     * {@inheritDoc}
-     */
-    @Override
     public void addIncomingNode(Node node)
     {
         this.incomingNodes.add(node);
         this.incomingWeights.add((1 / Math.sqrt(this.incomingNodes.size())) * Math.random());
     }
 
-    /**
-     * {@inheritDoc}
-     */
-    @Override
     public void addIncomingNode(Node node, double weight)
     {
         this.incomingNodes.add(node);
         this.incomingWeights.add(weight);
     }
 
-    /**
-     * {inheritDoc}
-     */
-    @Override
     public void normalizeWeights()
     {
         for (int i = 0; i < this.incomingWeights.size(); i++)
@@ -113,27 +93,16 @@ public class Neuron implements Node
         }
     }
 
-    /**
-     * {@inheritDoc}
-     */
-    @Override
     public double getValue()
     {
         return this.value;
     }
 
-    /**
-     * {@inheritDoc}
-     */
-    @Override
     public double getPrevious()
     {
         return this.previous;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public double activate()
     {
         this.previous = this.value;
@@ -157,10 +126,6 @@ public class Neuron implements Node
         return 0;
     }
 
-    /**
-     * @return A String representation of the object and its data.
-     */
-    @Override
     public String toString()
     {
         return "Neuron { id: " + this.hashCode() +

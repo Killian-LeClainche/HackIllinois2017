@@ -1,4 +1,4 @@
-package network;
+package org.openimage.network;
 
 /**
  * Represents each of the different sigmoid functions for squashing in Neurons.
