@@ -89,8 +89,8 @@ public abstract class Network
 				{
 					while(isConnected && !ServerStart.stopServerThread)
 					{
-						System.out.println("Sending New Packet");
 						Packet packetToSend = packetsToSend.take();
+						System.out.println("Sending New Packet");
 						ByteArrayOutputStream data = new ByteArrayOutputStream();
 						DataOutputStream dataStream = new DataOutputStream(data);
 						outputStream.writeShort(packetToSend.getHeader());

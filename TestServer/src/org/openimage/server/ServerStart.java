@@ -3,6 +3,8 @@ package org.openimage.server;
 import java.io.IOException;
 import java.util.Scanner;
 
+import org.openimage.server.network.Packet;
+import org.openimage.server.network.PacketImage;
 import org.openimage.server.network.ServerListener;
 
 public class ServerStart
@@ -15,6 +17,9 @@ public class ServerStart
 	
 	public static void main(String[] args) throws IOException
 	{
+		System.out.println("INITIALIZING!");
+		Packet.addPacket(PacketImage.class);
+		
 		System.out.println("STARTING!");
 		serverListener = ServerListener.create(8888);
 		serverListener.launch();
