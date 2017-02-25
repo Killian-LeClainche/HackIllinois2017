@@ -4,6 +4,9 @@ import java.util.List;
 
 /**
  * A Neuron is the most basic unit of a neural network. It computes the sum of the incoming values from other
+ * TODO
+ * 
+ * @author Max O'Cull
  */
 public class Neuron implements Node
 {
