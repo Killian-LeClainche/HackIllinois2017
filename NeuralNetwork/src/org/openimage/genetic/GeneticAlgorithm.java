@@ -7,12 +7,12 @@ package org.openimage.genetic;
 public class GeneticAlgorithm
 {
 	private Genome parent;
-	
-	public GeneticAlgorithm(Genome parent)
+
+	public GeneticAlgorithm()
 	{
 		this.parent = parent;
 	}
-	
+
 	public Genome generateChild()
 	{
 		return null;
