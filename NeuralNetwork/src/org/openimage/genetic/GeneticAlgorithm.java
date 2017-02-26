@@ -217,22 +217,12 @@ public class GeneticAlgorithm
 
 		for(int i = 0; i < population.size() - 1; i++)
 		{
-			Main.taskExecutor.execute(new FitnessFinder(population.get(i), this));
+			Main.taskExecutor.execute(new FitnessFinder(i, population.get(i), this));
 		}
-		Future<?> future = Main.taskExecutor.submit(new FitnessFinder(population.get(population.size() - 1), this));
+		Future<?> future = Main.taskExecutor.submit(new FitnessFinder(population.size() - 1, population.get(population.size() - 1), this));
 
 		//wait for all the threads above to finish.
-		while(!future.isDone())
-		{
-			try
-			{
-				Thread.sleep(1);
-			} 
-			catch (InterruptedException e)
-			{
-				e.printStackTrace();
-			}
-		}
+		while(!future.isDone());
 
 		//sort population for scaling and elitism
 		Collections.sort(population);
@@ -276,11 +266,11 @@ public class GeneticAlgorithm
 			newPopulation.add(new Genome(child1));
 			newPopulation.add(new Genome(child2));
 		}
+		
+		computeStatistics();
 
 		//finished so assign new pop back into m_vecPop
 		population = newPopulation;
-
-		computeStatistics();
 
 		return newPopulation;
 	}
