@@ -196,8 +196,16 @@ public class Layer
     @Override
     public String toString()
     {
-        return "Layer { beforeLayer: " + beforeLayer + ", afterLayer: " + afterLayer + ", nodes: "
-                + Arrays.toString(nodes.toArray()) + " }";
+        String beforeLayerStr = "null", afterLayerStr = "null";
+
+        if (beforeLayer != null)
+            beforeLayerStr = "" + beforeLayer.hashCode();
+
+        if (afterLayer != null)
+            afterLayerStr = "" + afterLayer.hashCode();
+
+        return "Layer { beforeLayer: " + beforeLayerStr + ", afterLayer: " + afterLayerStr + ", nodes: ["
+                + nodes.toString() + "] }";
     }
 
     public static void main(String[] args) {
