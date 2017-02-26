@@ -145,7 +145,6 @@ public class GeneticAlgorithm
 			if (cumulativeFitness >= slice)
 			{
 				selectedGenome = population.get(i);
-				System.out.println(i);
 				break;
 			}
 		}
@@ -286,10 +285,6 @@ public class GeneticAlgorithm
 			//now copy into vecNewPop population
 			newPopulation.add(new Genome(child1));
 			newPopulation.add(new Genome(child2));
-		}
-		for(Genome g : population)
-		{
-			System.out.println("Fitness" + g.fitness);
 		}
 		//finished so assign new pop back into population
 		population = newPopulation;
