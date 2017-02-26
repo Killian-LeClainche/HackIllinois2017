@@ -137,9 +137,9 @@ public class NeuralNetwork
 		int preSize = size;
 		size /= 2;
 		
-		while (size > Param.CATEGORY_NUM*2)
+		while (size > Param.CATEGORY_NUM*4)
 		{
-			layer = new Layer(size, 0);
+			layer = new Layer(size, 1);
 
 			weightList = arrayList.subList(index, index + preSize * size);
 			index += preSize * size;
@@ -174,7 +174,7 @@ public class NeuralNetwork
 		
 		size /= 2;
 		
-		while (size > Param.CATEGORY_NUM*2)
+		while (size > Param.CATEGORY_NUM*4)
 		{
 			layer = new Layer(size, 0);
 
@@ -303,23 +303,23 @@ public class NeuralNetwork
 //			{
 //				System.out.println(count + " " + a1 + " " + a2);
 //			}
-			if (!a2.equals(a3))
-			{
-				if (start == 0) {
-					start = count;
-				}
-				System.out.println(count + " " + a2 + " " + a3);
-			}
-			if (!a3.equals(a4))
-			{
-				System.out.println(count + " " + a3 + " " + a4);
-			}
+//			if (!a2.equals(a3))
+//			{
+//				if (start == 0) {
+//					start = count;
+//				}
+//				System.out.println(count + " " + a2 + " " + a3);
+//			}
+//			if (!a3.equals(a4))
+//			{
+//				System.out.println(count + " " + a3 + " " + a4);
+//			}
 		}
 		System.out.println(genome.weights.size());
 		System.out.println(genome2.weights.size());
 		System.out.println(genome3.weights.size());
 		System.out.println(genome4.weights.size());
-		System.out.println(start);
+//		System.out.println(start);
 	}
 
 	/*
