@@ -1,6 +1,7 @@
 package org.openimage.network;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.ListIterator;
 
@@ -10,9 +11,13 @@ public class Layer
     Layer beforeLayer;
     Layer afterLayer;
 
+    /**
+     * Generate a layer with Size Nodes, with a set number of LSTM Nodes.
+     * @param size The number of nodes to generate.
+     * @param lstmCount The number of those nodes which should be LSTM's.
+     */
     public Layer (int size, int lstmCount)
     {
-        // TODO Generate a layer with Size Nodes, with a set number of LSTM Nodes.
         nodes = new ArrayList<Node>(size);
 
         for (int i = 0; i < lstmCount; i++)
@@ -28,18 +33,19 @@ public class Layer
         }
     }
 
-    public Layer (ArrayList<Node> nodes, ArrayList<Double> weights)
-    {
-        // TODO Generate a layer with given Nodes and respective weights.
-
-    }
-
+    /**
+     * Place nodes within a layer data structure.
+     * @param inputs The inputs to be inserted.
+     */
     public Layer(List<Node> inputs)
 	{
-		// TODO Auto-generated constructor stub
         this.nodes = inputs;
 	}
 
+    /**
+     * For each incoming synapse, apply the respective weight.
+     * @param weights The weights of the synapses corresponding from top to bottom.
+     */
 	public void addWeights(List<Double> weights)
     {
         ListIterator<Node> nodeIterator = nodes.listIterator();
@@ -59,14 +65,23 @@ public class Layer
         }
     }
 
+    /**
+     * Connect synapses from each Node in Before pointing to each Node in After.
+     * @param before The layer that preceeds the current one.
+     */
     public void connectAfter(Layer before)
     {
     	beforeLayer = before;
     	before.afterLayer = this;
-        // TODO Connect synapses from each Node in Before pointing to each Node in After.
+
     	nodes.forEach(n -> before.nodes.forEach(n1 -> n.addIncomingNode(n1)));
     }
-    
+
+    /**
+     * Connect synapses from each Node in Before pointing to each Node in After. Also connect their respective weights.
+     * @param before The layer the preceeds this one.
+     * @param weights The weights that correspond to the Nodes in this layer from top to bottom.
+     */
     public void connectAfter(Layer before, List<Double> weights)
     {
     	beforeLayer = before;
@@ -84,6 +99,9 @@ public class Layer
     	}*/
     }
 
+    /**
+     * @return List of current node values.
+     */
     public List<Double> getValue()
     {
     	List<Double> list = new ArrayList<>();
@@ -91,6 +109,10 @@ public class Layer
         return list;
     }
 
+    /**
+     * Activates each node in the Layer.
+     * @return A List of values returned by each Node.
+     */
     public List<Double> activate()
     {
     	List<Double> list = new ArrayList<>();
@@ -98,9 +120,12 @@ public class Layer
         return list;
     }
 
+    /**
+     * Add node to the layer and connect it to adjacent Layers (if possible).
+     * @param node The node to add to the layer.
+     */
     public void addNode(Node node)
     {
-        // TODO Add node to the layer and connect it to adjacent Layers (if possible).
     	nodes.add(node);
     	if(afterLayer != null)
     	{
@@ -112,9 +137,11 @@ public class Layer
     	}
     }
 
+    /**
+     * Normalize the weights of each Node in the layer.
+     */
     public void normalizeWeights()
     {
-        // TODO Normalize the weights of each Node in the layer.
     	nodes.forEach(node -> node.normalizeWeights());
     }
 
@@ -132,18 +159,18 @@ public class Layer
         return result;
     }
 
+    /**
+     * Clear the values of every Node in the layer.
+     */
     public void reset()
     {
     	nodes.forEach(node -> node.reset());
     }
 
+    @Override
     public String toString()
     {
-        // TODO Return a String representation of the Layer.
-
-
-
-        //return "Layer { " +
-        return null;
+        return "Layer { beforeLayer: " + beforeLayer + ", afterLayer: " + afterLayer + ", nodes: "
+                + Arrays.toString(nodes.toArray()) + " }";
     }
 }
