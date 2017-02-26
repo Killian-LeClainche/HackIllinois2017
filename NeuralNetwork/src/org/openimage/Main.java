@@ -16,11 +16,11 @@ public class Main
 
 	public static ExecutorService taskExecutor;
 	private static boolean flag = true;
-	
+
 	public static void main(String[] args) throws IOException
 	{
 		taskExecutor = Executors.newFixedThreadPool(Math.max(Runtime.getRuntime().availableProcessors() - 1, 1));
-		
+
 		final GeneticAlgorithm genAlg = new GeneticAlgorithm();
 		System.out.println("Finished loading images...");
 		new Thread()
@@ -29,7 +29,7 @@ public class Main
 			{
 				int gen = 0;
 				System.out.println("Let's begin");
-				while(flag)
+				while (flag)
 				{
 					gen++;
 					genAlg.epoch();
@@ -47,7 +47,7 @@ public class Main
 				System.exit(1);
 			}
 		}.start();
-		
+
 		Scanner scanner = new Scanner(System.in);
 		scanner.nextLine();
 		flag = false;
@@ -61,14 +61,13 @@ public class Main
 			BufferedWriter writer = new BufferedWriter(new FileWriter("neuralNetwork.txt"));
 
 			List<Double> weights = genome.getWeights();
-			for(int i = 0; i < weights.size(); i++)
+			for (int i = 0; i < weights.size(); i++)
 			{
 				writer.append(i + ":" + weights.get(i));
 				writer.newLine();
 			}
 			writer.close();
-		}
-		catch(IOException e)
+		} catch (IOException e)
 		{
 			e.printStackTrace();
 		}

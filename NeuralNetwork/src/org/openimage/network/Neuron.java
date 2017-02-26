@@ -4,14 +4,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * A Neuron is the most basic unit of a neural network. It computes the sum of the incoming values multiplied by
- * their respective weights, then squashes the sum using a sigmoid function to produce an output signal.
+ * A Neuron is the most basic unit of a neural network. It computes the sum of
+ * the incoming values multiplied by their respective weights, then squashes the
+ * sum using a sigmoid function to produce an output signal.
  * 
  * @author Max O'Cull
  */
 public class Neuron implements Node
 {
-	
+
 	protected List<Node> incomingNodes;
 	private List<Double> incomingWeights;
 	protected double value;
@@ -21,7 +22,8 @@ public class Neuron implements Node
 	/**
 	 * A sigmoid curve that interpolates between 0 and 1.
 	 * 
-	 * @param input A double of the input value to be squashed.
+	 * @param input
+	 *            A double of the input value to be squashed.
 	 * @return The logistic (sigmoid) squash function of the input.
 	 */
 	public static double LOGISTIC(double input)
@@ -53,7 +55,7 @@ public class Neuron implements Node
 		this.incomingNodes = new ArrayList<Node>();
 		this.incomingWeights = new ArrayList<Double>();
 		this.incomingNodes.add(null); // For Bias.
-		this.incomingWeights.add(Math.random()/2); // For Bias.
+		this.incomingWeights.add(Math.random() / 2); // For Bias.
 		this.value = 0.0;
 		this.previous = 0.0;
 		this.squash = squash;
@@ -143,7 +145,9 @@ public class Neuron implements Node
 
 	/**
 	 * Moves a specific input through the Neuron. Use sparingly.
-	 * @param input The value to be squashed.
+	 * 
+	 * @param input
+	 *            The value to be squashed.
 	 * @return The squashed value.
 	 */
 	public double activate(double input)
@@ -167,9 +171,8 @@ public class Neuron implements Node
 
 	public String toString()
 	{
-		return "Neuron { id: " + this.hashCode() + ", incomingNodes: [" + this.incomingNodes.size()
-				+ " " + "], incomingWeights: [" + this.incomingNodes.size() + "] " + ", value: "
-				+ this.value + " }";
+		return "Neuron { id: " + this.hashCode() + ", incomingNodes: [" + this.incomingNodes.size() + " "
+				+ "], incomingWeights: [" + this.incomingNodes.size() + "] " + ", value: " + this.value + " }";
 	}
 
 	public void reset()
@@ -177,8 +180,10 @@ public class Neuron implements Node
 		this.value = 0.0;
 	}
 
-	public static void main(String[] args) {
-		for (int x = -100; x < 100; x++) {
+	public static void main(String[] args)
+	{
+		for (int x = -100; x < 100; x++)
+		{
 			System.out.println(x / 100.0 + "\t" + LOGISTIC(x / 100.0));
 		}
 	}

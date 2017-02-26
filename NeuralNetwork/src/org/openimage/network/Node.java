@@ -56,6 +56,7 @@ public interface Node
 
 	/**
 	 * Compute the activation with the given input.
+	 * 
 	 * @return The output of squashing the input.
 	 */
 	public double activate(double input);

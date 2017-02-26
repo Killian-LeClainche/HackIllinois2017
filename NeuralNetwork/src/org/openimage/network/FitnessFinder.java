@@ -25,7 +25,7 @@ public class FitnessFinder implements Runnable
 		this.neuralNetwork = new NeuralNetwork(gen);
 		this.geneticAlgorithm = genetic;
 	}
-	
+
 	public void run()
 	{
 		this.genome.fitness = find(geneticAlgorithm.getClassificationNames(), geneticAlgorithm.getClassifications());
@@ -44,12 +44,12 @@ public class FitnessFinder implements Runnable
 		double fitnessTotal = 0.0;
 		int result;
 
-		for(int i = 0; i < classifications.length; i++)
+		for (int i = 0; i < classifications.length; i++)
 		{
-			for(int j = 0; j < classifications[i].length; j++)
+			for (int j = 0; j < classifications[i].length; j++)
 			{
 				result = neuralNetwork.classify(classifications[i][j]);
-				if(result == i)
+				if (result == i)
 				{
 					fitnessTotal++;
 				}

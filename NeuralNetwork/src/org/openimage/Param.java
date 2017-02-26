@@ -24,9 +24,7 @@ public class Param
 	public static final int NUM_ELITE_COPIES;
 	public static final int NUM_ELITE;
 
-
 	public static Random rng = new Random();
-
 
 	static
 	{

@@ -12,7 +12,7 @@ public class Genome implements Comparable<Genome>
 	public List<Double> weights;
 	public double fitness;
 	public int id;
-	
+
 	public Genome()
 	{
 		fitness = 0;
@@ -24,10 +24,10 @@ public class Genome implements Comparable<Genome>
 		this.fitness = 0;
 		this.id = id;
 	}
-	
+
 	public Genome(List<Double> list)
 	{
-		this(list,0);
+		this(list, 0);
 	}
 
 	@Override
