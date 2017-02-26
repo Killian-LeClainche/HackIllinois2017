@@ -66,7 +66,7 @@ public class GeneticAlgorithm
 			population.add(g);	
 		}
 
-		mutationRate = .3;
+		mutationRate = .15;
 		crossoverRate = 0.7;
 		genomeLength = population.get(0).getWeights().size();
 	}
