@@ -1,4 +1,12 @@
-<img src="https://github.com/Killian-LeClainche/HackIllinois2017/blob/master/stock.jpg?raw=true" alt="NeuralOR Logo" title="NeuralOR" align="right" />
+.. class:: no-web
+
+    .. image:: https://github.com/Killian-LeClainche/HackIllinois2017/blob/master/stock.jpg?raw=true
+        :alt: HTTPie compared to cURL
+        :width: 100%
+        :align: center
+
+
+.. class:: no-web no-pdf
 
 # Introduction
 
