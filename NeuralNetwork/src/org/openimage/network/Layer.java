@@ -7,6 +7,8 @@ import java.util.ListIterator;
 public class Layer
 {
     List<Node> nodes;
+    Layer beforeLayer;
+    Layer afterLayer;
 
     public Layer (int size, int lstmCount)
     {
@@ -58,34 +60,69 @@ public class Layer
 
     public void connectAfter(Layer before)
     {
+    	beforeLayer = before;
+    	before.afterLayer = this;
         // TODO Connect synapses from each Node in Before pointing to each Node in After.
+    	for(int i = 0; i < before.nodes.size(); i++)
+    	{
+    		for(int j = 0; j < nodes.size(); j++)
+    		{
+    			nodes.get(j).addIncomingNode(before.nodes.get(i));
+    		}
+    	}
+    }
+    
+    public void connectAfter(Layer before, double[][] weights)
+    {
+    	beforeLayer = before;
+    	before.afterLayer = this;
+    	for(int i = 0; i < before.nodes.size(); i++)
+    	{
+    		for(int j = 0; j < nodes.size(); j++)
+    		{
+    			nodes.get(j).addIncomingNode(before.nodes.get(i), weights[j][i]);
+    		}
+    	}
     }
 
-    public ArrayList<Double> getValue()
+    public List<Double> getValue()
     {
-        // TODO Return an ArrayList of the current outputs.
-        return null;
+    	List<Double> list = new ArrayList<>();
+    	nodes.forEach(node -> list.add(node.getValue()));
+        return list;
     }
 
-    public ArrayList<Double> activate()
+    public List<Double> activate()
     {
-        // TODO Activate each Node in the Layer. Return an ArrayList of the outputs.
-        return null;
+    	List<Double> list = new ArrayList<>();
+    	nodes.forEach(node -> list.add(node.activate()));
+        return list;
     }
 
     public void addNode(Node node)
     {
         // TODO Add node to the layer and connect it to adjacent Layers (if possible).
+    	nodes.add(node);
+    	if(afterLayer != null)
+    	{
+    		afterLayer.nodes.forEach(n -> n.addIncomingNode(node));
+    	}
+    	if(beforeLayer != null)
+    	{
+    		beforeLayer.nodes.forEach(n -> node.addIncomingNode(n));
+    	}
     }
 
     public void normalizeWeights()
     {
         // TODO Normalize the weights of each Node in the layer.
+    	nodes.forEach(node -> node.normalizeWeights());
     }
 
     public void reset()
     {
         // TODO Set all Node values in the Layer to 0.
+    	nodes.forEach(node -> node.reset());
     }
 
     public String toString()
