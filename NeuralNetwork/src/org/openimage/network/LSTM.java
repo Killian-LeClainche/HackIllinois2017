@@ -86,9 +86,16 @@ public class LSTM implements Node
      */
     public void addIncomingNode(Node node, double weight)
     {
+        int minIndex = 0;
         for (int i = 0; i < INPUT + 1; i++)
         {
             Node gate = gates[i];
+
+            if (gate.getIncomingNodes().size() < gates[minIndex].getIncomingNodes().size())
+            {
+                minIndex = i;
+            }
+
             if (gate.getIncomingNodes().size() <= 0)
             {
                 gate.getIncomingNodes().add(node);
@@ -97,9 +104,12 @@ public class LSTM implements Node
             }
         }
 
-        int seed = org.openimage.Param.rng.nextInt(3 + 1);
+        gates[minIndex].getIncomingNodes().add(node);
+        gates[minIndex].getIncomingWeights().add((1 / Math.sqrt(gates[minIndex].getIncomingNodes().size())) * Math.random());
+
+        /*int seed = org.openimage.Param.rng.nextInt(3 + 1);
         gates[seed].getIncomingNodes().add(node);
-        gates[seed].getIncomingWeights().add(weight);
+        gates[seed].getIncomingWeights().add(weight);*/
     }
 
     /**
@@ -244,6 +254,6 @@ public class LSTM implements Node
     public String toString()
     {
         //return "LSTM { " +
-        return "not implemented yet.";
+        return "";
     }
 }
