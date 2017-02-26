@@ -35,6 +35,8 @@ public class GeneticAlgorithm
 	private double mutationRate;
 	private double crossoverRate;
 
+	private int count = 5;
+
 	private String[] classificationNames; //we have to figure out how to get this 
 	private double[][][] classifications; // this too
 
@@ -56,8 +58,8 @@ public class GeneticAlgorithm
 		{
 			population.add(new NeuralNetwork().getGenome());
 		}
-		
-		mutationRate = .1;
+
+		mutationRate = .2;
 		crossoverRate = 0.7;
 		genomeLength = population.get(0).getWeights().size();
 	}
@@ -128,10 +130,8 @@ public class GeneticAlgorithm
 	 */
 	private Genome getGenomeRoulette()
 	{
-		Random generator = new Random();
-
 		//generate a random number between 0 & total fitness count
-		double slice = (double)(generator.nextDouble() * totalFitness);
+		double slice = (double)((Math.random() - .1) * totalFitness);
 
 		//this will be set to the chosen genome
 		Genome selectedGenome = null;
@@ -215,19 +215,24 @@ public class GeneticAlgorithm
 		//Reset fitness variables
 		reset();
 
-		//generate a random sample for all classifications.
-		for(int i = 0; i < classificationNames.length; i++)
+		if(count -- == 0)
 		{
-			classifications[i] = samplePool.getSamplePool(i, samplePool.getPoolSize(i) / 10);
+			//generate a random sample for all classifications.
+			for(int i = 0; i < classificationNames.length; i++)
+			{
+				classifications[i] = samplePool.getSamplePool(i, samplePool.getPoolSize(i) / 10);
+			}
+			count = 5;
+			System.out.println("NEW POOL!");
 		}
-		
+
 		List<Future<?>> futures = new ArrayList<Future<?>>();
-		
+
 		for(int i = 0; i < population.size(); i++)
 		{
 			futures.add(Main.taskExecutor.submit(new FitnessFinder(i, population.get(i), this)));
 		}
-		
+
 		while(futures.size() != 0)
 		{
 			for(int i = 0; i < futures.size(); i++)
@@ -246,6 +251,7 @@ public class GeneticAlgorithm
 		{
 			System.out.println("Fitness" + g.fitness);
 		}
+
 		//ArrayList to hold new population
 		//Future feature: optimize to reuse old population arrayList
 		List<Genome> newPopulation = new ArrayList<Genome>();
