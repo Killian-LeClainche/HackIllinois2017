@@ -14,26 +14,13 @@ import java.util.List;
  */
 public class LSTM implements Node
 {
-    private enum Gate {
-        KEEP (0),
-        WRITE (1),
-        READ (2),
-        INPUT (3),
-        MEMORY (4),
-        OUTPUT (5);
-
-
-        private int value;
-        Gate (int value)
-        {
-            this.value = value;
-        }
-
-        int getValue()
-        {
-            return this.value;
-        }
-    }
+	
+	public static final int KEEP = 0;
+	public static final int WRITE = 1;
+	public static final int READ = 2;
+	public static final int INPUT = 3;
+	public static final int MEMORY = 4;
+	public static final int OUTPUT = 5;
 
     /*public Node keep;
     public Node write;
@@ -42,24 +29,24 @@ public class LSTM implements Node
     public Node input;
     public Node output;*/
 
-    public ArrayList<Node> gates;
+    public Node[] gates;
 
     public double value;
     public double previous;
 
     public LSTM ()
     {
-        gates.set(Gate.KEEP.getValue(), new Neuron(SquashFunction.STEP));
-        gates.set(Gate.WRITE.getValue(), new Neuron(SquashFunction.STEP));
-        gates.set(Gate.READ.getValue(), new Neuron(SquashFunction.STEP));
-
-        gates.set(Gate.MEMORY.getValue(), new Neuron());
-        gates.set(Gate.INPUT.getValue(), new Sensor());
-        gates.set(Gate.OUTPUT.getValue(), new Neuron());
-
-        this.gates.get(Gate.MEMORY.getValue()).addIncomingNode(this.gates.get(Gate.MEMORY.getValue()));
-        this.gates.get(Gate.MEMORY.getValue()).addIncomingNode(this.gates.get(Gate.INPUT.getValue()));
-        this.gates.get(Gate.OUTPUT.getValue()).addIncomingNode(this.gates.get(Gate.MEMORY.getValue()));
+    	gates = new Node[6];
+    	gates[KEEP] = new Neuron(SquashFunction.STEP);
+    	gates[WRITE] = new Neuron(SquashFunction.STEP);
+    	gates[READ] = new Neuron(SquashFunction.STEP);
+    	gates[MEMORY] = new Neuron();
+    	gates[INPUT] = new Sensor();
+    	gates[OUTPUT] = new Neuron();
+    	
+    	gates[MEMORY].addIncomingNode(gates[MEMORY]);
+    	gates[MEMORY].addIncomingNode(gates[INPUT]);
+    	gates[OUTPUT].addIncomingNode(gates[MEMORY]);
 
         /*
         keep = new Neuron(SquashFunction.STEP);
@@ -112,9 +99,9 @@ public class LSTM implements Node
      */
     public void addIncomingNode(Node node, double weight)
     {
-        for (int i = 0; i < Gate.INPUT.getValue() + 1; i++)
+        for (int i = 0; i < INPUT + 1; i++)
         {
-            Node gate = gates.get(i);
+            Node gate = gates[i];
             if (gate.getIncomingNodes().size() <= 0)
             {
                 gate.getIncomingNodes().add(node);
@@ -124,8 +111,8 @@ public class LSTM implements Node
         }
 
         int seed = org.openimage.Param.rng.nextInt(3 + 1);
-        gates.get(seed).getIncomingNodes().add(node);
-        gates.get(seed).getIncomingWeights().add(weight);
+        gates[seed].getIncomingNodes().add(node);
+        gates[seed].getIncomingWeights().add(weight);
     }
 
     /**
@@ -134,9 +121,9 @@ public class LSTM implements Node
      */
     public void addIncomingNode(Node node)
     {
-        for (int i = 0; i < Gate.INPUT.getValue() + 1; i++)
+        for (int i = 0; i < INPUT + 1; i++)
         {
-            Node gate = gates.get(i);
+            Node gate = gates[i];
             if (gate.getIncomingNodes().size() <= 0)
             {
                 gate.getIncomingNodes().add(node);
@@ -146,14 +133,14 @@ public class LSTM implements Node
         }
 
         int seed = org.openimage.Param.rng.nextInt(3 + 1);
-        gates.get(seed).getIncomingNodes().add(node);
-        gates.get(seed).getIncomingWeights().add((1 / Math.sqrt(gates.get(seed).getIncomingNodes().size())) * Math.random());
+        gates[seed].getIncomingNodes().add(node);
+        gates[seed].getIncomingWeights().add((1 / Math.sqrt(gates[seed].getIncomingNodes().size())) * Math.random());
     }
 
     public void normalizeWeights()
     {
-        for (int i = 0; i < Gate.INPUT.getValue() + 1; i++) {
-            Node gate = gates.get(i);
+        for (int i = 0; i < INPUT + 1; i++) {
+            Node gate = gates[i];
             for (int j = 0; j < gate.getIncomingNodes().size(); j++)
             {
                 gate.normalizeWeights();
@@ -212,31 +199,32 @@ public class LSTM implements Node
 
     public Node getKeep()
     {
-        return this.gates.get(Gate.KEEP.getValue());
+        return this.gates[KEEP];
     }
 
     public Node getRead()
     {
-        return this.gates.get(Gate.READ.getValue());
+        return this.gates[READ];
     }
 
     public Node getWrite()
     {
-        return this.gates.get(Gate.WRITE.getValue());
+        return this.gates[WRITE];
     }
 
     public Node getInput()
     {
-        return this.gates.get(Gate.INPUT.getValue());
+        return this.gates[INPUT];
     }
 
     public Node getMemory()
     {
-        return this.gates.get(Gate.MEMORY.getValue());
+        return this.gates[MEMORY];
     }
 
     public Node getOutput()
     {
-        return this.gates.get(Gate.OUTPUT.getValue());
+        return this.gates[OUTPUT];
     }
+    
 }

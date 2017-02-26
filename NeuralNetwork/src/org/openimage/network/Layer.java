@@ -1,14 +1,17 @@
 package org.openimage.network;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class Layer
 {
-    ArrayList<Node> nodes;
+    List<Node> nodes;
 
     public Layer (int size, int lstmCount)
     {
         // TODO Generate a layer with Size Nodes, with a set number of LSTM Nodes.
+        nodes = new ArrayList<Node>(size);
+
         for (int i = 0; i < lstmCount; i++)
         {
             LSTM lstm = new LSTM();
