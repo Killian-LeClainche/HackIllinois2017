@@ -28,10 +28,10 @@ public class Genome implements Comparable<Genome>
 	{
 		if (this.fitness < g.fitness)
 		{
-			return -1;
+			return 1;
 		} else if (this.fitness > g.fitness)
 		{
-			return 1;
+			return -1;
 		} else
 		{
 			return 0;
