@@ -241,6 +241,8 @@ public class GeneticAlgorithm
 
 		//sort population for scaling and elitism
 		Collections.sort(population);
+		
+		computeStatistics();
 
 		//ArrayList to hold new population
 		//Future feature: optimize to reuse old population arrayList
@@ -281,8 +283,6 @@ public class GeneticAlgorithm
 			newPopulation.add(new Genome(child1));
 			newPopulation.add(new Genome(child2));
 		}
-		
-		computeStatistics();
 
 		//finished so assign new pop back into m_vecPop
 		population = newPopulation;
