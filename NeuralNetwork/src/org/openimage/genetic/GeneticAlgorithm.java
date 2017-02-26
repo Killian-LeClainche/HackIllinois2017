@@ -132,6 +132,7 @@ public class GeneticAlgorithm
 	{
 		//generate a random number between 0 & total fitness count
 		double slice = (double)((Math.random() - .1) * totalFitness);
+		System.out.println(slice);
 
 		//this will be set to the chosen genome
 		Genome selectedGenome = null;
@@ -148,6 +149,7 @@ public class GeneticAlgorithm
 			if (cumulativeFitness >= slice)
 			{
 				selectedGenome = population.get(i);
+				System.out.println(i);
 				break;
 			}
 		}
@@ -164,7 +166,7 @@ public class GeneticAlgorithm
 	 */
 	private void grabNBestGenomes(int n, int numCopies, List<Genome>population)
 	{
-		while(n > 0)
+		while(n >= 0)
 		{
 			int genomeIndex = n; //index of the most fit genome not currently added numCopies times
 			for(int i = 0; i < numCopies; i++)
