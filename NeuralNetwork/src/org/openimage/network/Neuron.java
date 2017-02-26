@@ -139,6 +139,11 @@ public class Neuron implements Node
 		return 0;
 	}
 
+	/**
+	 * Moves a specific input through the Neuron. Use sparingly.
+	 * @param input The value to be squashed.
+	 * @return The squashed value.
+	 */
 	public double activate(double input)
 	{
 		this.previous = this.value;

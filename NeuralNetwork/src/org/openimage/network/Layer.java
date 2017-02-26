@@ -2,6 +2,7 @@ package org.openimage.network;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.ListIterator;
 
 public class Layer
 {
@@ -33,7 +34,21 @@ public class Layer
 
     public void addWeights(ArrayList<Double> weights)
     {
-        // TODO (Max is doing this for Jarett)
+        ListIterator<Node> nodeIterator = nodes.listIterator();
+        ListIterator<Double> weightIterator = weights.listIterator();
+
+        while(nodeIterator.hasNext())
+        {
+            Node node = nodeIterator.next();
+            List<Double> oldWeights = node.getIncomingWeights();
+            for (int i = 0; i < oldWeights.size(); i++)
+            {
+                if (weightIterator.hasNext())
+                {
+                    oldWeights.set(i, weightIterator.next());
+                }
+            }
+        }
     }
 
     public void connectAfter(Layer before)
