@@ -224,12 +224,12 @@ public class GeneticAlgorithm
 		//Reset fitness variables
 		reset();
 
-		if(-- count == 0)
+		if(-- count == 0 || bestFitness > 40 * 0.9)
 		{
 			//generate a random sample for all classifications.
 			for(int i = 0; i < classificationNames.length; i++)
 			{
-				classifications[i] = samplePool.getSamplePool(i, 10);
+				classifications[i] = samplePool.getSamplePool(i, 20);
 			}
 			count = 200;
 			//System.out.println("NEW POOL!");
