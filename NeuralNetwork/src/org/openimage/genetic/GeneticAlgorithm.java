@@ -52,7 +52,7 @@ public class GeneticAlgorithm
 		}
 
 		population = new ArrayList<Genome>();
-		populationSize = 20;
+		populationSize = 63;
 
 		for(int i = 0; i < populationSize; i++)
 		{
@@ -62,7 +62,7 @@ public class GeneticAlgorithm
 			
 		}
 
-		mutationRate = .2;
+		mutationRate = .1;
 		crossoverRate = 0.7;
 		genomeLength = population.get(0).getWeights().size();
 	}
@@ -152,7 +152,6 @@ public class GeneticAlgorithm
 			if (cumulativeFitness >= slice)
 			{
 				selectedGenome = population.get(i);
-				System.out.println(i);
 				break;
 			}
 		}
@@ -225,15 +224,15 @@ public class GeneticAlgorithm
 		//Reset fitness variables
 		reset();
 
-		if(--count == 0)
+		if(-- count == 0)
 		{
 			//generate a random sample for all classifications.
 			for(int i = 0; i < classificationNames.length; i++)
 			{
-				classifications[i] = samplePool.getSamplePool(i, 50);
+				classifications[i] = samplePool.getSamplePool(i, 25);
 			}
-			count = 10;
-			System.out.println("NEW POOL!");
+			count = 1;
+			//System.out.println("NEW POOL!");
 		}
 
 		List<Future<?>> futures = new ArrayList<Future<?>>();
@@ -298,10 +297,6 @@ public class GeneticAlgorithm
 			//now copy into vecNewPop population
 			newPopulation.add(new Genome(child1));
 			newPopulation.add(new Genome(child2));
-		}
-		for(Genome g : population)
-		{
-			System.out.println("Fitness" + g.fitness);
 		}
 		//finished so assign new pop back into population
 		population = newPopulation;
