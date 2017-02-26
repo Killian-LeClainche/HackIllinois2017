@@ -37,6 +37,7 @@ public class Layer
     public Layer(List<Node> inputs)
 	{
 		// TODO Auto-generated constructor stub
+        this.nodes = inputs;
 	}
 
 	public void addWeights(List<Double> weights)
@@ -66,17 +67,21 @@ public class Layer
     	nodes.forEach(n -> before.nodes.forEach(n1 -> n.addIncomingNode(n1)));
     }
     
-    public void connectAfter(Layer before, double[][] weights)
+    public void connectAfter(Layer before, List<Double> weights)
     {
     	beforeLayer = before;
     	before.afterLayer = this;
-    	for(int i = 0; i < before.nodes.size(); i++)
+
+        connectAfter(before);
+        addWeights(weights);
+
+        /*for(int i = 0; i < before.nodes.size(); i++)
     	{
     		for(int j = 0; j < nodes.size(); j++)
     		{
-    			nodes.get(j).addIncomingNode(before.nodes.get(i), weights[j][i]);
+    			nodes.get(j).addIncomingNode(before.nodes.get(i), weights.get(i));
     		}
-    	}
+    	}*/
     }
 
     public List<Double> getValue()
@@ -113,15 +118,32 @@ public class Layer
     	nodes.forEach(node -> node.normalizeWeights());
     }
 
+    public List<Double> getWeights()
+    {
+        List<Double> result = new ArrayList<Double>();
+        for (Node node : nodes)
+        {
+            for (Double weight : node.getIncomingWeights())
+            {
+                result.add(weight);
+            }
+        }
+
+        return result;
+    }
+
     public void reset()
     {
-        // TODO Set all Node values in the Layer to 0.
     	nodes.forEach(node -> node.reset());
     }
 
     public String toString()
     {
         // TODO Return a String representation of the Layer.
+
+
+
+        //return "Layer { " +
         return null;
     }
 }
