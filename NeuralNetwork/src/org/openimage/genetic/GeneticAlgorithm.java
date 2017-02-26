@@ -62,7 +62,7 @@ public class GeneticAlgorithm
 			
 		}
 
-		mutationRate = .1;
+		mutationRate = .3;
 		crossoverRate = 0.7;
 		genomeLength = population.get(0).getWeights().size();
 	}
@@ -215,12 +215,7 @@ public class GeneticAlgorithm
 	 * @return then new population
 	 */
 	public List<Genome> epoch()
-	{		
-
-		/*for(int i = 0; i < populationSize; i++)
-		{
-			System.out.println("id:" + population.get(i).id);
-		}*/
+	{
 		//Reset fitness variables
 		reset();
 
@@ -229,9 +224,9 @@ public class GeneticAlgorithm
 			//generate a random sample for all classifications.
 			for(int i = 0; i < classificationNames.length; i++)
 			{
-				classifications[i] = samplePool.getSamplePool(i, 350);
+				classifications[i] = samplePool.getSamplePool(i, 125);
 			}
-			count = 1000000;
+			count = 300;
 			System.out.println("NEW POOL!");
 		}
 
@@ -239,7 +234,7 @@ public class GeneticAlgorithm
 
 		for(int i = 0; i < population.size(); i++)
 		{
-			futures.add(Main.taskExecutor.submit(new FitnessFinder(i, population.get(i), this)));
+			futures.add(Main.taskExecutor.submit(new FitnessFinder(population.get(i), this)));
 		}
 
 		while(futures.size() != 0)
