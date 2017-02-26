@@ -18,19 +18,46 @@ import org.openimage.network.Node;
  */
 public class Param
 {
+	/**
+	 * Size of the chunk of image that the neural network should read through.
+	 */
 	public static final int BLOCK_SIZE;
+	
+	/**
+	 * Never used in current implementation
+	 */
 	public static final int FITNESS_CASE_SIZE;
+	
+	/**
+	 * Number of outputs for the neural network
+	 */
 	public static final int CATEGORY_NUM;
+	
+	/**
+	 * Variation of each mutation, supposedly .3 is the best value for maximal benifits.
+	 */
 	public static final double MAX_PERTURBATION;
+	
+	/**
+	 * How many elites should you copy over to the next generation.
+	 */
 	public static final int NUM_ELITE_COPIES;
+	
+	/**
+	 * The first few best genomes to be sent over to the next generation.
+	 */
 	public static final int NUM_ELITE;
 
 
+	/**
+	 * Random
+	 */
 	public static Random rng = new Random();
 
 
 	static
 	{
+		//load the params file and set all the variables
 		Wini ini = loadParamsFile();
 		Ini.Section section = ini.get("start");
 		BLOCK_SIZE = Integer.parseInt(section.get("blockSize"));
