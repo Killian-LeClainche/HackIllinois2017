@@ -145,6 +145,9 @@ public class Layer
     	nodes.forEach(node -> node.normalizeWeights());
     }
 
+    /**
+     * @return A list of all weights from each node top to bottom.
+     */
     public List<Double> getWeights()
     {
         List<Double> result = new ArrayList<Double>();
@@ -173,4 +176,22 @@ public class Layer
         return "Layer { beforeLayer: " + beforeLayer + ", afterLayer: " + afterLayer + ", nodes: "
                 + Arrays.toString(nodes.toArray()) + " }";
     }
+
+    public static void main(String[] args) {
+        Layer a = new Layer(8, 3);
+        Layer b = new Layer(8, 3);
+
+        System.out.println(a.toString());
+        System.out.println(b.toString());
+
+        Layer c = new Layer(a.nodes);
+
+        System.out.println(c.toString());
+
+        b.connectAfter(a);
+
+        System.out.println(b.toString());
+
+    }
+
 }
