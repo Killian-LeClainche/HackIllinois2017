@@ -239,7 +239,7 @@ public class GeneticAlgorithm
 
 		for(int i = 0; i < population.size(); i++)
 		{
-			futures.add(Main.taskExecutor.submit(new FitnessFinder(i, population.get(i), this)));
+			futures.add(Main.taskExecutor.submit(new FitnessFinder(population.get(i), this)));
 		}
 
 		while(futures.size() != 0)

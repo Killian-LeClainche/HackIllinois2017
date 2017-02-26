@@ -8,7 +8,6 @@ import java.util.Random;
 import org.ini4j.Ini;
 import org.ini4j.InvalidFileFormatException;
 import org.ini4j.Wini;
-import org.openimage.network.Node;
 
 /**
  * This class loads the parameters for the application from the params.ini into

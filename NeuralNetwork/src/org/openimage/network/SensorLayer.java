@@ -1,8 +1,5 @@
 package org.openimage.network;
 
-import java.util.ArrayList;
-import java.util.List;
-
 /**
  * Created by max on 2/25/17.
  */
