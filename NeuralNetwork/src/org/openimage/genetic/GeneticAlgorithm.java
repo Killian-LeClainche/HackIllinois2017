@@ -51,7 +51,7 @@ public class GeneticAlgorithm
 
 		population = new ArrayList<Genome>();
 
-		for(int i = 0; i < 200; i++)
+		for(int i = 0; i < 100; i++)
 		{
 			population.add(new NeuralNetwork().getGenome());
 		}
@@ -225,7 +225,7 @@ public class GeneticAlgorithm
 		Future<?> future = Main.taskExecutor.submit(new FitnessFinder(population.get(population.size() - 1), this));
 
 		//wait for all the threads above to finish.
-		while(future.isDone())
+		while(!future.isDone())
 		{
 			try
 			{

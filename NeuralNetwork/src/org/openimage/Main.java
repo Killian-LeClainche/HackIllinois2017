@@ -27,10 +27,13 @@ public class Main
 		{
 			public void run()
 			{
+				int gen = 0;
 				System.out.println("Let's begin");
 				while(flag)
 				{
+					gen++;
 					genAlg.epoch();
+					System.out.print("Generation: " + gen + "\t");
 					System.out.print("Best Fitness: " + genAlg.getBestFitness() + "\t");
 					System.out.print("Total Fitness: " + genAlg.getTotalFitness() + "\t");
 					System.out.print("Average Fitness: " + genAlg.getAverageFitness() + "\t");
@@ -38,6 +41,7 @@ public class Main
 
 				}
 				print(genAlg.getPopulation().get(0));
+				System.exit(1);
 			}
 		}.start();
 		
