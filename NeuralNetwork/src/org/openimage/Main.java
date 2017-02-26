@@ -20,6 +20,16 @@ public class Main
 		taskExecutor = Executors.newFixedThreadPool(Math.max(Runtime.getRuntime().availableProcessors() - 1, 1));
 
 		GeneticAlgorithm genAlg = new GeneticAlgorithm();
+		while(true)
+		{
+			genAlg.epoch();
+			System.out.println("Best Fitness: " + genAlg.getBestFitness());
+			System.out.println("Total Fitness: " + genAlg.getTotalFitness());
+			System.out.println("Average Fitness: " + genAlg.getAverageFitness());
+			System.out.println("Worst Fitness: " + genAlg.getWorstFitness());
+
+		}
+		print(genAlg.getPopulation(0));
 	}
 
 	public static void print(Genome genome)
@@ -32,6 +42,7 @@ public class Main
 			for(int i = 0; i < weights.size(); i++)
 			{
 				writer.append(i + ":" + weights.get(i));
+				writer.newLine();
 			}
 			writer.close();
 		}
