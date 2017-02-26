@@ -254,6 +254,8 @@ public class GeneticAlgorithm
 		}
 
 		//Genetic Algorithm Loop
+		//repeat until a new population is generated
+		while (newPopulation.size() < populationSize)
 		{
 			//Use two genomes
 			Genome mother = getGenomeRoulette();
