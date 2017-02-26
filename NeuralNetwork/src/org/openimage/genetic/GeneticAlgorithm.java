@@ -52,7 +52,7 @@ public class GeneticAlgorithm
 		}
 
 		population = new ArrayList<Genome>();
-		populationSize = 63;
+		populationSize = 126;
 
 		for(int i = 0; i < populationSize; i++)
 		{
@@ -229,9 +229,9 @@ public class GeneticAlgorithm
 			//generate a random sample for all classifications.
 			for(int i = 0; i < classificationNames.length; i++)
 			{
-				classifications[i] = samplePool.getSamplePool(i, 25);
+				classifications[i] = samplePool.getSamplePool(i, 10);
 			}
-			count = 1;
+			count = 200;
 			//System.out.println("NEW POOL!");
 		}
 

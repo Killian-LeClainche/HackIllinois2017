@@ -38,7 +38,10 @@ public class Main
 					System.out.print("Total Fitness: " + genAlg.getTotalFitness() + "\t");
 					System.out.print("Average Fitness: " + genAlg.getAverageFitness() + "\t");
 					System.out.println("Worst Fitness: " + genAlg.getWorstFitness());
-
+					if (gen % 25 == 0)
+					{
+						print(genAlg.getPopulation().get(0));
+					}
 				}
 				print(genAlg.getPopulation().get(0));
 				System.exit(1);
