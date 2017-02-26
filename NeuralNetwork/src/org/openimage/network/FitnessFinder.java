@@ -42,14 +42,14 @@ public class FitnessFinder extends Thread
 	public double find(String[] classificationNames, double[][][] classifications)
 	{
 		double fitnessTotal = 0.0;
-		String result;
+		int result;
 
 		for(int i = 0; i < classifications.length; i++)
 		{
 			for(int j = 0; j < classifications[i].length; j++)
 			{
 				result = neuralNetwork.classify(classifications[i][j]);
-				if(result.equals(classificationNames[i]))
+				if(result == i)
 				{
 					fitnessTotal++;
 				}

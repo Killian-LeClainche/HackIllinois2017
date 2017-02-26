@@ -14,24 +14,41 @@ import java.util.List;
  */
 public class LSTM implements Node
 {
-    /*private enum Gate {
-        KEEP (0),
-        WRITE (1),
+	
+	public static final int KEEP = 0;
+	public static final int WRITE = 1;
+	public static final int READ = 2;
+	public static final int INPUT = 3;
+	public static final int MEMORY = 4;
+	public static final int OUTPUT = 5;
 
-    }*/
-
-    public Node keep;
+    /*public Node keep;
     public Node write;
     public Node read;
     public Node memory;
     public Node input;
-    public Node output;
+    public Node output;*/
+
+    public Node[] gates;
 
     public double value;
     public double previous;
 
     public LSTM ()
     {
+    	gates = new Node[6];
+    	gates[KEEP] = new Neuron(SquashFunction.STEP);
+    	gates[WRITE] = new Neuron(SquashFunction.STEP);
+    	gates[READ] = new Neuron(SquashFunction.STEP);
+    	gates[MEMORY] = new Neuron();
+    	gates[INPUT] = new Sensor();
+    	gates[OUTPUT] = new Neuron();
+    	
+    	gates[MEMORY].addIncomingNode(gates[MEMORY]);
+    	gates[MEMORY].addIncomingNode(gates[INPUT]);
+    	gates[OUTPUT].addIncomingNode(gates[MEMORY]);
+
+        /*
         keep = new Neuron(SquashFunction.STEP);
         write = new Neuron(SquashFunction.STEP);
         read = new Neuron(SquashFunction.STEP);
@@ -42,6 +59,7 @@ public class LSTM implements Node
         this.memory.addIncomingNode(memory); // The memory has a loopback for "remembering".
         this.memory.addIncomingNode(input); // Feed gated input to memory.
         this.output.addIncomingNode(memory); // Feed memory to gated output.
+        */
     }
 
     /**
@@ -51,10 +69,10 @@ public class LSTM implements Node
     {
         List<Node> nodes = new ArrayList<>();
 
-        nodes.addAll(this.keep.getIncomingNodes());
-        nodes.addAll(this.write.getIncomingNodes());
-        nodes.addAll(this.read.getIncomingNodes());
-        nodes.addAll(this.input.getIncomingNodes());
+        nodes.addAll(getKeep().getIncomingNodes());
+        nodes.addAll(getWrite().getIncomingNodes());
+        nodes.addAll(getRead().getIncomingNodes());
+        nodes.addAll(getInput().getIncomingNodes());
 
         return nodes;
     }
@@ -66,10 +84,10 @@ public class LSTM implements Node
     {
         List<Double> weights = new ArrayList<>();
 
-        weights.addAll(this.keep.getIncomingWeights());
-        weights.addAll(this.write.getIncomingWeights());
-        weights.addAll(this.read.getIncomingWeights());
-        weights.addAll(this.input.getIncomingWeights());
+        weights.addAll(getKeep().getIncomingWeights());
+        weights.addAll(getWrite().getIncomingWeights());
+        weights.addAll(getRead().getIncomingWeights());
+        weights.addAll(getInput().getIncomingWeights());
 
         return weights;
     }
@@ -81,51 +99,20 @@ public class LSTM implements Node
      */
     public void addIncomingNode(Node node, double weight)
     {
-        if (this.keep.getIncomingNodes().size() <= 0)
+        for (int i = 0; i < INPUT + 1; i++)
         {
-            this.keep.getIncomingNodes().add(node);
-            this.keep.getIncomingWeights().add(weight);
-        }
-        else if (this.write.getIncomingNodes().size() <= 0)
-        {
-            this.write.getIncomingNodes().add(node);
-            this.write.getIncomingWeights().add(weight);
-        }
-        else if (this.read.getIncomingNodes().size() <= 0)
-        {
-            this.read.getIncomingNodes().add(node);
-            this.read.getIncomingWeights().add(weight);
-        }
-        else if (this.input.getIncomingNodes().size() <= 0)
-        {
-            this.input.getIncomingNodes().add(node);
-            this.input.getIncomingWeights().add(weight);
-        }
-        else
-        {
-            int seed = org.openimage.Param.rng.nextInt(3 + 1);
-            switch (seed)
+            Node gate = gates[i];
+            if (gate.getIncomingNodes().size() <= 0)
             {
-                case 0:
-                    this.keep.getIncomingNodes().add(node);
-                    this.keep.getIncomingWeights().add(weight);
-                    break;
-                case 1:
-                    this.write.getIncomingNodes().add(node);
-                    this.write.getIncomingWeights().add(weight);
-                    break;
-                case 2:
-                    this.read.getIncomingNodes().add(node);
-                    this.read.getIncomingWeights().add(weight);
-                    break;
-                case 3:
-                    this.input.getIncomingNodes().add(node);
-                    this.input.getIncomingWeights().add(weight);
-                    break;
-                default:
-                    System.err.println("ERROR: Invalid RNG case " + seed);
+                gate.getIncomingNodes().add(node);
+                gate.getIncomingWeights().add(weight);
+                return;
             }
         }
+
+        int seed = org.openimage.Param.rng.nextInt(3 + 1);
+        gates[seed].getIncomingNodes().add(node);
+        gates[seed].getIncomingWeights().add(weight);
     }
 
     /**
@@ -134,53 +121,30 @@ public class LSTM implements Node
      */
     public void addIncomingNode(Node node)
     {
-        if (this.keep.getIncomingNodes().size() <= 0)
+        for (int i = 0; i < INPUT + 1; i++)
         {
-            addIncomingNode(node, (1 / Math.sqrt(this.keep.getIncomingNodes().size())) * Math.random());
-        }
-        else if (this.write.getIncomingNodes().size() <= 0)
-        {
-            addIncomingNode(node, (1 / Math.sqrt(this.write.getIncomingNodes().size())) * Math.random());
-        }
-        else if (this.read.getIncomingNodes().size() <= 0)
-        {
-            addIncomingNode(node, (1 / Math.sqrt(this.read.getIncomingNodes().size())) * Math.random());
-        }
-        else if (this.input.getIncomingNodes().size() <= 0)
-        {
-            addIncomingNode(node, (1 / Math.sqrt(this.input.getIncomingNodes().size())) * Math.random());
-        }
-        else
-        {
-            int seed = org.openimage.Param.rng.nextInt(3 + 1);
-            switch (seed)
+            Node gate = gates[i];
+            if (gate.getIncomingNodes().size() <= 0)
             {
-                case 0:
-                    addIncomingNode(node, (1 / Math.sqrt(this.keep.getIncomingNodes().size())) * Math.random());
-                    break;
-                case 1:
-                    addIncomingNode(node, (1 / Math.sqrt(this.write.getIncomingNodes().size())) * Math.random());
-                    break;
-                case 2:
-                    addIncomingNode(node, (1 / Math.sqrt(this.read.getIncomingNodes().size())) * Math.random());
-                    break;
-                case 3:
-                    addIncomingNode(node, (1 / Math.sqrt(this.input.getIncomingNodes().size())) * Math.random());
-                    break;
-                default:
-                    System.err.println("ERROR: Invalid RNG case " + seed);
+                gate.getIncomingNodes().add(node);
+                gate.getIncomingWeights().add((1 / Math.sqrt(gate.getIncomingNodes().size())) * Math.random());
+                return;
             }
         }
+
+        int seed = org.openimage.Param.rng.nextInt(3 + 1);
+        gates[seed].getIncomingNodes().add(node);
+        gates[seed].getIncomingWeights().add((1 / Math.sqrt(gates[seed].getIncomingNodes().size())) * Math.random());
     }
 
     public void normalizeWeights()
     {
-        for (int i = 0; i < this.keep.getIncomingNodes().size(); i++)
-        {
-            this.keep.getIncomingWeights().set(i, (1 / Math.sqrt(this.keep.getIncomingNodes().size())) * Math.random());
-            this.write.getIncomingWeights().set(i, (1 / Math.sqrt(this.write.getIncomingNodes().size())) * Math.random());
-            this.read.getIncomingWeights().set(i, (1 / Math.sqrt(this.read.getIncomingNodes().size())) * Math.random());
-            this.input.getIncomingWeights().set(i, (1 / Math.sqrt(this.input.getIncomingNodes().size())) * Math.random());
+        for (int i = 0; i < INPUT + 1; i++) {
+            Node gate = gates[i];
+            for (int j = 0; j < gate.getIncomingNodes().size(); j++)
+            {
+                gate.normalizeWeights();
+            }
         }
     }
 
@@ -191,7 +155,7 @@ public class LSTM implements Node
 
     public void setValue(double value)
     {
-        this.memory.setValue(value);
+        getMemory().setValue(value);
     }
 
     public double getPrevious()
@@ -207,31 +171,60 @@ public class LSTM implements Node
     {
         // Compute the current value.
         this.previous = this.value;
-        this.value = this.memory.getValue() * this.write.getValue();
+        this.value = getMemory().getValue() * getWrite().getValue();
 
         // Squash the memory with the recurrent loop and the read input.
-        this.memory.activate(this.input.getValue() * this.read.getPrevious() + this.memory.getValue() * this.keep.getValue());
+        getMemory().activate(getInput().getValue() * getRead().getPrevious() + getMemory().getValue() * getKeep().getValue());
 
         // Squash the gates for next cycle.
-        this.read.activate();
-        this.write.activate();
-        this.keep.activate();
+        getRead().activate();
+        getWrite().activate();
+        getKeep().activate();
 
         return this.value;
     }
 
     public double activate(double input) {
-        this.input.setValue(input);
+        getInput().setValue(input);
         return this.activate();
     }
 
     public void reset()
     {
-        this.keep.setValue(0);
-        this.write.setValue(0);
-        this.read.setValue(0);
-        this.memory.setValue(0);
-        this.input.setValue(0);
-        this.output.setValue(0);
+        for (Node node : gates)
+        {
+            node.setValue(0);
+        }
     }
+
+    public Node getKeep()
+    {
+        return this.gates[KEEP];
+    }
+
+    public Node getRead()
+    {
+        return this.gates[READ];
+    }
+
+    public Node getWrite()
+    {
+        return this.gates[WRITE];
+    }
+
+    public Node getInput()
+    {
+        return this.gates[INPUT];
+    }
+
+    public Node getMemory()
+    {
+        return this.gates[MEMORY];
+    }
+
+    public Node getOutput()
+    {
+        return this.gates[OUTPUT];
+    }
+    
 }

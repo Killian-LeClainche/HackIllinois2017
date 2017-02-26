@@ -45,6 +45,11 @@ public class GeneticAlgorithm
 		samplePool = SamplePool.create(new File("images"));
 		classificationNames = new String[samplePool.getClassificationSize()];
 		classifications = new double[samplePool.getClassificationSize()][][];
+		
+		for(int i = 0; i < classificationNames.length; i++)
+		{
+			classificationNames[i] = samplePool.getClassificationName(i);
+		}
 	}
 
 
@@ -175,8 +180,12 @@ public class GeneticAlgorithm
 	{
 		//Needs to account for fittest genome
 		population.forEach(genome -> averageFitness += genome.fitness);
-		totalFitness = averageFitness;
-		averageFitness /= population.size();
+
+		//lambda function for total fitness.
+		population.forEach(genome -> totalFitness += genome.fitness);
+		
+		//other variables.
+		averageFitness = totalFitness / population.size();
 		bestFitness = population.get(0).fitness;
 		worstFitness = population.get(population.size() - 1).fitness;
 	}
@@ -204,11 +213,10 @@ public class GeneticAlgorithm
 		
 		//Reset fitness variables
 		reset();
-		
-		
+
+		//generate a random sample for all classifications.
 		for(int i = 0; i < classificationNames.length; i++)
 		{
-			classificationNames[i] = samplePool.getClassificationName(i);
 			classifications[i] = samplePool.getSamplePool(i, samplePool.getPoolSize(i) / 2);
 		}
 		
@@ -218,6 +226,7 @@ public class GeneticAlgorithm
 		}
 		Future<?> future = Main.taskExecutor.submit(new FitnessFinder(population.get(population.size() - 1), this));
 		
+		//wait for all the threads above to finish.
 		while(future.isDone())
 		{
 			try
@@ -243,7 +252,6 @@ public class GeneticAlgorithm
 			grabNBestGenomes(Param.NUM_ELITE, Param.NUM_ELITE_COPIES, newPopulation);
 		}
 
-		
 		//Genetic Algorithm Loop
 		{
 			//Use two genomes
@@ -267,7 +275,9 @@ public class GeneticAlgorithm
 
 		//finished so assign new pop back into m_vecPop
 		population = newPopulation;
-				
+
+		computeStatistics();
+
 		return newPopulation;
 	}
 
