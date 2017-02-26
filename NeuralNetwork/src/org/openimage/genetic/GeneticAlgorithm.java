@@ -50,7 +50,7 @@ public class GeneticAlgorithm
 		}
 
 		population = new ArrayList<Genome>();
-		populationSize = 126;
+		populationSize = 63;
 
 		for(int i = 0; i < populationSize; i++)
 		{
@@ -219,15 +219,25 @@ public class GeneticAlgorithm
 		{
 			classifications[i] = samplePool.getSamplePool(i, samplePool.getPoolSize(i) / 10);
 		}
-
-		for(int i = 0; i < population.size() - 1; i++)
+		
+		List<Future<?>> futures = new ArrayList<Future<?>>();
+		
+		for(int i = 0; i < population.size(); i++)
 		{
-			Main.taskExecutor.execute(new FitnessFinder(i, population.get(i), this));
+			futures.add(Main.taskExecutor.submit(new FitnessFinder(i, population.get(i), this)));
 		}
-		Future<?> future = Main.taskExecutor.submit(new FitnessFinder(population.size() - 1, population.get(population.size() - 1), this));
-
-		//wait for all the threads above to finish.
-		while(!future.isDone());
+		
+		while(futures.size() != 0)
+		{
+			for(int i = 0; i < futures.size(); i++)
+			{
+				if(futures.get(i).isDone())
+				{
+					futures.remove(i);
+					i--;
+				}
+			}
+		}
 
 		//sort population for scaling and elitism
 		Collections.sort(population);
