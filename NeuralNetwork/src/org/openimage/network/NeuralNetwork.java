@@ -87,7 +87,7 @@ public class NeuralNetwork
 				while (outputIter.hasNext())
 				{
 					Node node = outputIter.next();
-					trackedOutputValues[count++] = node.getValue();
+					trackedOutputValues[count++] += node.getValue();
 				}
 			}
 		}
@@ -102,10 +102,10 @@ public class NeuralNetwork
 			while (outputIter.hasNext())
 			{
 				Node node = outputIter.next();
-				trackedOutputValues[count++] = node.getValue();
+				trackedOutputValues[count++] += node.getValue();
 			}
 		}
-
+		
 		int maxIndex = 0;
 		for (int i = 1; i < trackedOutputValues.length; i++)
 		{
@@ -255,6 +255,13 @@ public class NeuralNetwork
 			Layer layer = layerIter.next();
 			layer.activate();
 		}
+		Iterator<Node> outputIter = outputs.iterator();
+		while (outputIter.hasNext())
+		{
+			Node node = outputIter.next();
+			node.activate();
+		}
+
 	}
 
 	/**
@@ -275,81 +282,42 @@ public class NeuralNetwork
 		return col + (row * n);
 	}
 	
-	public static void main(String args[])
+	@Override
+	public String toString()
 	{
-		NeuralNetwork seed = new NeuralNetwork();
-		Genome genome = seed.getGenome();
-		NeuralNetwork make = new NeuralNetwork(genome);
-		Genome genome2 = make.getGenome();
-		NeuralNetwork make2 = new NeuralNetwork(genome2);
-		Genome genome3 = make2.getGenome();
-		NeuralNetwork make3 = new NeuralNetwork(genome3);
-		Genome genome4 = make3.getGenome();
+		String out = "";
+		for (Node node : inputs)
+		{
+			out += node.getValue() + "\t";
+		}
+		out += "\n";
+		for (Layer layer : layerList)
+		{
+			for (Node node : layer.nodes)
+			{
+				out += node.getValue() + "\t";
+			}
+			out += "\n";
+		}
+		for (Node node : outputs)
+		{
+			out += node.getValue() + "\t";
+		}
 		
-		Iterator<Double> d1 = genome.weights.iterator();
-		Iterator<Double> d2 = genome2.weights.iterator();
-		Iterator<Double> d3 = genome3.weights.iterator();
-		Iterator<Double> d4 = genome4.weights.iterator();
-		int count = 0;
-		int start = 0;
-		while (d1.hasNext())
-		{
-			Double a1 = d1.next();
-			Double a2 = d2.next();
-			Double a3 = d3.next();
-			Double a4 = d4.next();
-			count++;
-//			if (!a1.equals(a2))
-//			{
-//				System.out.println(count + " " + a1 + " " + a2);
-//			}
-//			if (!a2.equals(a3))
-//			{
-//				if (start == 0) {
-//					start = count;
-//				}
-//				System.out.println(count + " " + a2 + " " + a3);
-//			}
-//			if (!a3.equals(a4))
-//			{
-//				System.out.println(count + " " + a3 + " " + a4);
-//			}
-		}
-		System.out.println(genome.weights.size());
-		System.out.println(genome2.weights.size());
-		System.out.println(genome3.weights.size());
-		System.out.println(genome4.weights.size());
-//		System.out.println(start);
+		return out;
 	}
-
-	/*
+	
 	public static void main(String args[])
 	{
-		double[] imageInputNodes = new double[16 * 16];
-		List<Node> inputs = new ArrayList<Node>();
-		for (int i = 0; i < 64; i++)
+		double[] test = new double[1000];
+		for (int i = 0; i < test.length; i++)
 		{
-			inputs.add(new Neuron());
+			test[i] = Math.random();
 		}
+		
+		NeuralNetwork network = new NeuralNetwork();
+		network.classify(test);
+		System.out.println(network.toString());
 
-		int n = (int) Math.sqrt(imageInputNodes.length);
-
-		for (int y = 0; y + Param.BLOCK_SIZE < n + 1; y += Param.BLOCK_SIZE)
-		{
-			for (int x = 0; x + Param.BLOCK_SIZE < n + 1; x += Param.BLOCK_SIZE)
-			{
-				System.out.print(y + "\t" + x + "\t\t");
-			}
-			System.out.println();
-		}
-		System.out.println();
-		for (int y = 0; y + Param.BLOCK_SIZE < n + 1; y += Param.BLOCK_SIZE)
-		{
-			for (int x = 0; x + Param.BLOCK_SIZE < n + 1; x += Param.BLOCK_SIZE)
-			{
-				System.out.println(toIndex(y, x, n));
-			}
-		}
 	}
-	*/
 }
