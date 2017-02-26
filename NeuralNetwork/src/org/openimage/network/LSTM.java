@@ -79,6 +79,18 @@ public class LSTM implements Node
 
         return weights;
     }
+    
+    public List<List<Double>> getListOfIncomingWeights()
+    {
+        List<List<Double>> listList = new ArrayList<>();
+
+        listList.add(getKeep().getIncomingWeights());
+        listList.add(getWrite().getIncomingWeights());
+        listList.add(getRead().getIncomingWeights());
+        listList.add(getInput().getIncomingWeights());
+
+        return listList;
+    }
 
     /**
      * Add node input to a gate with a missing input, otherwise a random gate.

@@ -139,7 +139,7 @@ public class NeuralNetwork
 		
 		while (size > Param.CATEGORY_NUM*4)
 		{
-			layer = new Layer(size, 1);
+			layer = new Layer(size, size/4);
 
 			weightList = arrayList.subList(index, index + preSize * size);
 			index += preSize * size;
@@ -176,7 +176,7 @@ public class NeuralNetwork
 		
 		while (size > Param.CATEGORY_NUM*4)
 		{
-			layer = new Layer(size, 0);
+			layer = new Layer(size, size/4);
 
 			layer.connectAfter(preLayer);
 			layer.normalizeWeights();
