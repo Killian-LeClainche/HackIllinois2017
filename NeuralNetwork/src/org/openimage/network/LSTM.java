@@ -106,7 +106,7 @@ public class LSTM implements Node
         }
 
         gates[minIndex].getIncomingNodes().add(node);
-        gates[minIndex].getIncomingWeights().add((1 / Math.sqrt(gates[minIndex].getIncomingNodes().size())) * Math.random());
+        gates[minIndex].getIncomingWeights().add(weight);
 
         /*int seed = org.openimage.Param.rng.nextInt(3 + 1);
         gates[seed].getIncomingNodes().add(node);

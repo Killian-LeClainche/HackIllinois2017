@@ -165,8 +165,8 @@ public class Neuron implements Node
 
 	public String toString()
 	{
-		return "Neuron { id: " + this.hashCode() + ", incomingNodes: " + Arrays.toString(this.incomingNodes.toArray())
-				+ " " + ", incomingWeights: " + Arrays.toString(this.incomingNodes.toArray()) + " " + ", value: "
+		return "Neuron { id: " + this.hashCode() + ", incomingNodes: [" + this.incomingNodes.size()
+				+ " " + "], incomingWeights: [" + this.incomingNodes.size() + "] " + ", value: "
 				+ this.value + " }";
 	}
 
