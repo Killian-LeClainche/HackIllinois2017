@@ -51,10 +51,16 @@ public class GeneticAlgorithm
 
 		population = new ArrayList<Genome>();
 
-		for(int i = 0; i < 200; i++)
+		for(int i = 0; i < 30; i++)
 		{
 			population.add(new NeuralNetwork().getGenome());
 		}
+		
+		populationSize = population.size();
+		mutationRate = .1;
+		crossoverRate = 0.7;
+		genomeLength = Param.BLOCK_SIZE * Param.BLOCK_SIZE;
+		genomeLength *= genomeLength;
 	}
 
 
@@ -176,9 +182,6 @@ public class GeneticAlgorithm
 	 */
 	private void computeStatistics()
 	{
-		//Needs to account for fittest genome
-		population.forEach(genome -> averageFitness += genome.fitness);
-
 		//lambda function for total fitness.
 		population.forEach(genome -> totalFitness += genome.fitness);
 
@@ -215,27 +218,17 @@ public class GeneticAlgorithm
 		//generate a random sample for all classifications.
 		for(int i = 0; i < classificationNames.length; i++)
 		{
-			classifications[i] = samplePool.getSamplePool(i, samplePool.getPoolSize(i) / 2);
+			classifications[i] = samplePool.getSamplePool(i, samplePool.getPoolSize(i) / 10);
 		}
 
 		for(int i = 0; i < population.size() - 1; i++)
 		{
-			Main.taskExecutor.execute(new FitnessFinder(population.get(i), this));
+			Main.taskExecutor.execute(new FitnessFinder(i, population.get(i), this));
 		}
-		Future<?> future = Main.taskExecutor.submit(new FitnessFinder(population.get(population.size() - 1), this));
+		Future<?> future = Main.taskExecutor.submit(new FitnessFinder(population.size() - 1, population.get(population.size() - 1), this));
 
 		//wait for all the threads above to finish.
-		while(future.isDone())
-		{
-			try
-			{
-				Thread.sleep(1);
-			} 
-			catch (InterruptedException e)
-			{
-				e.printStackTrace();
-			}
-		}
+		while(!future.isDone());
 
 		//sort population for scaling and elitism
 		Collections.sort(population);
@@ -279,11 +272,11 @@ public class GeneticAlgorithm
 			newPopulation.add(new Genome(child1));
 			newPopulation.add(new Genome(child2));
 		}
+		
+		computeStatistics();
 
 		//finished so assign new pop back into m_vecPop
 		population = newPopulation;
-
-		computeStatistics();
 
 		return newPopulation;
 	}

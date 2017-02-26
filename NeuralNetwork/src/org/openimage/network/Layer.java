@@ -59,13 +59,31 @@ public class Layer
         while(nodeIterator.hasNext())
         {
             Node node = nodeIterator.next();
-            List<Double> oldWeights = node.getIncomingWeights();
-            for (int i = 0; i < oldWeights.size(); i++)
+            if (node instanceof Neuron)
+	        {
+	            List<Double> oldWeights = node.getIncomingWeights();
+	            for (int i = 0; i < oldWeights.size(); i++)
+	            {
+	                if (weightIterator.hasNext())
+	                {
+	                    oldWeights.set(i, weightIterator.next());
+	                }
+	            }
+	        }
+            else 
             {
-                if (weightIterator.hasNext())
-                {
-                    oldWeights.set(i, weightIterator.next());
-                }
+            	LSTM lstm = (LSTM) node;
+            	List<List<Double>> oldWeights = lstm.getListOfIncomingWeights();
+            	for (List<Double> list : oldWeights)
+            	{
+            		for (int i = 0; i < list.size(); i++)
+            		{
+            			if (weightIterator.hasNext())
+            			{
+            				list.set(i, weightIterator.next());
+            			}
+            		}
+            	}
             }
         }
     }
@@ -191,25 +209,27 @@ public class Layer
     }
 
     public static void main(String[] args) {
-        Layer a = new Layer(8, 3);
-        Layer b = new Layer(8, 3);
-
-        System.out.println(a.toString());
-        System.out.println(b.toString());
-
-        Layer c = new Layer(a.nodes);
-
-        System.out.println(c.toString());
-
-        b.connectAfter(a);
-
-        System.out.println(b.toString());
-
-        List<Double> weights = a.getWeights();
-
-        Layer d = new Layer(8, 3);
-        d.addWeights(weights);
-
-        System.out.println(d);
+    	List<Double> list = new ArrayList<Double>();
+    	for (int i = 0; i < 64; i++)
+    	{
+    		list.add(new Double(5));
+    	}
+    	
+        Layer a = new Layer(8, 0);
+        Layer b = new Layer(8, 0);
+        Layer c = new Layer(8, 1);
+        
+        b.connectAfter(a, list);
+        c.connectAfter(a, list);
+        
+        System.out.println(b.getWeights());
+        System.out.println(c.getWeights());
+        
+        List<Double> list2 = new ArrayList<Double>();
+        list2.addAll(list);
+        list2.set(1, new Double(2));
+        System.out.println();
+        System.out.println(list);
+        System.out.println(list2);
     }
 }

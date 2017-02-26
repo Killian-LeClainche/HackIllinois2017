@@ -15,7 +15,7 @@ public class SensorLayer extends Layer
         System.err.println("Invalid constructor");
     }
 
-    public SensorLayer(int size)
+    /*public SensorLayer(int size)
     {
         nodes = new ArrayList<Node>(size);
 
@@ -34,5 +34,5 @@ public class SensorLayer extends Layer
         }
     }
 
-    public
+    public*/
 }
