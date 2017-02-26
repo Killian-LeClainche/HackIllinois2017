@@ -9,7 +9,8 @@ import org.openimage.genetic.Genome;
 
 /**
  * TODO
- * 
+ *
+ * @author Jarett Lee
  */
 public class NeuralNetwork
 {
