@@ -150,9 +150,9 @@ public class NeuralNetwork
 			size /= 2;
 		}
 
-		weightList = arrayList.subList(index, arrayList.size()-1);
+		weightList = arrayList.subList(index, arrayList.size());
 		Layer outputLayer = new Layer(outputs);
-		outputLayer.connectAfter(outputLayer, weightList);
+		outputLayer.connectAfter(preLayer, weightList);
 	}
 	
 	private void instantiateHiddenLayer()
@@ -164,8 +164,8 @@ public class NeuralNetwork
 		Layer preLayer = new Layer(size, 0);
 
 		preLayer.connectAfter(inputLayer);
-
-		int index = size;
+		preLayer.normalizeWeights();
+		
 		layerList.add(preLayer);
 
 		Layer layer;
@@ -176,22 +176,24 @@ public class NeuralNetwork
 		{
 			layer = new Layer(size, 0);
 
-			index += size * size;
 			layer.connectAfter(preLayer);
+			layer.normalizeWeights();
 
 			layerList.add(layer);
 
 			preLayer = layer;
 			size /= 2;
 		}
-
+		
 		Layer outputLayer = new Layer(outputs);
-		outputLayer.connectAfter(outputLayer);
+		outputLayer.connectAfter(preLayer);
+		outputLayer.normalizeWeights();
+		System.out.println(outputLayer.getWeights());
 	}
 	
 	private void instantiateInputs()
 	{
-		for (int i = 0; i < Param.BLOCK_SIZE; i++)
+		for (int i = 0; i < Param.BLOCK_SIZE * Param.BLOCK_SIZE; i++)
 		{
 			inputs.add(new Neuron());
 		}
@@ -211,9 +213,12 @@ public class NeuralNetwork
 		for (Layer layer : layerList)
 		{
 			list.addAll(layer.getWeights());
+			System.out.println(list.size());
 		}
 		Layer outputLayer = new Layer(outputs);
 		list.addAll(outputLayer.getWeights());
+		System.out.println(list.size());
+		System.out.println();
 		return new Genome(list);
 	}
 
@@ -276,16 +281,44 @@ public class NeuralNetwork
 	{
 		NeuralNetwork seed = new NeuralNetwork();
 		Genome genome = seed.getGenome();
-		System.out.println(genome.weights.subList(0, 5));
-		System.out.println(genome.weights.size());
 		NeuralNetwork make = new NeuralNetwork(genome);
 		Genome genome2 = make.getGenome();
-		System.out.println(genome2.weights.subList(0, 5));
+		NeuralNetwork make2 = new NeuralNetwork(genome2);
+		Genome genome3 = make2.getGenome();
+		NeuralNetwork make3 = new NeuralNetwork(genome3);
+		Genome genome4 = make3.getGenome();
+		
+		Iterator<Double> d1 = genome.weights.iterator();
+		Iterator<Double> d2 = genome2.weights.iterator();
+		Iterator<Double> d3 = genome3.weights.iterator();
+		Iterator<Double> d4 = genome4.weights.iterator();
+		int count = 0;
+		while (d1.hasNext())
+		{
+			Double a1 = d1.next();
+			Double a2 = d2.next();
+			Double a3 = d3.next();
+			Double a4 = d4.next();
+			count++;
+			/*
+			if (!a1.equals(a2))
+			{
+				System.out.println(count + " " + a1 + " " + a2);
+			}
+			if (!a2.equals(a3))
+			{
+				System.out.println(count + " " + a2 + " " + a3);
+			}
+			if (!a3.equals(a4))
+			{
+				System.out.println(count + " " + a3 + " " + a4);
+			}
+			*/
+		}
+		System.out.println(genome.weights.size());
 		System.out.println(genome2.weights.size());
-		NeuralNetwork seed2 = new NeuralNetwork(genome);
-		Genome genome3 = seed2.getGenome();
-		System.out.println(genome3.weights.subList(0, 5));
 		System.out.println(genome3.weights.size());
+		System.out.println(genome4.weights.size());
 	}
 
 	/*
