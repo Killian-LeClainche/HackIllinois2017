@@ -52,7 +52,7 @@ public class GeneticAlgorithm
 		}
 
 		population = new ArrayList<Genome>();
-		populationSize = 63;
+		populationSize = 126;
 
 		for(int i = 0; i < populationSize; i++)
 		{
@@ -62,7 +62,7 @@ public class GeneticAlgorithm
 			
 		}
 
-		mutationRate = .1;
+		mutationRate = .2;
 		crossoverRate = 0.7;
 		genomeLength = population.get(0).getWeights().size();
 	}
@@ -224,14 +224,14 @@ public class GeneticAlgorithm
 		//Reset fitness variables
 		reset();
 
-		if(-- count == 0)
+		if(-- count == 0 || bestFitness > 25 * .9)
 		{
 			//generate a random sample for all classifications.
 			for(int i = 0; i < classificationNames.length; i++)
 			{
-				classifications[i] = samplePool.getSamplePool(i, 350);
+				classifications[i] = samplePool.getSamplePool(i, 25);
 			}
-			count = 1000000;
+			count = 100;
 			System.out.println("NEW POOL!");
 		}
 
