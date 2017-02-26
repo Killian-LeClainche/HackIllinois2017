@@ -128,10 +128,8 @@ public class GeneticAlgorithm
 	 */
 	private Genome getGenomeRoulette()
 	{
-		Random generator = new Random();
-
 		//generate a random number between 0 & total fitness count
-		double slice = (double)(generator.nextDouble() * totalFitness);
+		double slice = (double)((Math.random() - .1) * totalFitness);
 
 		//this will be set to the chosen genome
 		Genome selectedGenome = null;
