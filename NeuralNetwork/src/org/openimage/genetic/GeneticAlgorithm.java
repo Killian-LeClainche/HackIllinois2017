@@ -289,18 +289,24 @@ public class GeneticAlgorithm
 		return population;
 	}
 	
-	/**
-	 * Finds the average fitness of the current generation
-	 * @return average fitness
-	 */
-	double averageFitness()
-	{
-		return totalFitness / populationSize;
-	}
-	
-	double bestFitness()
+	public double getBestFitness()
 	{
 		return bestFitness;
+	}
+	
+	public double getAverageFitness()
+	{
+		return averageFitness;
+	}
+	
+	public double getWorstFitness()
+	{
+		return this.worstFitness;
+	}
+	
+	public double getTotalFitness()
+	{
+		return this.totalFitness;
 	}
 	
 	public String[] getClassificationNames()
