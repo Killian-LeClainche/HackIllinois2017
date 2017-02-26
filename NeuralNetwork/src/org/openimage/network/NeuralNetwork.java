@@ -15,7 +15,6 @@ public class NeuralNetwork
 {
 	private List<Node> inputs;
 	private List<Node> outputs;
-	private List<String> classifications;
 	private List<Node> completeNodeList;
 
 	/**
@@ -50,10 +49,9 @@ public class NeuralNetwork
 	 *            A 2D array represented as a 1D array
 	 * @return
 	 */
-	public String classify(double[] imageInputNodes)
+	public int classify(double[] imageInputNodes)
 	{
-		int index = findHeaviestWeightIndex(imageInputNodes);
-		return classifications.get(index);
+		return findHeaviestWeightIndex(imageInputNodes);
 	}
 
 	/**

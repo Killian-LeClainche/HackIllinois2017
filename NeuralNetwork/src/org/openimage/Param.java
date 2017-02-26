@@ -25,6 +25,7 @@ public class Param
 	public static final double MAX_PERTURBATION;
 	public static Random rng = new Random();
 
+
 	static
 	{
 		Wini ini = loadParamsFile();
