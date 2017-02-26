@@ -16,10 +16,10 @@ public class Genome implements Comparable<Genome>
 		fitness = 0;
 	}
 
-	public Genome(ArrayList<Double> weights, double fitness)
+	public Genome(ArrayList<Double> weights)
 	{
 		this.weights = weights;
-		this.fitness = fitness;
+		this.fitness = 0;
 	}
 
 	@Override

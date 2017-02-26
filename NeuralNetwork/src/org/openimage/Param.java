@@ -20,6 +20,10 @@ public class Param
 	public static final int BLOCK_SIZE;
 	public static final int FITNESS_CASE_SIZE;
 	public static final double MAX_PERTURBATION;
+	public static final int NUM_ELITE_COPIES;
+	public static final int NUM_ELITE;
+
+
 	public static Random rng = new Random();
 
 
@@ -30,6 +34,8 @@ public class Param
 		BLOCK_SIZE = Integer.parseInt(section.get("blockSize"));
 		FITNESS_CASE_SIZE = Integer.parseInt(section.get("fitnessCaseSize"));
 		MAX_PERTURBATION = new Double(section.get("maxPerturbation"));
+		NUM_ELITE_COPIES = Integer.parseInt(section.get("numEliteCopies"));
+		NUM_ELITE = Integer.parseInt(section.get("numElite"));
 
 	}
 
