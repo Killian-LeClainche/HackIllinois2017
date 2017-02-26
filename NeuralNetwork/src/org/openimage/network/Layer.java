@@ -44,7 +44,13 @@ public class Layer
      */
     public Layer(List<Node> inputs)
 	{
-        this.nodes = inputs;
+        for (Node node : inputs)
+        {
+            if (node != null)
+            {
+                this.nodes = inputs;
+            }
+        }
 	}
 
     /**
