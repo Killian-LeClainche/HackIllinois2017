@@ -169,9 +169,13 @@ public class LSTM implements Node
      */
     public double activate()
     {
+        // It is possible that a gate recieved no nodes.
         assert(getKeep().getIncomingNodes().size() > 0 &&
             getRead().getIncomingNodes().size() > 0 &&
-            );
+            getWrite().getIncomingNodes().size() > 0 &&
+            getInput().getIncomingNodes().size() > 0 &&
+            getMemory().getIncomingNodes().size() > 0 &&
+            getOutput().getIncomingNodes().size() > 0);
 
         // Compute the current value.
         this.previous = this.value;
