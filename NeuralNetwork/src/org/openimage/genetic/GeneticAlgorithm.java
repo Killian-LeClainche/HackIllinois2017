@@ -145,6 +145,7 @@ public class GeneticAlgorithm
 			if (cumulativeFitness >= slice)
 			{
 				selectedGenome = population.get(i);
+				System.out.println(i);
 				break;
 			}
 		}
@@ -161,6 +162,7 @@ public class GeneticAlgorithm
 	 */
 	private void grabNBestGenomes(int n, int numCopies, List<Genome>population)
 	{
+
 		int index = 0;
 		while(index < n)
 		{

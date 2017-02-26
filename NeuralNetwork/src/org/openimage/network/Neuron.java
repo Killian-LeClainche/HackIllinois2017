@@ -53,7 +53,10 @@ public class Neuron implements Node
 	{
 		this.incomingNodes = new ArrayList<Node>();
 		this.incomingWeights = new ArrayList<Double>();
+		this.incomingNodes.add(null); // For Bias.
+		this.incomingWeights.add(0.0); // For Bias.
 		this.value = 0.0;
+		this.previous = 0.0;
 		this.squash = squash;
 	}
 
@@ -65,7 +68,10 @@ public class Neuron implements Node
 	{
 		this.incomingNodes = new ArrayList<Node>();
 		this.incomingWeights = new ArrayList<Double>();
+		this.incomingNodes.add(null); // For Bias.
+		this.incomingWeights.add(0.0); // For Bias.
 		this.value = 0.0;
+		this.previous = 0.0;
 		this.squash = SquashFunction.LOGISTIC;
 	}
 
@@ -121,7 +127,10 @@ public class Neuron implements Node
 		double weightedSum = 0;
 		for (int i = 0; i < this.incomingNodes.size(); i++)
 		{
-			weightedSum += this.incomingWeights.get(i) * this.incomingNodes.get(i).getValue();
+			if (this.incomingNodes.get(i) == null)
+				weightedSum += this.incomingWeights.get(i) * -1;
+			else
+				weightedSum += this.incomingWeights.get(i) * this.incomingNodes.get(i).getValue();
 		}
 
 		// Use the logistic sigmoid curve for squashing.
@@ -173,5 +182,11 @@ public class Neuron implements Node
 	public void reset()
 	{
 		this.value = 0.0;
+	}
+
+	public static void main(String[] args) {
+		for (int x = -100; x < 100; x++) {
+			System.out.println(x / 100.0 + "\t" + LOGISTIC(x / 100.0));
+		}
 	}
 }
