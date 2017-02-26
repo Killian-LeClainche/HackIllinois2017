@@ -124,6 +124,18 @@ public class NeuralNetwork
 		Layer preLayer = new Layer(Param.BLOCK_SIZE, 0);
 		preLayer.connectAfter(inputLayer);
 
+
+		List<Double> weightList = null;
+		if (arrayList != null)
+		{
+			weightList = arrayList.subList(0, Param.BLOCK_SIZE);
+			for (int i = 0; i < Param.BLOCK_SIZE; i++)
+			{
+				arrayList.remove(0);
+			}
+			preLayer.addWeights(weightList);
+		}
+
 		layerList.add(preLayer);
 		
 		int size = Param.BLOCK_SIZE / 2;
@@ -136,6 +148,11 @@ public class NeuralNetwork
 			layer.connectAfter(preLayer);
 			if (arrayList == null)
 			{
+				weightList = arrayList.subList(0, size);
+			for (int i = 0; i < size; i++)
+			{
+				arrayList.remove(0);
+			}
 				layer.addWeights(arrayList);
 			}
 
