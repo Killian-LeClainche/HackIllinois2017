@@ -116,16 +116,20 @@ public class NeuralNetwork
 	 * @param arrayList 
 	 * 
 	 */
-	private void createCompleteNodeList(ArrayList<Double> arrayList)
+	private void createCompleteNodeList(List<Double> arrayList)
 	{
 		instantiateInputs();
 		instantiateOutputs();
 		instantiateHiddenLayer(arrayList);
 	}
 
-	private void instantiateHiddenLayer(ArrayList<Double> arrayList)
+	private void instantiateHiddenLayer(List<Double> arrayList)
 	{
-		
+		int size = Param.BLOCK_SIZE * Param.BLOCK_SIZE;
+		for (int i = 0; i < size; i++)
+		{
+			
+		}
 	}
 
 	private void createRandomNodeList()
@@ -137,7 +141,26 @@ public class NeuralNetwork
 	
 	private void instantiateHiddenLayer()
 	{
+		// Add largest layer
+		Layer inputLayer = new Layer(inputs);
+		Layer preLayer = new Layer(Param.BLOCK_SIZE, 0);
+		preLayer.connectAfter(inputLayer);
 		
+		int size = Param.BLOCK_SIZE / 2;
+
+		Layer layer = new Layer(size, 0);
+		
+		while (size > Param.CATEGORY_NUM)
+		{
+			layer = new Layer(size, 0);
+			layer.connectAfter(preLayer);
+
+			preLayer = layer;
+			size /= 2;
+		}
+		
+		Layer outputLayer = new Layer(outputs);
+		outputLayer.connectAfter(outputLayer);
 	}
 	
 	private void instantiateInputs()

@@ -1,6 +1,7 @@
 package org.openimage.network;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class Layer
 {
@@ -9,7 +10,7 @@ public class Layer
         // TODO Generate a layer with Size Nodes, with a set number of LSTM Nodes.
     }
 
-    public Layer (ArrayList<Node> nodes)
+    public Layer (List<Node> completeNodeList)
     {
         // TODO Generate a layer with given Nodes.
     }
