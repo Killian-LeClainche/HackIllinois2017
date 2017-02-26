@@ -22,10 +22,12 @@ public class Main
 		taskExecutor = Executors.newFixedThreadPool(Math.max(Runtime.getRuntime().availableProcessors() - 1, 1));
 		
 		final GeneticAlgorithm genAlg = new GeneticAlgorithm();
+		System.out.println("Finished loading images...");
 		new Thread()
 		{
 			public void run()
 			{
+				System.out.println("Let's begin");
 				while(flag)
 				{
 					genAlg.epoch();

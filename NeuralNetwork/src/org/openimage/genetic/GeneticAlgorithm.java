@@ -12,7 +12,7 @@ import org.openimage.Main;
 import org.openimage.Param;
 import org.openimage.io.SamplePool;
 import org.openimage.network.FitnessFinder;
-import org.openimage.genetic.Genome;
+import org.openimage.network.NeuralNetwork;
 /**
  * This class generates new Genomes from a parent Genome.
  * 
@@ -47,6 +47,13 @@ public class GeneticAlgorithm
 		for(int i = 0; i < classificationNames.length; i++)
 		{
 			classificationNames[i] = samplePool.getClassificationName(i);
+		}
+		
+		population = new ArrayList<Genome>();
+		
+		for(int i = 0; i < 200; i++)
+		{
+			population.add(new NeuralNetwork().getGenome());
 		}
 	}
 
@@ -211,6 +218,7 @@ public class GeneticAlgorithm
 		
 		//Reset fitness variables
 		reset();
+		System.out.println("epoch!");
 
 		//generate a random sample for all classifications.
 		for(int i = 0; i < classificationNames.length; i++)

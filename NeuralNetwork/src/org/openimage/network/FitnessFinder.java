@@ -8,7 +8,7 @@ import org.openimage.genetic.Genome;
  * 
  * @author Jarett Lee
  */
-public class FitnessFinder extends Thread
+public class FitnessFinder implements Runnable
 {
 	private Genome genome;
 	private NeuralNetwork neuralNetwork;
@@ -28,7 +28,9 @@ public class FitnessFinder extends Thread
 	
 	public void run()
 	{
+		System.out.println("Starting!");
 		this.genome.fitness = find(geneticAlgorithm.getClassificationNames(), geneticAlgorithm.getClassifications());
+		System.out.println("Loaded!");
 	}
 
 	/**
