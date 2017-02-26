@@ -10,6 +10,7 @@ import org.openimage.genetic.Genome;
  */
 public class FitnessFinder implements Runnable
 {
+	private int index;
 	private Genome genome;
 	private NeuralNetwork neuralNetwork;
 	private GeneticAlgorithm geneticAlgorithm;
@@ -19,8 +20,9 @@ public class FitnessFinder implements Runnable
 	 * 
 	 * @param genome
 	 */
-	public FitnessFinder(Genome gen, GeneticAlgorithm genetic)
+	public FitnessFinder(int i, Genome gen, GeneticAlgorithm genetic)
 	{
+		this.index = i;
 		this.genome = gen;
 		this.neuralNetwork = new NeuralNetwork(gen);
 		this.geneticAlgorithm = genetic;
