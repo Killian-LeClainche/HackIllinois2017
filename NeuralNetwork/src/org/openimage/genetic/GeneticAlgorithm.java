@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
 import java.util.Random;
 import java.util.concurrent.Future;
 
@@ -20,7 +21,7 @@ public class GeneticAlgorithm
 {
 	private SamplePool samplePool;
 	
-	private ArrayList<Genome> population; // Holds the entire population of
+	private List<Genome> population; // Holds the entire population of
 											// genomes
 	private int populationSize; // Size of the population
 	private int genomeLength; // Weights per genome
@@ -68,7 +69,7 @@ public class GeneticAlgorithm
 	 * @param child2
 	 *            storage location for the second output genome
 	 */
-	private void crossover(ArrayList<Double>mother, ArrayList<Double>father, ArrayList<Double>child1, ArrayList<Double>child2)
+	private void crossover(List<Double>mother, List<Double>father, List<Double>child1, List<Double>child2)
 	{
 		Random generator = new Random();
 		//If the random value is outside the crossover rate or parents are the same, do not crossover
@@ -105,7 +106,7 @@ public class GeneticAlgorithm
 	 * genome's weights by no more than MAX_PERTURBATION
 	 * @param genome
 	 */
-	private void mutate(ArrayList<Double>genome)
+	private void mutate(List<Double>genome)
 	{
 		Random generator = new Random();
 		//Traverse genome and perturb weights based on mutation rate
@@ -159,7 +160,7 @@ public class GeneticAlgorithm
 	 * @param numCopies number of copies of each n most fit genomes
 	 * @param population the output population of most fit genomes
 	 */
-	private void grabNBestGenomes(int n, int numCopies, ArrayList<Genome>population)
+	private void grabNBestGenomes(int n, int numCopies, List<Genome>population)
 	{
 		while(n > 0)
 		{
@@ -208,7 +209,7 @@ public class GeneticAlgorithm
 	 * to be modified using fitness values then returned
 	 * @return then new population
 	 */
-	public ArrayList<Genome> epoch()
+	public List<Genome> epoch()
 	{		
 		
 		//Reset fitness variables
@@ -244,7 +245,7 @@ public class GeneticAlgorithm
 		
 		//ArrayList to hold new population
 		//Future feature: optimize to reuse old population arrayList
-		ArrayList<Genome> newPopulation = null;
+		List<Genome> newPopulation = null;
 
 		//Add the fittest genomes back in for elitism
 		if ((Param.NUM_ELITE_COPIES * Param.NUM_ELITE % 2) < 0)
@@ -261,8 +262,8 @@ public class GeneticAlgorithm
 			Genome father = getGenomeRoulette();
 
 			//create some offspring via crossover
-			ArrayList<Double> child1 = null;
-			ArrayList<Double> child2 = null;
+			List<Double> child1 = null;
+			List<Double> child2 = null;
 
 			crossover(mother.weights, father.weights, child1, child2);
 
@@ -283,7 +284,7 @@ public class GeneticAlgorithm
 		return newPopulation;
 	}
 
-	public ArrayList<Genome> getPopulation() 
+	public List<Genome> getPopulation() 
 	{
 		return population;
 	}

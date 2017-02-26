@@ -44,7 +44,7 @@ public class NeuralNetwork
 		outputs = new ArrayList<Node>(Param.CATEGORY_NUM);
 		instantiateOutputs();
 		layerList = new ArrayList<Layer>();
-		instantiateHiddenLayer(null);
+		instantiateHiddenLayer();
 	}
 
 	/**
@@ -119,32 +119,71 @@ public class NeuralNetwork
 
 	private void instantiateHiddenLayer(List<Double> arrayList)
 	{
+		int size = Param.BLOCK_SIZE * Param.BLOCK_SIZE;
+
 		// Add largest layer
 		Layer inputLayer = new Layer(inputs);
-		Layer preLayer = new Layer(Param.BLOCK_SIZE, 0);
-		preLayer.connectAfter(inputLayer);
+		Layer preLayer = new Layer(size, 0);
 
+		List<Double> weightList = arrayList.subList(0, size * size);
+		preLayer.connectAfter(inputLayer, weightList);
+
+		int index = size;
 		layerList.add(preLayer);
-		
-		int size = Param.BLOCK_SIZE / 2;
 
 		Layer layer;
+		
+		size /= 2;
 		
 		while (size > Param.CATEGORY_NUM)
 		{
 			layer = new Layer(size, 0);
-			layer.connectAfter(preLayer);
-			if (arrayList == null)
-			{
-				layer.addWeights(arrayList);
-			}
+
+			weightList = arrayList.subList(index, index + size * size);
+			index += size * size;
+			layer.connectAfter(preLayer, weightList);
 
 			layerList.add(layer);
 
 			preLayer = layer;
 			size /= 2;
 		}
+
+		weightList = arrayList.subList(index, arrayList.size()-1);
+		Layer outputLayer = new Layer(outputs);
+		outputLayer.connectAfter(outputLayer, weightList);
+	}
+	
+	private void instantiateHiddenLayer()
+	{
+		int size = Param.BLOCK_SIZE * Param.BLOCK_SIZE;
+
+		// Add largest layer
+		Layer inputLayer = new Layer(inputs);
+		Layer preLayer = new Layer(size, 0);
+
+		preLayer.connectAfter(inputLayer);
+
+		int index = size;
+		layerList.add(preLayer);
+
+		Layer layer;
 		
+		size /= 2;
+		
+		while (size > Param.CATEGORY_NUM)
+		{
+			layer = new Layer(size, 0);
+
+			index += size * size;
+			layer.connectAfter(preLayer);
+
+			layerList.add(layer);
+
+			preLayer = layer;
+			size /= 2;
+		}
+
 		Layer outputLayer = new Layer(outputs);
 		outputLayer.connectAfter(outputLayer);
 	}
@@ -167,7 +206,14 @@ public class NeuralNetwork
 	
 	public Genome getGenome()
 	{
-		return null;
+		List<Double> list = new ArrayList<Double>();
+		for (Layer layer : layerList)
+		{
+			list.addAll(layer.getWeights());
+		}
+		Layer outputLayer = new Layer(outputs);
+		list.addAll(outputLayer.getWeights());
+		return new Genome(list);
 	}
 
 	/**
@@ -224,7 +270,24 @@ public class NeuralNetwork
 	{
 		return col + (row * n);
 	}
+	
+	public static void main(String args[])
+	{
+		NeuralNetwork seed = new NeuralNetwork();
+		Genome genome = seed.getGenome();
+		System.out.println(genome.weights.subList(0, 5));
+		System.out.println(genome.weights.size());
+		NeuralNetwork make = new NeuralNetwork(genome);
+		Genome genome2 = make.getGenome();
+		System.out.println(genome2.weights.subList(0, 5));
+		System.out.println(genome2.weights.size());
+		NeuralNetwork seed2 = new NeuralNetwork(genome);
+		Genome genome3 = seed2.getGenome();
+		System.out.println(genome3.weights.subList(0, 5));
+		System.out.println(genome3.weights.size());
+	}
 
+	/*
 	public static void main(String args[])
 	{
 		double[] imageInputNodes = new double[16 * 16];
@@ -253,4 +316,5 @@ public class NeuralNetwork
 			}
 		}
 	}
+	*/
 }
