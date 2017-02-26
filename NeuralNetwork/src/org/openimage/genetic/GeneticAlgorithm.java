@@ -66,7 +66,7 @@ public class GeneticAlgorithm
 			population.add(g);	
 		}
 
-		mutationRate = .2;
+		mutationRate = .3;
 		crossoverRate = 0.7;
 		genomeLength = population.get(0).getWeights().size();
 	}
@@ -229,9 +229,9 @@ public class GeneticAlgorithm
 			//generate a random sample for all classifications.
 			for(int i = 0; i < classificationNames.length; i++)
 			{
-				classifications[i] = samplePool.getSamplePool(i, 125);
+				classifications[i] = samplePool.getSamplePool(i, samplePool.getPoolSize(1));
 			}
-			count = 300;
+			count = 10000;
 			System.out.println("NEW POOL!");
 		}
 
