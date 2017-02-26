@@ -131,22 +131,24 @@ public class NeuralNetwork
 
 		int index = size;
 		layerList.add(preLayer);
-
+		
 		Layer layer;
 		
+		int preSize = size;
 		size /= 2;
 		
-		while (size > Param.CATEGORY_NUM)
+		while (size > Param.CATEGORY_NUM*2)
 		{
 			layer = new Layer(size, 0);
 
-			weightList = arrayList.subList(index, index + size * size);
-			index += size * size;
+			weightList = arrayList.subList(index, index + preSize * size);
+			index += preSize * size;
 			layer.connectAfter(preLayer, weightList);
 
 			layerList.add(layer);
 
 			preLayer = layer;
+			preSize = size;
 			size /= 2;
 		}
 
@@ -172,7 +174,7 @@ public class NeuralNetwork
 		
 		size /= 2;
 		
-		while (size > Param.CATEGORY_NUM)
+		while (size > Param.CATEGORY_NUM*2)
 		{
 			layer = new Layer(size, 0);
 
@@ -188,7 +190,6 @@ public class NeuralNetwork
 		Layer outputLayer = new Layer(outputs);
 		outputLayer.connectAfter(preLayer);
 		outputLayer.normalizeWeights();
-		System.out.println(outputLayer.getWeights());
 	}
 	
 	private void instantiateInputs()
@@ -213,7 +214,7 @@ public class NeuralNetwork
 		for (Layer layer : layerList)
 		{
 			list.addAll(layer.getWeights());
-			System.out.println(list.size());
+//			System.out.println(list.size());
 		}
 		Layer outputLayer = new Layer(outputs);
 		list.addAll(outputLayer.getWeights());
@@ -293,6 +294,7 @@ public class NeuralNetwork
 		Iterator<Double> d3 = genome3.weights.iterator();
 		Iterator<Double> d4 = genome4.weights.iterator();
 		int count = 0;
+		int start = 0;
 		while (d1.hasNext())
 		{
 			Double a1 = d1.next();
@@ -300,25 +302,27 @@ public class NeuralNetwork
 			Double a3 = d3.next();
 			Double a4 = d4.next();
 			count++;
-			/*
-			if (!a1.equals(a2))
-			{
-				System.out.println(count + " " + a1 + " " + a2);
-			}
+//			if (!a1.equals(a2))
+//			{
+//				System.out.println(count + " " + a1 + " " + a2);
+//			}
 			if (!a2.equals(a3))
 			{
+				if (start == 0) {
+					start = count;
+				}
 				System.out.println(count + " " + a2 + " " + a3);
 			}
 			if (!a3.equals(a4))
 			{
 				System.out.println(count + " " + a3 + " " + a4);
 			}
-			*/
 		}
 		System.out.println(genome.weights.size());
 		System.out.println(genome2.weights.size());
 		System.out.println(genome3.weights.size());
 		System.out.println(genome4.weights.size());
+		System.out.println(start);
 	}
 
 	/*
