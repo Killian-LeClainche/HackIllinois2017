@@ -50,17 +50,16 @@ public class GeneticAlgorithm
 		}
 
 		population = new ArrayList<Genome>();
+		populationSize = 126;
 
-		for(int i = 0; i < 30; i++)
+		for(int i = 0; i < populationSize; i++)
 		{
 			population.add(new NeuralNetwork().getGenome());
 		}
 		
-		populationSize = population.size();
 		mutationRate = .1;
 		crossoverRate = 0.7;
-		genomeLength = Param.BLOCK_SIZE * Param.BLOCK_SIZE;
-		genomeLength *= genomeLength;
+		genomeLength = population.get(0).getWeights().size();
 	}
 
 

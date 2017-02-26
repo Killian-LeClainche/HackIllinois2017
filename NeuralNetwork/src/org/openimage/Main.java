@@ -34,7 +34,6 @@ public class Main
 					gen++;
 					genAlg.epoch();
 					System.out.print("Generation: " + gen + "\t");
-					System.out.print("Population Size: " + genAlg.getPopulation().size() + "\t");
 					System.out.print("Best Fitness: " + genAlg.getBestFitness() + "\t");
 					System.out.print("Total Fitness: " + genAlg.getTotalFitness() + "\t");
 					System.out.print("Average Fitness: " + genAlg.getAverageFitness() + "\t");
