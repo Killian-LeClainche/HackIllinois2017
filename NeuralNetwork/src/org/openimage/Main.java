@@ -19,6 +19,7 @@ public class Main
 	
 	public static void main(String[] args) throws IOException
 	{
+		System.out.println("NUMBER OF USED PROCESSORS: " + (Runtime.getRuntime().availableProcessors() - 1));
 		taskExecutor = Executors.newFixedThreadPool(Math.max(Runtime.getRuntime().availableProcessors() - 1, 1));
 		
 		final GeneticAlgorithm genAlg = new GeneticAlgorithm();
