@@ -35,7 +35,7 @@ public class GeneticAlgorithm
 	private double mutationRate;
 	private double crossoverRate;
 
-	private int count = 5;
+	private int count = 1;
 
 	private String[] classificationNames; //we have to figure out how to get this 
 	private double[][][] classifications; // this too
@@ -220,9 +220,9 @@ public class GeneticAlgorithm
 			//generate a random sample for all classifications.
 			for(int i = 0; i < classificationNames.length; i++)
 			{
-				classifications[i] = samplePool.getSamplePool(i, samplePool.getPoolSize(i) / 10);
+				classifications[i] = samplePool.getSamplePool(i, 50);
 			}
-			count = 5;
+			count = 10;
 			System.out.println("NEW POOL!");
 		}
 
