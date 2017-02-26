@@ -15,28 +15,24 @@ not solve them in a faster manner.
 
 #Current Implementations
 
-In it's current state, NeuralOR only provides the most fundamental functionality needed to create one's own
+In it's current state, NeuralOR provides the fundamental functionality needed to generate a
 Neural Network for Image Recognition. 
 
 There are a handful of features that we would like to implement before moving onwards towards more use cases of
 this application. They are :
 
- - Provide a NEAT genetic algorithm that elimates user parameters and under some researched articles will provide 
-a faster learning curve over any topic given.
+ - Implement a NEAT genetic algorithm that evolves user parameters in a way that is proven to accelerate learning
 
- - Smooth out code to optimize certain fundamental operations to improve speed.
+ - Optimize code for fundamental operations to reduce learning time.
 
- - Expand the interfacing system with a much more rigid and defined outline of how you can use the Neural Network
-for other topics of interest with little to no problem.
-
- - Finally, provide some more cohessive behavior to the project that is easily understandable and easiy editable for
-any person not within the original development team.
+ - Expand the interfacing system with a better defined outline of how you can use the Neural Network
+for any application.
 
 #How to Use
 
 In the current state of the project, we would like to highlight that the current implementation for using the product
 is rather rigid. As stated above, we will be simplifying and expanding the capabilities of this project in the future.
 
-To use please provide a folder in the directory the code is located named "images", inside said folder please provide
+To use this program, provide a folder in the project directory named "images". Inside this folder include
 any number of other folders that are known as classifications. Inside these folders should contain every image you'd like
-the genetic algorithm to train with for object recognition.
+the genetic algorithm to train with for object recognition. These classification folders shoud contain two folders to split the positive and negative training examples.
