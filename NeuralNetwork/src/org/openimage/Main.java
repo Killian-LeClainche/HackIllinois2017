@@ -19,10 +19,13 @@ public class Main
 	
 	public static void main(String[] args) throws IOException
 	{
+		//creation of thread pool
 		taskExecutor = Executors.newFixedThreadPool(Math.max(Runtime.getRuntime().availableProcessors() - 1, 1));
 		
+		//generate the genetic algorithm
 		final GeneticAlgorithm genAlg = new GeneticAlgorithm();
 		System.out.println("Finished loading images...");
+		//create the separate thread for the application to run through (monitoring the input is on the main thread for closing)
 		new Thread()
 		{
 			public void run()
@@ -32,7 +35,11 @@ public class Main
 				while(flag)
 				{
 					gen++;
+					
+					//run through generation
 					genAlg.epoch();
+					
+					//print each generation for viewing pleasure
 					System.out.print("Generation: " + gen + "\t");
 					System.out.print("Best Fitness: " + genAlg.getBestFitness() + "\t");
 					System.out.print("Total Fitness: " + genAlg.getTotalFitness() + "\t");
@@ -45,18 +52,25 @@ public class Main
 			}
 		}.start();
 		
+		//scan for any input to close the system down.
 		Scanner scanner = new Scanner(System.in);
 		scanner.nextLine();
 		flag = false;
 		scanner.close();
 	}
 
+	/**
+	 * Printing the genome into neuralNetwork.txt
+	 * @param genome : the genome to be printed
+	 */
 	public static void print(Genome genome)
 	{
 		try
 		{
+			//writer to neuralNetwork
 			BufferedWriter writer = new BufferedWriter(new FileWriter("neuralNetwork.txt"));
 
+			//retreive the genome's weights.
 			List<Double> weights = genome.getWeights();
 			for(int i = 0; i < weights.size(); i++)
 			{

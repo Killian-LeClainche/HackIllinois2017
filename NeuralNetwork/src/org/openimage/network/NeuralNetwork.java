@@ -14,8 +14,19 @@ import org.openimage.genetic.Genome;
  */
 public class NeuralNetwork
 {
+	/**
+	 * All the input nodes for the neural network
+	 */
 	private List<Node> inputs;
+	
+	/**
+	 * All the output nodes for the neural network
+	 */
 	private List<Node> outputs;
+	
+	/**
+	 * The hidden layer that is what some might say is a black box
+	 */
 	private List<Layer> layerList;
 
 	/**
@@ -25,10 +36,13 @@ public class NeuralNetwork
 	 */
 	public NeuralNetwork(Genome genome)
 	{
+		//create variables
 		inputs = new ArrayList<Node>(Param.BLOCK_SIZE);
 		instantiateInputs();
+		
 		outputs = new ArrayList<Node>(Param.CATEGORY_NUM);
 		instantiateOutputs();
+		
 		layerList = new ArrayList<Layer>();
 		instantiateHiddenLayer(genome.getWeights());
 	}
@@ -40,10 +54,13 @@ public class NeuralNetwork
 	 */
 	public NeuralNetwork()
 	{
+		//create variables
 		inputs = new ArrayList<Node>(Param.BLOCK_SIZE);
 		instantiateInputs();
+		
 		outputs = new ArrayList<Node>(Param.CATEGORY_NUM);
 		instantiateOutputs();
+		
 		layerList = new ArrayList<Layer>();
 		instantiateHiddenLayer();
 	}
