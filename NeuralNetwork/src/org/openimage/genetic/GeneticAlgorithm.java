@@ -164,14 +164,15 @@ public class GeneticAlgorithm
 	 */
 	private void grabNBestGenomes(int n, int numCopies, List<Genome>population)
 	{
-		while(n > 0)
+		int index = 0;
+		while(index < n)
 		{
-			int genomeIndex = n; //index of the most fit genome not currently added numCopies times
+			int genomeIndex = index; //index of the most fit genome not currently added numCopies times
 			for(int i = 0; i < numCopies; i++)
 			{
 				population.add(this.population.get(genomeIndex));
 			}
-			n--;
+			index++;
 		}
 	}
 
@@ -241,14 +242,20 @@ public class GeneticAlgorithm
 
 		//sort population for scaling and elitism
 		Collections.sort(population);
-
+		for(Genome g : population)
+		{
+			System.out.println("Fitness" + g.fitness);
+		}
 		//ArrayList to hold new population
 		//Future feature: optimize to reuse old population arrayList
 		List<Genome> newPopulation = new ArrayList<Genome>();
 
 		//Add the fittest genomes back in for elitism
 		grabNBestGenomes(Param.NUM_ELITE, Param.NUM_ELITE_COPIES, newPopulation);
-
+		for(Genome g : newPopulation)
+		{
+			System.out.println("Elitist Fitness" + g.fitness);
+		}
 		//Genetic Algorithm Loop
 		//repeat until a new population is generated
 		while (newPopulation.size() < populationSize)
@@ -281,7 +288,10 @@ public class GeneticAlgorithm
 			newPopulation.add(new Genome(child1));
 			newPopulation.add(new Genome(child2));
 		}
-		
+		for(Genome g : newPopulation)
+		{
+			System.out.println("Fitness" + g.fitness);
+		}
 		computeStatistics();
 
 		//finished so assign new pop back into m_vecPop
