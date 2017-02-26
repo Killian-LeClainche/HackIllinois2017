@@ -52,11 +52,11 @@ public class GeneticAlgorithm
 		}
 
 		population = new ArrayList<Genome>();
-		populationSize = 63;
+		populationSize = 20;
 
 		for(int i = 0; i < populationSize; i++)
 		{
-			population.add(new NeuralNetwork().getGenome());
+			population.add(new NeuralNetwork().getGenome());		
 		}
 
 		mutationRate = .2;
@@ -92,16 +92,13 @@ public class GeneticAlgorithm
 		{
 			child1.add(mother.get(i));
 			child2.add(father.get(i));
-
 		}
 		for (int i = crossoverPoint; i < mother.size(); i++)
 		{
 			child1.add(father.get(i));
 			child2.add(mother.get(i));
 		}
-
-		return;
-
+		
 	}
 
 	/**
@@ -118,7 +115,7 @@ public class GeneticAlgorithm
 		{
 			if(generator.nextDouble() < mutationRate)
 			{
-				genome.set(i, genome.get(i) + ((generator.nextDouble()-generator.nextDouble()) * Param.MAX_PERTURBATION));
+				genome.set(i, Math.max(Math.min(genome.get(i) + ((generator.nextDouble()-generator.nextDouble()) * Param.MAX_PERTURBATION), 1), -1));
 			}
 		}
 	}
@@ -131,7 +128,7 @@ public class GeneticAlgorithm
 	private Genome getGenomeRoulette()
 	{
 		//generate a random number between 0 & total fitness count
-		double slice = (double)((Math.random() - .1) * totalFitness);
+		double slice = (double)(Math.max(Math.random() - 0.1, 0) * totalFitness);
 
 		//this will be set to the chosen genome
 		Genome selectedGenome = null;
@@ -183,8 +180,7 @@ public class GeneticAlgorithm
 	private void computeStatistics()
 	{
 		//lambda function for total fitness.
-		population.forEach(genome -> totalFitness += genome.fitness);
-
+		population.forEach(g -> totalFitness += g.fitness);
 		//other variables.
 		averageFitness = totalFitness / population.size();
 		bestFitness = population.get(0).fitness;
@@ -215,7 +211,7 @@ public class GeneticAlgorithm
 		//Reset fitness variables
 		reset();
 
-		if(count -- == 0)
+		if(--count == 0)
 		{
 			//generate a random sample for all classifications.
 			for(int i = 0; i < classificationNames.length; i++)
@@ -247,10 +243,7 @@ public class GeneticAlgorithm
 
 		//sort population for scaling and elitism
 		Collections.sort(population);
-		for(Genome g : population)
-		{
-			System.out.println("Fitness" + g.fitness);
-		}
+		computeStatistics();
 
 		//ArrayList to hold new population
 		//Future feature: optimize to reuse old population arrayList
@@ -258,10 +251,7 @@ public class GeneticAlgorithm
 
 		//Add the fittest genomes back in for elitism
 		grabNBestGenomes(Param.NUM_ELITE, Param.NUM_ELITE_COPIES, newPopulation);
-		for(Genome g : newPopulation)
-		{
-			System.out.println("Elitist Fitness" + g.fitness);
-		}
+
 		//Genetic Algorithm Loop
 		//repeat until a new population is generated
 		while (newPopulation.size() < populationSize)
@@ -269,7 +259,8 @@ public class GeneticAlgorithm
 			//Use two genomes
 			Genome mother = getGenomeRoulette();
 			Genome father = getGenomeRoulette();
-
+						
+			
 			//create some offspring via crossover
 			List<Double> child1 = null;
 			List<Double> child2 = null;
@@ -294,13 +285,11 @@ public class GeneticAlgorithm
 			newPopulation.add(new Genome(child1));
 			newPopulation.add(new Genome(child2));
 		}
-		for(Genome g : newPopulation)
+		for(Genome g : population)
 		{
 			System.out.println("Fitness" + g.fitness);
 		}
-		computeStatistics();
-
-		//finished so assign new pop back into m_vecPop
+		//finished so assign new pop back into population
 		population = newPopulation;
 
 		return newPopulation;
