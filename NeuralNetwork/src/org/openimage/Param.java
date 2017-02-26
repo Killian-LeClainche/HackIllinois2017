@@ -28,7 +28,7 @@ public class Param
 		Ini.Section section = ini.get("start");
 		BLOCK_SIZE = Integer.parseInt(section.get("blockSize"));
 		FITNESS_CASE_SIZE = Integer.parseInt(section.get("fitnessCaseSize"));
-		MAX_PERTURBATION = Integer.parseInt(section.get("maxPerturbation"));
+		MAX_PERTURBATION = new Double(section.get("maxPerturbation"));
 
 	}
 
