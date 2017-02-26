@@ -229,10 +229,10 @@ public class GeneticAlgorithm
 			//generate a random sample for all classifications.
 			for(int i = 0; i < classificationNames.length; i++)
 			{
-				classifications[i] = samplePool.getSamplePool(i, 25);
+				classifications[i] = samplePool.getSamplePool(i, 50);
 			}
-			count = 1;
-			//System.out.println("NEW POOL!");
+			count = 1000;
+			System.out.println("NEW POOL!");
 		}
 
 		List<Future<?>> futures = new ArrayList<Future<?>>();
