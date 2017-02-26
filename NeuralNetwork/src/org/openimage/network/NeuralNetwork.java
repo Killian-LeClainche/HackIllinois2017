@@ -271,13 +271,13 @@ public class NeuralNetwork
 	{
 		NeuralNetwork seed = new NeuralNetwork();
 		Genome genome = seed.getGenome();
-		System.out.println(genome);
+		System.out.println(genome.weights);
 		NeuralNetwork make = new NeuralNetwork(genome);
 		Genome genome2 = make.getGenome();
-		System.out.println(genome2);
+		System.out.println(genome2.weights);
 		NeuralNetwork seed2 = new NeuralNetwork(genome);
 		Genome genome3 = seed2.getGenome();
-		System.out.println(genome3);
+		System.out.println(genome3.weights);
 	}
 
 	/*
