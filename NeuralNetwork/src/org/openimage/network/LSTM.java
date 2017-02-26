@@ -47,19 +47,6 @@ public class LSTM implements Node
     	gates[MEMORY].addIncomingNode(gates[MEMORY]);
     	gates[MEMORY].addIncomingNode(gates[INPUT]);
     	gates[OUTPUT].addIncomingNode(gates[MEMORY]);
-
-        /*
-        keep = new Neuron(SquashFunction.STEP);
-        write = new Neuron(SquashFunction.STEP);
-        read = new Neuron(SquashFunction.STEP);
-        memory = new Neuron();
-        input = new Sensor();
-        output = new Neuron();
-
-        this.memory.addIncomingNode(memory); // The memory has a loopback for "remembering".
-        this.memory.addIncomingNode(input); // Feed gated input to memory.
-        this.output.addIncomingNode(memory); // Feed memory to gated output.
-        */
     }
 
     /**
@@ -121,9 +108,15 @@ public class LSTM implements Node
      */
     public void addIncomingNode(Node node)
     {
+        int minIndex = 0;
         for (int i = 0; i < INPUT + 1; i++)
         {
             Node gate = gates[i];
+            if (gate.getIncomingNodes().size() < gates[minIndex].getIncomingNodes().size())
+            {
+                minIndex = i;
+            }
+
             if (gate.getIncomingNodes().size() <= 0)
             {
                 gate.getIncomingNodes().add(node);
@@ -132,9 +125,12 @@ public class LSTM implements Node
             }
         }
 
-        int seed = org.openimage.Param.rng.nextInt(3 + 1);
+        gates[minIndex].getIncomingNodes().add(node);
+        gates[minIndex].getIncomingWeights().add((1 / Math.sqrt(gates[minIndex].getIncomingNodes().size())) * Math.random());
+
+        /*int seed = org.openimage.Param.rng.nextInt(3 + 1);
         gates[seed].getIncomingNodes().add(node);
-        gates[seed].getIncomingWeights().add((1 / Math.sqrt(gates[seed].getIncomingNodes().size())) * Math.random());
+        gates[seed].getIncomingWeights().add((1 / Math.sqrt(gates[seed].getIncomingNodes().size())) * Math.random());*/
     }
 
     public void normalizeWeights()
@@ -153,6 +149,10 @@ public class LSTM implements Node
         return this.value;
     }
 
+    /**
+     * Sets the value of the memory Node.
+     * @param value the value to be remembered.
+     */
     public void setValue(double value)
     {
         getMemory().setValue(value);
@@ -164,8 +164,9 @@ public class LSTM implements Node
     }
 
     /**
-     *
-     * @return
+     * Computes the current output value of the LSTM using the write gate and memory node. Then, the memory is squashed,
+     * and the rest of the gets are activated to prepare for the next cycle.
+     * @return The value squashed and gated by the LSTM.
      */
     public double activate()
     {
@@ -192,6 +193,11 @@ public class LSTM implements Node
         return this.value;
     }
 
+    /**
+     * Activate the LSTM as above but using the provided input.
+     * @param input The input to be gated and squashed.
+     * @return The squashed and gated input.
+     */
     public double activate(double input) {
         getInput().setValue(input);
         return this.activate();
@@ -234,5 +240,10 @@ public class LSTM implements Node
     {
         return this.gates[OUTPUT];
     }
-    
+
+    public String toString()
+    {
+        //return "LSTM { " +
+        return "not implemented yet.";
+    }
 }
