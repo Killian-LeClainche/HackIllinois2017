@@ -25,10 +25,7 @@ public class GeneticAlgorithm
 											// genomes
 	private int populationSize; // Size of the population
 	private int genomeLength; // Weights per genome
-	private int fittestGenome; // index of the best genome in population
-
-	// Learning Statistics (current population)
-	private int generationCount;
+	
 	private double totalFitness;
 	private double bestFitness;
 	private double averageFitness;
@@ -164,7 +161,7 @@ public class GeneticAlgorithm
 	{
 		while(n > 0)
 		{
-			int genomeIndex = populationSize - 1 - n; //index of the most fit genome not currently added numCopies times
+			int genomeIndex = n; //index of the most fit genome not currently added numCopies times
 			for(int i = 0; i < numCopies; i++)
 			{
 				population.add(this.population.get(genomeIndex));
@@ -245,7 +242,7 @@ public class GeneticAlgorithm
 		
 		//ArrayList to hold new population
 		//Future feature: optimize to reuse old population arrayList
-		List<Genome> newPopulation = null;
+		List<Genome> newPopulation = new ArrayList<Genome>();
 
 		//Add the fittest genomes back in for elitism
 		if ((Param.NUM_ELITE_COPIES * Param.NUM_ELITE % 2) < 0)
