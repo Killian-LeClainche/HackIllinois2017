@@ -51,6 +51,7 @@ public class FitnessFinder implements Runnable
 			for(int j = 0; j < classifications[i].length; j++)
 			{
 				result = neuralNetwork.classify(classifications[i][j]);
+				System.out.println(result);
 				if(result == i)
 				{
 					fitnessTotal++;
