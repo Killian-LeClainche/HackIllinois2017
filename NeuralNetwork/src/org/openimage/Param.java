@@ -23,6 +23,10 @@ public class Param
 	public static final int FITNESS_CASE_SIZE;
 	public static final int CATEGORY_NUM;
 	public static final double MAX_PERTURBATION;
+	public static final int NUM_ELITE_COPIES;
+	public static final int NUM_ELITE;
+
+
 	public static Random rng = new Random();
 
 
@@ -34,6 +38,8 @@ public class Param
 		FITNESS_CASE_SIZE = Integer.parseInt(section.get("fitnessCaseSize"));
 		CATEGORY_NUM = Integer.parseInt(section.get("categoryNum"));
 		MAX_PERTURBATION = new Double(section.get("maxPerturbation"));
+		NUM_ELITE_COPIES = Integer.parseInt(section.get("numEliteCopies"));
+		NUM_ELITE = Integer.parseInt(section.get("numElite"));
 
 	}
 

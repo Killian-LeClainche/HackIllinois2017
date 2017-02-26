@@ -32,7 +32,12 @@ public class Layer
 
     }
 
-    public void addWeights(ArrayList<Double> weights)
+    public Layer(List<Node> inputs)
+	{
+		// TODO Auto-generated constructor stub
+	}
+
+	public void addWeights(ArrayList<Double> weights)
     {
         ListIterator<Node> nodeIterator = nodes.listIterator();
         ListIterator<Double> weightIterator = weights.listIterator();
