@@ -52,14 +52,14 @@ public class GeneticAlgorithm
 		}
 
 		population = new ArrayList<Genome>();
-		populationSize = 20;
+		populationSize = 63;
 
 		for(int i = 0; i < populationSize; i++)
 		{
 			population.add(new NeuralNetwork().getGenome());		
 		}
 
-		mutationRate = .2;
+		mutationRate = .1;
 		crossoverRate = 0.7;
 		genomeLength = population.get(0).getWeights().size();
 	}
@@ -217,10 +217,10 @@ public class GeneticAlgorithm
 			//generate a random sample for all classifications.
 			for(int i = 0; i < classificationNames.length; i++)
 			{
-				classifications[i] = samplePool.getSamplePool(i, 50);
+				classifications[i] = samplePool.getSamplePool(i, 25);
 			}
-			count = 10;
-			System.out.println("NEW POOL!");
+			count = 1;
+			//System.out.println("NEW POOL!");
 		}
 
 		List<Future<?>> futures = new ArrayList<Future<?>>();
