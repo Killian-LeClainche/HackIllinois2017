@@ -95,7 +95,7 @@ public class Neuron implements Node
 	{
 		for (int i = 0; i < this.incomingWeights.size(); i++)
 		{
-			this.incomingWeights.set(i, (1 / Math.sqrt(this.incomingNodes.size())) * Math.random());
+			this.incomingWeights.set(i, (1.0 / Math.sqrt(this.incomingNodes.size())) * Math.random());
 		}
 	}
 
