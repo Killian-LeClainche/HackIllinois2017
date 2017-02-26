@@ -3,7 +3,6 @@ package org.openimage;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.util.Collection;
 import java.util.Random;
 
 import org.ini4j.Ini;
