@@ -50,7 +50,7 @@ public class GeneticAlgorithm
 		}
 
 		population = new ArrayList<Genome>();
-		populationSize = 126;
+		populationSize = 63;
 
 		for(int i = 0; i < populationSize; i++)
 		{
