@@ -56,7 +56,7 @@ public class GeneticAlgorithm
 		}
 
 		population = new ArrayList<Genome>();
-		populationSize = 126 * 3;
+		populationSize = 63;
 
 		//generate the genomes
 		for(int i = 0; i < populationSize; i++)
