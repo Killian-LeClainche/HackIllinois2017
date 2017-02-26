@@ -139,6 +139,25 @@ public class Neuron implements Node
 		return 0;
 	}
 
+	public double activate(double input)
+	{
+		this.previous = this.value;
+
+		// Use the logistic sigmoid curve for squashing.
+		if (this.squash == SquashFunction.LOGISTIC)
+		{
+			this.value = Neuron.LOGISTIC(input);
+			return value;
+		} else if (this.squash == SquashFunction.STEP)
+		{
+			this.value = Neuron.STEP(input);
+			return value;
+		}
+
+		System.err.println("[ERROR] Unknown squash function: " + this.squash);
+		return 0;
+	}
+
 	public String toString()
 	{
 		return "Neuron { id: " + this.hashCode() + ", incomingNodes: " + Arrays.toString(this.incomingNodes.toArray())
@@ -149,11 +168,5 @@ public class Neuron implements Node
 	public void reset()
 	{
 		this.value = 0.0;
-	}
-
-	@Override
-	public void setNode(double value)
-	{
-		this.value = value;
 	}
 }

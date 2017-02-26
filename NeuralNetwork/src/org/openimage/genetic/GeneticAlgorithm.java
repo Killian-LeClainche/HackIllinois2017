@@ -108,7 +108,7 @@ public class GeneticAlgorithm
 		{
 			if(generator.nextDouble() < mutationRate)
 			{
-				chromosome.set(i, chromosome.get(i) + ((generator.nextDouble()-generator.nextDouble()) * MAX_PERTURBATION));
+				chromosome.set(i, chromosome.get(i) + ((generator.nextDouble()-generator.nextDouble()) * Param.MAX_PERTURBATION));
 			}
 		}
 	}
@@ -149,7 +149,11 @@ public class GeneticAlgorithm
 	 */
 	private void computeStatistics()
 	{
-		
+		population.forEach(genome -> averageFitness += genome.fitness);
+		totalFitness = averageFitness;
+		averageFitness /= population.size();
+		bestFitness = population.get(0).fitness;
+		worstFitness = population.get(population.size() - 1).fitness;
 	}
 	
 	/**

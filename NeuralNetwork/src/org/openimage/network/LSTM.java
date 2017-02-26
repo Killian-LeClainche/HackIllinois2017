@@ -2,7 +2,6 @@ package org.openimage.network;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
 /**
  * LSTM stands for Long-Short Term Memory. An LSTM node is centered around a recurrent neuron (points to itself).
@@ -15,6 +14,12 @@ import java.util.Random;
  */
 public class LSTM implements Node
 {
+    /*private enum Gate {
+        KEEP (0),
+        WRITE (1),
+
+    }*/
+
     public Node keep;
     public Node write;
     public Node read;
@@ -49,7 +54,6 @@ public class LSTM implements Node
         nodes.addAll(this.keep.getIncomingNodes());
         nodes.addAll(this.write.getIncomingNodes());
         nodes.addAll(this.read.getIncomingNodes());
-        nodes.addAll(this.memory.getIncomingNodes());
         nodes.addAll(this.input.getIncomingNodes());
 
         return nodes;
@@ -65,7 +69,6 @@ public class LSTM implements Node
         weights.addAll(this.keep.getIncomingWeights());
         weights.addAll(this.write.getIncomingWeights());
         weights.addAll(this.read.getIncomingWeights());
-        weights.addAll(this.memory.getIncomingWeights());
         weights.addAll(this.input.getIncomingWeights());
 
         return weights;
@@ -93,24 +96,14 @@ public class LSTM implements Node
             this.read.getIncomingNodes().add(node);
             this.read.getIncomingWeights().add(weight);
         }
-        else if (this.memory.getIncomingNodes().size() <= 0)
-        {
-            this.memory.getIncomingNodes().add(node);
-            this.memory.getIncomingWeights().add(weight);
-        }
         else if (this.input.getIncomingNodes().size() <= 0)
         {
             this.input.getIncomingNodes().add(node);
             this.input.getIncomingWeights().add(weight);
         }
-        else if (this.output.getIncomingNodes().size() <= 0)
-        {
-            this.output.getIncomingNodes().add(node);
-            this.output.getIncomingWeights().add(weight);
-        }
         else
         {
-            int seed = org.openimage.Param.rng.nextInt(5 + 1);
+            int seed = org.openimage.Param.rng.nextInt(3 + 1);
             switch (seed)
             {
                 case 0:
@@ -126,16 +119,9 @@ public class LSTM implements Node
                     this.read.getIncomingWeights().add(weight);
                     break;
                 case 3:
-                    this.memory.getIncomingNodes().add(node);
-                    this.memory.getIncomingWeights().add(weight);
-                    break;
-                case 4:
                     this.input.getIncomingNodes().add(node);
                     this.input.getIncomingWeights().add(weight);
                     break;
-                case 5:
-                    this.output.getIncomingNodes().add(node);
-                    this.output.getIncomingWeights().add(weight);
                 default:
                     System.err.println("ERROR: Invalid RNG case " + seed);
             }
@@ -160,21 +146,13 @@ public class LSTM implements Node
         {
             addIncomingNode(node, (1 / Math.sqrt(this.read.getIncomingNodes().size())) * Math.random());
         }
-        else if (this.memory.getIncomingNodes().size() <= 0)
-        {
-            addIncomingNode(node, (1 / Math.sqrt(this.memory.getIncomingNodes().size())) * Math.random());
-        }
         else if (this.input.getIncomingNodes().size() <= 0)
         {
             addIncomingNode(node, (1 / Math.sqrt(this.input.getIncomingNodes().size())) * Math.random());
         }
-        else if (this.output.getIncomingNodes().size() <= 0)
-        {
-            addIncomingNode(node, (1 / Math.sqrt(this.output.getIncomingNodes().size())) * Math.random());
-        }
         else
         {
-            int seed = org.openimage.Param.rng.nextInt(5 + 1);
+            int seed = org.openimage.Param.rng.nextInt(3 + 1);
             switch (seed)
             {
                 case 0:
@@ -187,13 +165,7 @@ public class LSTM implements Node
                     addIncomingNode(node, (1 / Math.sqrt(this.read.getIncomingNodes().size())) * Math.random());
                     break;
                 case 3:
-                    addIncomingNode(node, (1 / Math.sqrt(this.memory.getIncomingNodes().size())) * Math.random());
-                    break;
-                case 4:
                     addIncomingNode(node, (1 / Math.sqrt(this.input.getIncomingNodes().size())) * Math.random());
-                    break;
-                case 5:
-                    addIncomingNode(node, (1 / Math.sqrt(this.output.getIncomingNodes().size())) * Math.random());
                     break;
                 default:
                     System.err.println("ERROR: Invalid RNG case " + seed);
@@ -206,38 +178,15 @@ public class LSTM implements Node
         for (int i = 0; i < this.keep.getIncomingNodes().size(); i++)
         {
             this.keep.getIncomingWeights().set(i, (1 / Math.sqrt(this.keep.getIncomingNodes().size())) * Math.random());
-        }
-
-        for (int i = 0; i < this.write.getIncomingNodes().size(); i++)
-        {
             this.write.getIncomingWeights().set(i, (1 / Math.sqrt(this.write.getIncomingNodes().size())) * Math.random());
-        }
-
-        for (int i = 0; i < this.read.getIncomingNodes().size(); i++)
-        {
             this.read.getIncomingWeights().set(i, (1 / Math.sqrt(this.read.getIncomingNodes().size())) * Math.random());
-        }
-
-        for (int i = 0; i < this.memory.getIncomingNodes().size(); i++)
-        {
-            this.memory.getIncomingWeights().set(i, (1 / Math.sqrt(this.memory.getIncomingNodes().size())) * Math.random());
-        }
-
-        for (int i = 0; i < this.input.getIncomingNodes().size(); i++)
-        {
             this.input.getIncomingWeights().set(i, (1 / Math.sqrt(this.input.getIncomingNodes().size())) * Math.random());
-        }
-
-        for (int i = 0; i < this.output.getIncomingNodes().size(); i++)
-        {
-            this.output.getIncomingWeights().set(i, (1 / Math.sqrt(this.output.getIncomingNodes().size())) * Math.random());
         }
     }
 
     public double getValue()
     {
-        // Read's value is a dynamic weight that controls the output.
-        return this.memory.getValue() * this.read.getValue();
+        return this.value;
     }
 
     public void setValue(double value)
@@ -256,26 +205,24 @@ public class LSTM implements Node
      */
     public double activate()
     {
-        // TODO ... Implement this mess.
-
-
+        // Compute the current value.
         this.previous = this.value;
-        this.value = this.memory.getValue() * this.output.getValue();
+        this.value = this.memory.getValue() * this.write.getValue();
 
-        this.memory.
+        // Squash the memory with the recurrent loop and the read input.
+        this.memory.activate(this.input.getValue() * this.read.getPrevious() + this.memory.getValue() * this.keep.getValue());
 
-        // -----
+        // Squash the gates for next cycle.
+        this.read.activate();
+        this.write.activate();
         this.keep.activate();
 
-        //this.memory.getValue() * this.keep.getValue();
+        return this.value;
+    }
 
-        this.write.activate();
-        this.read.activate();
-
-        this.memory.getIncomingWeights().set(0, keep.getValue());
-        this.memory.activate();
-
-        return 0;
+    public double activate(double input) {
+        this.input.setValue(input);
+        return this.activate();
     }
 
     public void reset()
@@ -287,11 +234,4 @@ public class LSTM implements Node
         this.input.setValue(0);
         this.output.setValue(0);
     }
-
-	@Override
-	public void setNode(double node)
-	{
-		// TODO Auto-generated method stub
-		
-	}
 }
