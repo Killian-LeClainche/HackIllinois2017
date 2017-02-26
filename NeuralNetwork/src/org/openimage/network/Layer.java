@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 public class Layer
 {
+	
     public Layer (int size, int lstmCount)
     {
         // TODO Generate a layer with Size Nodes, with a set number of LSTM Nodes.
