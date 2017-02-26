@@ -79,7 +79,7 @@ public class Layer
     	{
     		for(int j = 0; j < nodes.size(); j++)
     		{
-    			nodes.get(j).addIncomingNode(before.nodes.get(i), weights.get(i));
+    			nodes.get(j).addIncomingNode(before.nodes.get(i), weights.get(i + j * before.nodes.size()));
     		}
     	}*/
     }
