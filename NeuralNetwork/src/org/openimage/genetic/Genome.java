@@ -1,6 +1,7 @@
 package org.openimage.genetic;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Contains the Genome of a NeuralNet and the fitness of the network.
@@ -8,7 +9,7 @@ import java.util.ArrayList;
  */
 public class Genome implements Comparable<Genome>
 {
-	public ArrayList<Double> weights;
+	public List<Double> weights;
 	public double fitness;
 
 	public Genome()
@@ -16,9 +17,9 @@ public class Genome implements Comparable<Genome>
 		fitness = 0;
 	}
 
-	public Genome(ArrayList<Double> weights)
+	public Genome(List<Double> list)
 	{
-		this.weights = weights;
+		this.weights = list;
 		this.fitness = 0;
 	}
 
@@ -38,7 +39,7 @@ public class Genome implements Comparable<Genome>
 
 	}
 
-	public ArrayList<Double> getWeights()
+	public List<Double> getWeights()
 	{
 		return weights;
 	}

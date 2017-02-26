@@ -44,7 +44,7 @@ public class NeuralNetwork
 		outputs = new ArrayList<Node>(Param.CATEGORY_NUM);
 		instantiateOutputs();
 		layerList = new ArrayList<Layer>();
-		instantiateHiddenLayer(null);
+		instantiateHiddenLayer();
 	}
 
 	/**
@@ -122,19 +122,55 @@ public class NeuralNetwork
 		// Add largest layer
 		Layer inputLayer = new Layer(inputs);
 		Layer preLayer = new Layer(Param.BLOCK_SIZE, 0);
-		preLayer.connectAfter(inputLayer);
 
 
 		List<Double> weightList = null;
-		if (arrayList != null)
+		weightList = arrayList.subList(0, Param.BLOCK_SIZE);
+		for (int i = 0; i < Param.BLOCK_SIZE; i++)
 		{
-			weightList = arrayList.subList(0, Param.BLOCK_SIZE);
-			for (int i = 0; i < Param.BLOCK_SIZE; i++)
+			arrayList.remove(0);
+		}
+		preLayer.addWeights(weightList);
+		preLayer.connectAfter(inputLayer);
+
+		layerList.add(preLayer);
+		
+		int size = Param.BLOCK_SIZE / 2;
+
+		Layer layer;
+		
+		while (size > Param.CATEGORY_NUM)
+		{
+			layer = new Layer(size, 0);
+
+			layer.connectAfter(preLayer);
+			weightList = arrayList.subList(0, size);
+			for (int i = 0; i < size; i++)
 			{
 				arrayList.remove(0);
 			}
-			preLayer.addWeights(weightList);
+			layer.addWeights(arrayList);
+
+			layerList.add(layer);
+
+			preLayer = layer;
+			size /= 2;
 		}
+		
+		Layer outputLayer = new Layer(outputs);
+		outputLayer.connectAfter(outputLayer);
+	}
+	
+	private void instantiateHiddenLayer()
+	{
+		// Add largest layer
+		Layer inputLayer = new Layer(inputs);
+		Layer preLayer = new Layer(Param.BLOCK_SIZE, 0);
+
+
+		List<Double> weightList = null;
+		preLayer.addWeights(weightList);
+		preLayer.connectAfter(inputLayer);
 
 		layerList.add(preLayer);
 		
@@ -146,15 +182,6 @@ public class NeuralNetwork
 		{
 			layer = new Layer(size, 0);
 			layer.connectAfter(preLayer);
-			if (arrayList == null)
-			{
-				weightList = arrayList.subList(0, size);
-			for (int i = 0; i < size; i++)
-			{
-				arrayList.remove(0);
-			}
-				layer.addWeights(arrayList);
-			}
 
 			layerList.add(layer);
 
@@ -184,7 +211,12 @@ public class NeuralNetwork
 	
 	public Genome getGenome()
 	{
-		return null;
+		List<Double> list = new ArrayList<Double>();
+		for (Layer layer : layerList)
+		{
+			list.addAll(layer.getWeights());
+		}
+		return new Genome(list);
 	}
 
 	/**
