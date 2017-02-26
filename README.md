@@ -1,14 +1,14 @@
-<img src="https://github.com/Killian-LeClainche/HackIllinois2017/stock.jpg" alt="Promises/A+ logo" title="Promises/A+ 1.1 compliant" align="right" />
+<img src="https://github.com/Killian-LeClainche/HackIllinois2017/blob/master/stock.jpg?raw=true" alt="NeuralOR Logo" title="NeuralOR" align="right" />
 
 # Introduction
 
 NeuralOR is focused on innovative features and performance regarding the image detection field using :
 
-Genetic Algorithms
+ - Genetic Algorithms
 
-Neural Networks
+ - Neural Networks
 
-And Other Tricks
+ - And Other Tricks
 
 to provide a faster implementation of specific tasks that while other libraries adequately solve, they do
 not solve them in a faster manner.
@@ -21,15 +21,15 @@ Neural Network for Image Recognition.
 There are a handful of features that we would like to implement before moving onwards towards more use cases of
 this application. They are :
 
-Provide a NEAT genetic algorithm that elimates user parameters and under some researched articles will provide 
+ - Provide a NEAT genetic algorithm that elimates user parameters and under some researched articles will provide 
 a faster learning curve over any topic given.
 
-Smooth out code to optimize certain fundamental operations to improve speed.
+ - Smooth out code to optimize certain fundamental operations to improve speed.
 
-Expand the interfacing system with a much more rigid and defined outline of how you can use the Neural Network
+ - Expand the interfacing system with a much more rigid and defined outline of how you can use the Neural Network
 for other topics of interest with little to no problem.
 
-Finally, provide some more cohessive behavior to the project that is easily understandable and easiy editable for
+ - Finally, provide some more cohessive behavior to the project that is easily understandable and easiy editable for
 any person not within the original development team.
 
 #How to Use
