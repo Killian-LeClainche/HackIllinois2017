@@ -126,7 +126,7 @@ public class NeuralNetwork
 		Layer inputLayer = new Layer(inputs);
 		Layer preLayer = new Layer(size, 0);
 
-		List<Double> weightList = arrayList.subList(0, size * size);
+		List<Double> weightList = arrayList.subList(0, size * (size + 1));
 		preLayer.connectAfter(inputLayer, weightList);
 
 		int index = size;
@@ -141,7 +141,7 @@ public class NeuralNetwork
 		{
 			layer = new Layer(size, size/4);
 
-			weightList = arrayList.subList(index, index + preSize * size);
+			weightList = arrayList.subList(index, index + preSize * (size + 1));
 			index += preSize * size;
 			layer.connectAfter(preLayer, weightList);
 
@@ -309,15 +309,26 @@ public class NeuralNetwork
 	
 	public static void main(String args[])
 	{
-		double[] test = new double[1000];
-		for (int i = 0; i < test.length; i++)
+		NeuralNetwork seed = new NeuralNetwork();
+		NeuralNetwork n1 = new NeuralNetwork(seed.getGenome());
+		NeuralNetwork n2 = new NeuralNetwork(n1.getGenome());
+		List<Double> d1 = n1.getGenome().weights;
+		List<Double> d2 = n2.getGenome().weights;
+		Iterator<Double> i1 = d1.iterator();
+		Iterator<Double> i2 = d2.iterator();
+		int count = 0;
+		while (i1.hasNext() && i2.hasNext())
 		{
-			test[i] = Math.random();
-		}
-		
-		NeuralNetwork network = new NeuralNetwork();
-		network.classify(test);
-		System.out.println(network.toString());
+			Double val1 = i1.next();
+			Double val2 = i2.next();
 
+			if (!val1.equals(val2))
+			{
+				System.out.println(count + "\t" + val1 + "\t" + val2);
+			}
+			count++;
+		}
+		System.out.println("Size: " + d1.size() + " " + d2.size());
+		System.out.println("Equal: " + d1.equals(d2));
 	}
 }
