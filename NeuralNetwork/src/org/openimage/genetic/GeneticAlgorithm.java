@@ -176,9 +176,6 @@ public class GeneticAlgorithm
 	 */
 	private void computeStatistics()
 	{
-		//Needs to account for fittest genome
-		population.forEach(genome -> averageFitness += genome.fitness);
-
 		//lambda function for total fitness.
 		population.forEach(genome -> totalFitness += genome.fitness);
 
