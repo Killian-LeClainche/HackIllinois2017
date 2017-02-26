@@ -2,6 +2,7 @@ package org.openimage.network;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.ListIterator;
 
@@ -156,6 +157,7 @@ public class Layer
             }
         }
 
+        Collections.reverse(result);
         return result;
     }
 

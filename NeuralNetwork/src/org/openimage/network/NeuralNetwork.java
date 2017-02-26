@@ -119,21 +119,22 @@ public class NeuralNetwork
 
 	private void instantiateHiddenLayer(List<Double> arrayList)
 	{
+		int size = Param.BLOCK_SIZE * Param.BLOCK_SIZE;
+
 		// Add largest layer
 		Layer inputLayer = new Layer(inputs);
 		Layer preLayer = new Layer(Param.BLOCK_SIZE, 0);
 
 
 		List<Double> weightList = null;
-		int size = Param.BLOCK_SIZE;
-		int index = size * size;
-		weightList = arrayList.subList(0, size * size);
+		int index = size;
+		weightList = arrayList.subList(0, size);
 		preLayer.addWeights(weightList);
 		preLayer.connectAfter(inputLayer);
 
 		layerList.add(preLayer);
 		
-		size = Param.BLOCK_SIZE / 2;
+		size /= 2;
 
 		Layer layer;
 		
@@ -151,21 +152,23 @@ public class NeuralNetwork
 			size /= 2;
 		}
 
-		weightList = arrayList.subList(index, weightList.size()-1);
+		weightList = arrayList.subList(index, arrayList.size()-1);
 		Layer outputLayer = new Layer(outputs);
 		outputLayer.connectAfter(outputLayer, weightList);
 	}
 	
 	private void instantiateHiddenLayer()
 	{
+		int size = Param.BLOCK_SIZE * Param.BLOCK_SIZE;
+
 		// Add largest layer
 		Layer inputLayer = new Layer(inputs);
-		Layer preLayer = new Layer(Param.BLOCK_SIZE, 0);
+		Layer preLayer = new Layer(size, 0);
 
 		preLayer.connectAfter(inputLayer);
 		layerList.add(preLayer);
-		
-		int size = Param.BLOCK_SIZE / 2;
+
+		size /= 2;
 
 		Layer layer;
 		
@@ -272,9 +275,11 @@ public class NeuralNetwork
 		NeuralNetwork seed = new NeuralNetwork();
 		Genome genome = seed.getGenome();
 		System.out.println(genome.weights);
+		System.out.println(genome.weights.size());
 		NeuralNetwork make = new NeuralNetwork(genome);
 		Genome genome2 = make.getGenome();
 		System.out.println(genome2.weights);
+		System.out.println(genome.weights.size());
 		NeuralNetwork seed2 = new NeuralNetwork(genome);
 		Genome genome3 = seed2.getGenome();
 		System.out.println(genome3.weights);
