@@ -66,7 +66,7 @@ public class Layer
     	nodes.forEach(n -> before.nodes.forEach(n1 -> n.addIncomingNode(n1)));
     }
     
-    public void connectAfter(Layer before, double[][] weights)
+    public void connectAfter(Layer before, List<Double> weights)
     {
     	beforeLayer = before;
     	before.afterLayer = this;
@@ -74,7 +74,7 @@ public class Layer
     	{
     		for(int j = 0; j < nodes.size(); j++)
     		{
-    			nodes.get(j).addIncomingNode(before.nodes.get(i), weights[j][i]);
+    			nodes.get(j).addIncomingNode(before.nodes.get(i), weights.get(i + j * before.nodes.size()));
     		}
     	}
     }
