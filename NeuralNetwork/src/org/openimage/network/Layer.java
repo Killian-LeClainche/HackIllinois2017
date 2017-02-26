@@ -157,7 +157,6 @@ public class Layer
             }
         }
 
-        Collections.reverse(result);
         return result;
     }
 
@@ -174,5 +173,10 @@ public class Layer
     {
         return "Layer { beforeLayer: " + beforeLayer + ", afterLayer: " + afterLayer + ", nodes: "
                 + Arrays.toString(nodes.toArray()) + " }";
+    }
+    
+    public static void main(String args[])
+    {
+    	
     }
 }
