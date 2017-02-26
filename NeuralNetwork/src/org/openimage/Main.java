@@ -31,9 +31,9 @@ public class Main
 				while(flag)
 				{
 					genAlg.epoch();
-					System.out.println("Best Fitness: " + genAlg.getBestFitness());
-					System.out.println("Total Fitness: " + genAlg.getTotalFitness());
-					System.out.println("Average Fitness: " + genAlg.getAverageFitness());
+					System.out.print("Best Fitness: " + genAlg.getBestFitness() + "\t");
+					System.out.print("Total Fitness: " + genAlg.getTotalFitness() + "\t");
+					System.out.print("Average Fitness: " + genAlg.getAverageFitness() + "\t");
 					System.out.println("Worst Fitness: " + genAlg.getWorstFitness());
 
 				}

@@ -20,12 +20,12 @@ import org.openimage.network.NeuralNetwork;
 public class GeneticAlgorithm
 {
 	private SamplePool samplePool;
-	
+
 	private List<Genome> population; // Holds the entire population of
-											// genomes
+	// genomes
 	private int populationSize; // Size of the population
 	private int genomeLength; // Weights per genome
-	
+
 	private double totalFitness;
 	private double bestFitness;
 	private double averageFitness;
@@ -37,20 +37,20 @@ public class GeneticAlgorithm
 
 	private String[] classificationNames; //we have to figure out how to get this 
 	private double[][][] classifications; // this too
-	
+
 	public GeneticAlgorithm() throws IOException
 	{
 		samplePool = SamplePool.create(new File("images"));
 		classificationNames = new String[samplePool.getClassificationSize()];
 		classifications = new double[samplePool.getClassificationSize()][][];
-		
+
 		for(int i = 0; i < classificationNames.length; i++)
 		{
 			classificationNames[i] = samplePool.getClassificationName(i);
 		}
-		
+
 		population = new ArrayList<Genome>();
-		
+
 		for(int i = 0; i < 200; i++)
 		{
 			population.add(new NeuralNetwork().getGenome());
@@ -77,16 +77,9 @@ public class GeneticAlgorithm
 	{
 		Random generator = new Random();
 		//If the random value is outside the crossover rate or parents are the same, do not crossover
-		if ( (generator.nextDouble() > crossoverRate) || (mother == father)) 
-		{
-			child1 = mother;
-			child2 = father;
-
-			return;
-		}
 		//determine the crossover point on the genome
 		int crossoverPoint = generator.nextInt(genomeLength);
-		
+
 		//create new offspring
 		for(int i = 0; i < crossoverPoint; i++)
 		{
@@ -101,7 +94,7 @@ public class GeneticAlgorithm
 		}
 
 		return;
-		
+
 	}
 
 	/**
@@ -137,14 +130,14 @@ public class GeneticAlgorithm
 
 		//this will be set to the chosen genome
 		Genome selectedGenome = null;
-		
+
 		//sum the fitness of genomes
 		double cumulativeFitness = 0;
-		
+
 		for (int i = 0; i < populationSize; i++)
 		{
 			cumulativeFitness += population.get(i).fitness;
-			
+
 			//if the cumulative fitness > random number return the genome at 
 			//this point
 			if (cumulativeFitness >= slice)
@@ -155,7 +148,7 @@ public class GeneticAlgorithm
 		}
 		return selectedGenome;
 	}
-	
+
 	/** 
 	 * Introduces elitism by selecting the most fit genomes 
 	 * to propagate into the next generation
@@ -176,7 +169,7 @@ public class GeneticAlgorithm
 			n--;
 		}
 	}
-	
+
 	/**
 	 * Computes fitness statistics for current generation stored in 
 	 * totalFitness, averageFitness, bestFitness, worstFitness
@@ -188,13 +181,13 @@ public class GeneticAlgorithm
 
 		//lambda function for total fitness.
 		population.forEach(genome -> totalFitness += genome.fitness);
-		
+
 		//other variables.
 		averageFitness = totalFitness / population.size();
 		bestFitness = population.get(0).fitness;
 		worstFitness = population.get(population.size() - 1).fitness;
 	}
-	
+
 	/**
 	 * Resets all relevant variables for a new generation
 	 */
@@ -205,7 +198,7 @@ public class GeneticAlgorithm
 		bestFitness = 0;
 		worstFitness = 0;
 	}
-	
+
 	/**
 	 * Calculates one generation's fitnesses, 
 	 * moving the network forward one generation
@@ -215,23 +208,22 @@ public class GeneticAlgorithm
 	 */
 	public List<Genome> epoch()
 	{		
-		
+
 		//Reset fitness variables
 		reset();
-		System.out.println("epoch!");
 
 		//generate a random sample for all classifications.
 		for(int i = 0; i < classificationNames.length; i++)
 		{
 			classifications[i] = samplePool.getSamplePool(i, samplePool.getPoolSize(i) / 2);
 		}
-		
+
 		for(int i = 0; i < population.size() - 1; i++)
 		{
 			Main.taskExecutor.execute(new FitnessFinder(population.get(i), this));
 		}
 		Future<?> future = Main.taskExecutor.submit(new FitnessFinder(population.get(population.size() - 1), this));
-		
+
 		//wait for all the threads above to finish.
 		while(future.isDone())
 		{
@@ -244,19 +236,16 @@ public class GeneticAlgorithm
 				e.printStackTrace();
 			}
 		}
-		
+
 		//sort population for scaling and elitism
 		Collections.sort(population);
-		
+
 		//ArrayList to hold new population
 		//Future feature: optimize to reuse old population arrayList
 		List<Genome> newPopulation = new ArrayList<Genome>();
 
 		//Add the fittest genomes back in for elitism
-		if ((Param.NUM_ELITE_COPIES * Param.NUM_ELITE % 2) < 0)
-		{
-			grabNBestGenomes(Param.NUM_ELITE, Param.NUM_ELITE_COPIES, newPopulation);
-		}
+		grabNBestGenomes(Param.NUM_ELITE, Param.NUM_ELITE_COPIES, newPopulation);
 
 		//Genetic Algorithm Loop
 		//repeat until a new population is generated
@@ -270,12 +259,22 @@ public class GeneticAlgorithm
 			List<Double> child1 = null;
 			List<Double> child2 = null;
 
-			crossover(mother.weights, father.weights, child1, child2);
+			if((mother == father) || Math.random() > crossoverRate)
+			{
+				child1 = mother.getWeights();
+				child2 = father.getWeights();
+			}
+			else
+			{
+				child1 = new ArrayList<Double>();
+				child2 = new ArrayList<Double>();
+				crossover(mother.weights, father.weights, child1, child2);
+			}
 
 			//now we mutate
 			mutate(child1);
 			mutate(child2);
-			
+
 			//now copy into vecNewPop population
 			newPopulation.add(new Genome(child1));
 			newPopulation.add(new Genome(child2));
@@ -293,32 +292,32 @@ public class GeneticAlgorithm
 	{
 		return population;
 	}
-	
+
 	public double getBestFitness()
 	{
 		return bestFitness;
 	}
-	
+
 	public double getAverageFitness()
 	{
 		return averageFitness;
 	}
-	
+
 	public double getWorstFitness()
 	{
 		return this.worstFitness;
 	}
-	
+
 	public double getTotalFitness()
 	{
 		return this.totalFitness;
 	}
-	
+
 	public String[] getClassificationNames()
 	{
 		return classificationNames;
 	}
-	
+
 	public double[][][] getClassifications()
 	{
 		return classifications;

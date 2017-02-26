@@ -188,7 +188,6 @@ public class NeuralNetwork
 		Layer outputLayer = new Layer(outputs);
 		outputLayer.connectAfter(preLayer);
 		outputLayer.normalizeWeights();
-		System.out.println(outputLayer.getWeights());
 	}
 	
 	private void instantiateInputs()
@@ -213,12 +212,9 @@ public class NeuralNetwork
 		for (Layer layer : layerList)
 		{
 			list.addAll(layer.getWeights());
-			System.out.println(list.size());
 		}
 		Layer outputLayer = new Layer(outputs);
 		list.addAll(outputLayer.getWeights());
-		System.out.println(list.size());
-		System.out.println();
 		return new Genome(list);
 	}
 

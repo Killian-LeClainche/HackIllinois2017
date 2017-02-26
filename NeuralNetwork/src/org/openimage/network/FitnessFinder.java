@@ -28,9 +28,8 @@ public class FitnessFinder implements Runnable
 	
 	public void run()
 	{
-		System.out.println("Starting!");
 		this.genome.fitness = find(geneticAlgorithm.getClassificationNames(), geneticAlgorithm.getClassifications());
-		System.out.println("Loaded!");
+		System.out.println(this.genome.fitness);
 	}
 
 	/**
