@@ -216,7 +216,7 @@ public class GeneticAlgorithm
 		//Reset fitness variables
 		reset();
 
-		if(count -- == 0)
+		if(-- count == 0)
 		{
 			//generate a random sample for all classifications.
 			for(int i = 0; i < classificationNames.length; i++)
