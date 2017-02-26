@@ -12,8 +12,19 @@ import java.util.ListIterator;
  */
 public class Layer
 {
+	/**
+	 * List of nodes inside the layer
+	 */
     List<Node> nodes;
+    
+    /**
+     * The layer that comes before this one
+     */
     Layer beforeLayer;
+    
+    /**
+     * The layer that comes after this one
+     */
     Layer afterLayer;
 
     /**
@@ -25,12 +36,14 @@ public class Layer
     {
         nodes = new ArrayList<Node>(size);
 
+        //Add LSTM's to the nodes
         for (int i = 0; i < lstmCount; i++)
         {
             LSTM lstm = new LSTM();
             nodes.add(lstm);
         }
 
+        //th rest are Neurons
         for (int i = lstmCount; i < size; i++)
         {
             Neuron neuron = new Neuron();
@@ -64,6 +77,7 @@ public class Layer
 
         while(nodeIterator.hasNext())
         {
+        	//check if LSTM, set old weights to next value in weights
             Node node = nodeIterator.next();
             if (node instanceof LSTM)
             {
@@ -82,6 +96,7 @@ public class Layer
             }
             else
 	        {
+            	//same thing except doesn't iterate quite the same due to LSTM's nature
 	            List<Double> oldWeights = node.getIncomingWeights();
 	            for (int i = 0; i < oldWeights.size(); i++)
 	            {
@@ -103,6 +118,7 @@ public class Layer
     	beforeLayer = before;
     	before.afterLayer = this;
 
+    	//set all after layer nodes to be bound by before layer nodes
     	nodes.forEach(n -> before.nodes.forEach(n1 -> n.addIncomingNode(n1)));
     }
 
@@ -118,14 +134,6 @@ public class Layer
 
         connectAfter(before);
         addWeights(weights);
-
-        /*for(int i = 0; i < before.nodes.size(); i++)
-    	{
-    		for(int j = 0; j < nodes.size(); j++)
-    		{
-    			nodes.get(j).addIncomingNode(before.nodes.get(i), weights.get(i + j * before.nodes.size()));
-    		}
-    	}*/
     }
 
     /**
