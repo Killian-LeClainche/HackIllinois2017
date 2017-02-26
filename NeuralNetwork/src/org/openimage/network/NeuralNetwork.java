@@ -25,9 +25,22 @@ public class NeuralNetwork
 	 */
 	public NeuralNetwork(Genome genome)
 	{
-		inputs = new ArrayList<Node>();
-		outputs = new ArrayList<Node>();
-		createCompleteNodeList();
+		inputs = new ArrayList<Node>(Param.BLOCK_SIZE);
+		outputs = new ArrayList<Node>(Param.CATEGORY_NUM);
+		completeNodeList = new ArrayList<Node>();
+		createCompleteNodeList(genome.getWeights());
+	}
+
+	/**
+	 * Initialized empty values for the new NeuralNet.
+	 * 
+	 * @param genome
+	 */
+	public NeuralNetwork()
+	{
+		inputs = new ArrayList<Node>(Param.BLOCK_SIZE);
+		outputs = new ArrayList<Node>(Param.CATEGORY_NUM);
+		createRandomNodeList();
 	}
 
 	/**
@@ -102,11 +115,52 @@ public class NeuralNetwork
 	}
 
 	/**
+	 * @param arrayList 
 	 * 
 	 */
-	private void createCompleteNodeList()
+	private void createCompleteNodeList(ArrayList<Double> arrayList)
 	{
-		completeNodeList = null;
+		instantiateInputs();
+		instantiateOutputs();
+		instantiateHiddenLayer(arrayList);
+	}
+
+	private void instantiateHiddenLayer(ArrayList<Double> arrayList)
+	{
+		
+	}
+
+	private void createRandomNodeList()
+	{
+		instantiateInputs();
+		instantiateOutputs();
+		instantiateHiddenLayer();
+	}
+	
+	private void instantiateHiddenLayer()
+	{
+		
+	}
+	
+	private void instantiateInputs()
+	{
+		for (int i = 0; i < Param.BLOCK_SIZE; i++)
+		{
+			inputs.add(new Neuron());
+		}
+	}
+
+	private void instantiateOutputs()
+	{
+		for (int i = 0; i < Param.CATEGORY_NUM; i++)
+		{
+			outputs.add(new Neuron());
+		}
+	}
+	
+	public Genome getGenome()
+	{
+		return null;
 	}
 
 	/**

@@ -38,4 +38,8 @@ public class Genome implements Comparable<Genome>
 
 	}
 
+	public ArrayList<Double> getWeights()
+	{
+		return weights;
+	}
 }
