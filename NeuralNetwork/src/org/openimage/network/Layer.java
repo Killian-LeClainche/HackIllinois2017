@@ -63,13 +63,7 @@ public class Layer
     	beforeLayer = before;
     	before.afterLayer = this;
         // TODO Connect synapses from each Node in Before pointing to each Node in After.
-    	for(int i = 0; i < before.nodes.size(); i++)
-    	{
-    		for(int j = 0; j < nodes.size(); j++)
-    		{
-    			nodes.get(j).addIncomingNode(before.nodes.get(i));
-    		}
-    	}
+    	nodes.forEach(n -> before.nodes.forEach(n1 -> n.addIncomingNode(n1)));
     }
     
     public void connectAfter(Layer before, double[][] weights)
