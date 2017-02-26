@@ -32,6 +32,7 @@ public class Main
 			for(int i = 0; i < weights.size(); i++)
 			{
 				writer.append(i + ":" + weights.get(i));
+				writer.newLine();
 			}
 			writer.close();
 		}
