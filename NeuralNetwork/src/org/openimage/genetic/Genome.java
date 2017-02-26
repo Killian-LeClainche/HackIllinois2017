@@ -11,16 +11,23 @@ public class Genome implements Comparable<Genome>
 {
 	public List<Double> weights;
 	public double fitness;
-
+	public int id;
+	
 	public Genome()
 	{
 		fitness = 0;
 	}
 
+	public Genome(List<Double> list, int id)
+	{
+		this.weights = new ArrayList<Double>(list);
+		this.fitness = 0;
+		this.id = id;
+	}
+	
 	public Genome(List<Double> list)
 	{
-		this.weights = list;
-		this.fitness = 0;
+		this(list,0);
 	}
 
 	@Override

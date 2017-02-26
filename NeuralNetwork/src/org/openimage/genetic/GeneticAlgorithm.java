@@ -56,7 +56,10 @@ public class GeneticAlgorithm
 
 		for(int i = 0; i < populationSize; i++)
 		{
-			population.add(new NeuralNetwork().getGenome());		
+			Genome g = new NeuralNetwork().getGenome();
+			g.id = i;
+			population.add(g);	
+			
 		}
 
 		mutationRate = .2;
@@ -90,13 +93,17 @@ public class GeneticAlgorithm
 		//create new offspring
 		for(int i = 0; i < crossoverPoint; i++)
 		{
-			child1.add(mother.get(i));
-			child2.add(father.get(i));
+			Double d = new Double(mother.get(i));
+			child1.add(d);
+			Double d2 = new Double(father.get(i));
+			child2.add(d2);
 		}
 		for (int i = crossoverPoint; i < mother.size(); i++)
 		{
-			child1.add(father.get(i));
-			child2.add(mother.get(i));
+			Double d = new Double(father.get(i));
+			child1.add(d);
+			Double d2 = new Double(mother.get(i));
+			child2.add(d2);
 		}
 		
 	}
@@ -169,7 +176,8 @@ public class GeneticAlgorithm
 			int genomeIndex = index; //index of the most fit genome not currently added numCopies times
 			for(int i = 0; i < numCopies; i++)
 			{
-				population.add(this.population.get(genomeIndex));
+				Genome genome = new Genome(this.population.get(genomeIndex).weights, this.population.get(genomeIndex).id);
+				population.add(genome);
 			}
 			index++;
 		}
@@ -210,6 +218,10 @@ public class GeneticAlgorithm
 	public List<Genome> epoch()
 	{		
 
+		/*for(int i = 0; i < populationSize; i++)
+		{
+			System.out.println("id:" + population.get(i).id);
+		}*/
 		//Reset fitness variables
 		reset();
 
