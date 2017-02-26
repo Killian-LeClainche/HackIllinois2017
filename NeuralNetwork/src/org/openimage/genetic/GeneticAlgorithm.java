@@ -11,7 +11,7 @@ import org.openimage.Main;
 import org.openimage.Param;
 import org.openimage.io.SamplePool;
 import org.openimage.network.FitnessFinder;
-
+import org.openimage.genetic.Genome;
 /**
  * This class generates new Genomes from a parent Genome.
  * 
@@ -23,7 +23,7 @@ public class GeneticAlgorithm
 	private ArrayList<Genome> population; // Holds the entire population of
 											// genomes
 	private int populationSize; // Size of the population
-	private int chromosomeLength; // Weights per chromosome
+	private int genomeLength; // Weights per genome
 	private int fittestGenome; // index of the best genome in population
 
 	// Learning Statistics (current population)
@@ -79,8 +79,8 @@ public class GeneticAlgorithm
 
 			return;
 		}
-		//determine the crossover point on the chromosome
-		int crossoverPoint = generator.nextInt(chromosomeLength);
+		//determine the crossover point on the genome
+		int crossoverPoint = generator.nextInt(genomeLength);
 		
 		//create new offspring
 		for(int i = 0; i < crossoverPoint; i++)
@@ -100,33 +100,57 @@ public class GeneticAlgorithm
 	}
 
 	/**
-	 * Performs mutation on a chromosome according to the 
+	 * Performs mutation on a genome according to the 
 	 * genetic algorithm's mutation rate. Mutates by perturbing 
-	 * chromosome's weights by no more than MAX_PERTURBATION
-	 * @param chromosome
+	 * genome's weights by no more than MAX_PERTURBATION
+	 * @param genome
 	 */
-	private void mutate(ArrayList<Double>chromosome)
+	private void mutate(ArrayList<Double>genome)
 	{
 		Random generator = new Random();
-		//Traverse chromosome and perturb weights based on mutation rate
-		for(int i = 0; i < chromosome.size(); i++)
+		//Traverse genome and perturb weights based on mutation rate
+		for(int i = 0; i < genome.size(); i++)
 		{
 			if(generator.nextDouble() < mutationRate)
 			{
-				chromosome.set(i, chromosome.get(i) + ((generator.nextDouble()-generator.nextDouble()) * Param.MAX_PERTURBATION));
+				genome.set(i, genome.get(i) + ((generator.nextDouble()-generator.nextDouble()) * Param.MAX_PERTURBATION));
 			}
 		}
 	}
 
 	/**
-	 * Selects a chromosome using Roulette selection
-	 * @return chromosome to be used in crossover
+	 * Selects a genome using roulette wheel sampling 
+	 * (random selection with evolutionary benefits)
+	 * @return genome to be used in crossover
 	 */
-	private Genome getChromosomeRoulette()
+	private Genome getGenomeRoulette()
 	{
+		Random generator = new Random();
+
+		//generate a random number between 0 & total fitness count
+		double slice = (double)(generator.nextDouble() * totalFitness);
+
+		//this will be set to the chosen genome
+		Genome selectedGenome = null;
 		
-		return null;
+		//sum the fitness of genomes
+		double cumulativeFitness = 0;
+		
+		for (int i = 0; i < populationSize; i++)
+		{
+			cumulativeFitness += population.get(i).fitness;
+			
+			//if the cumulative fitness > random number return the genome at 
+			//this point
+			if (cumulativeFitness >= slice)
+			{
+				selectedGenome = population.get(i);
+				break;
+			}
+		}
+		return selectedGenome;
 	}
+	
 	/** 
 	 * Introduces elitism by selecting the most fit genomes 
 	 * to propagate into the next generation
@@ -154,6 +178,9 @@ public class GeneticAlgorithm
 	 */
 	private void computeStatistics()
 	{
+		//Needs to account for fittest genome
+		population.forEach(genome -> averageFitness += genome.fitness);
+
 		//lambda function for total fitness.
 		population.forEach(genome -> totalFitness += genome.fitness);
 		
@@ -181,20 +208,23 @@ public class GeneticAlgorithm
 	 * to be modified using fitness values then returned
 	 * @return then new population
 	 */
-	public ArrayList<Genome> epoch(ArrayList<Genome> oldPopulation)
-	{
+	public ArrayList<Genome> epoch()
+	{		
+		
+		//Reset fitness variables
+		reset();
+
 		//generate a random sample for all classifications.
 		for(int i = 0; i < classificationNames.length; i++)
 		{
 			classifications[i] = samplePool.getSamplePool(i, samplePool.getPoolSize(i) / 2);
 		}
 		
-		//add to thread pool all the genome's to determine their fitness.
-		for(int i = 0; i < oldPopulation.size() - 1; i++)
+		for(int i = 0; i < population.size() - 1; i++)
 		{
-			Main.taskExecutor.execute(new FitnessFinder(oldPopulation.get(i), this));
+			Main.taskExecutor.execute(new FitnessFinder(population.get(i), this));
 		}
-		Future<?> future = Main.taskExecutor.submit(new FitnessFinder(oldPopulation.get(oldPopulation.size() - 1), this));
+		Future<?> future = Main.taskExecutor.submit(new FitnessFinder(population.get(population.size() - 1), this));
 		
 		//wait for all the threads above to finish.
 		while(future.isDone())
@@ -209,16 +239,45 @@ public class GeneticAlgorithm
 			}
 		}
 		
-		//sort by each genome's fitness.
-		Collections.sort(oldPopulation);
+		//sort population for scaling and elitism
+		Collections.sort(population);
 		
-		//Create new population
+		//ArrayList to hold new population
 		//Future feature: optimize to reuse old population arrayList
 		ArrayList<Genome> newPopulation = null;
-		
+
+		//Add the fittest genomes back in for elitism
+		if ((Param.NUM_ELITE_COPIES * Param.NUM_ELITE % 2) < 0)
+		{
+			grabNBestGenomes(Param.NUM_ELITE, Param.NUM_ELITE_COPIES, newPopulation);
+		}
+
+		//Genetic Algorithm Loop
+		{
+			//Use two genomes
+			Genome mother = getGenomeRoulette();
+			Genome father = getGenomeRoulette();
+
+			//create some offspring via crossover
+			ArrayList<Double> child1 = null;
+			ArrayList<Double> child2 = null;
+
+			crossover(mother.weights, father.weights, child1, child2);
+
+			//now we mutate
+			mutate(child1);
+			mutate(child2);
+			
+			//now copy into vecNewPop population
+			newPopulation.add(new Genome(child1));
+			newPopulation.add(new Genome(child2));
+		}
+
+		//finished so assign new pop back into m_vecPop
+		population = newPopulation;
+
 		computeStatistics();
-		
-		
+
 		return newPopulation;
 	}
 

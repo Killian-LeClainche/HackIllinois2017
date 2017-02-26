@@ -15,7 +15,7 @@ public class NeuralNetwork
 {
 	private List<Node> inputs;
 	private List<Node> outputs;
-	private List<Node> completeNodeList;
+	private List<Layer> layerList;
 
 	/**
 	 * Initialized empty values for the new NeuralNet.
@@ -25,9 +25,11 @@ public class NeuralNetwork
 	public NeuralNetwork(Genome genome)
 	{
 		inputs = new ArrayList<Node>(Param.BLOCK_SIZE);
+		instantiateInputs();
 		outputs = new ArrayList<Node>(Param.CATEGORY_NUM);
-		completeNodeList = new ArrayList<Node>();
-		createCompleteNodeList(genome.getWeights());
+		instantiateOutputs();
+		layerList = new ArrayList<Layer>();
+		instantiateHiddenLayer(genome.getWeights());
 	}
 
 	/**
@@ -38,8 +40,11 @@ public class NeuralNetwork
 	public NeuralNetwork()
 	{
 		inputs = new ArrayList<Node>(Param.BLOCK_SIZE);
+		instantiateInputs();
 		outputs = new ArrayList<Node>(Param.CATEGORY_NUM);
-		createRandomNodeList();
+		instantiateOutputs();
+		layerList = new ArrayList<Layer>();
+		instantiateHiddenLayer(null);
 	}
 
 	/**
@@ -112,32 +117,36 @@ public class NeuralNetwork
 		return maxIndex;
 	}
 
-	/**
-	 * @param arrayList 
-	 * 
-	 */
-	private void createCompleteNodeList(ArrayList<Double> arrayList)
+	private void instantiateHiddenLayer(List<Double> arrayList)
 	{
-		instantiateInputs();
-		instantiateOutputs();
-		instantiateHiddenLayer(arrayList);
-	}
+		// Add largest layer
+		Layer inputLayer = new Layer(inputs);
+		Layer preLayer = new Layer(Param.BLOCK_SIZE, 0);
+		preLayer.connectAfter(inputLayer);
 
-	private void instantiateHiddenLayer(ArrayList<Double> arrayList)
-	{
+		layerList.add(preLayer);
 		
-	}
+		int size = Param.BLOCK_SIZE / 2;
 
-	private void createRandomNodeList()
-	{
-		instantiateInputs();
-		instantiateOutputs();
-		instantiateHiddenLayer();
-	}
-	
-	private void instantiateHiddenLayer()
-	{
+		Layer layer;
 		
+		while (size > Param.CATEGORY_NUM)
+		{
+			layer = new Layer(size, 0);
+			layer.connectAfter(preLayer);
+			if (arrayList == null)
+			{
+				layer.addWeights(arrayList);
+			}
+
+			layerList.add(layer);
+
+			preLayer = layer;
+			size /= 2;
+		}
+		
+		Layer outputLayer = new Layer(outputs);
+		outputLayer.connectAfter(outputLayer);
 	}
 	
 	private void instantiateInputs()
@@ -190,11 +199,11 @@ public class NeuralNetwork
 
 	private void tick()
 	{
-		Iterator<Node> nodeIter1 = completeNodeList.iterator();
-		while (nodeIter1.hasNext())
+		Iterator<Layer> layerIter = layerList.iterator();
+		while (layerIter.hasNext())
 		{
-			Node node = nodeIter1.next();
-			node.activate();
+			Layer layer = layerIter.next();
+			layer.activate();
 		}
 	}
 
@@ -203,11 +212,11 @@ public class NeuralNetwork
 	 */
 	private void reset()
 	{
-		Iterator<Node> nodeIter1 = completeNodeList.iterator();
-		while (nodeIter1.hasNext())
+		Iterator<Layer> layerIter = layerList.iterator();
+		while (layerIter.hasNext())
 		{
-			Node node = nodeIter1.next();
-			node.reset();
+			Layer layer = layerIter.next();
+			layer.reset();
 		}
 	}
 

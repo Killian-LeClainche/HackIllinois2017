@@ -169,6 +169,10 @@ public class LSTM implements Node
      */
     public double activate()
     {
+        assert(getKeep().getIncomingNodes().size() > 0 &&
+            getRead().getIncomingNodes().size() > 0 &&
+            );
+
         // Compute the current value.
         this.previous = this.value;
         this.value = getMemory().getValue() * getWrite().getValue();
