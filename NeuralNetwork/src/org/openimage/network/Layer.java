@@ -65,18 +65,7 @@ public class Layer
         while(nodeIterator.hasNext())
         {
             Node node = nodeIterator.next();
-            if (node instanceof Neuron)
-	        {
-	            List<Double> oldWeights = node.getIncomingWeights();
-	            for (int i = 0; i < oldWeights.size(); i++)
-	            {
-	                if (weightIterator.hasNext())
-	                {
-	                    oldWeights.set(i, weightIterator.next());
-	                }
-	            }
-	        }
-            else 
+            if (node instanceof LSTM)
             {
             	LSTM lstm = (LSTM) node;
             	List<List<Double>> oldWeights = lstm.getListOfIncomingWeights();
@@ -91,6 +80,17 @@ public class Layer
             		}
             	}
             }
+            else
+	        {
+	            List<Double> oldWeights = node.getIncomingWeights();
+	            for (int i = 0; i < oldWeights.size(); i++)
+	            {
+	                if (weightIterator.hasNext())
+	                {
+	                    oldWeights.set(i, weightIterator.next());
+	                }
+	            }
+	        }
         }
     }
 

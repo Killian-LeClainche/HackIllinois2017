@@ -54,7 +54,7 @@ public class Neuron implements Node
 		this.incomingNodes = new ArrayList<Node>();
 		this.incomingWeights = new ArrayList<Double>();
 		this.incomingNodes.add(null); // For Bias.
-		this.incomingWeights.add(0.0); // For Bias.
+		this.incomingWeights.add(Math.random()/2); // For Bias.
 		this.value = 0.0;
 		this.previous = 0.0;
 		this.squash = squash;
@@ -66,13 +66,7 @@ public class Neuron implements Node
 	 */
 	public Neuron()
 	{
-		this.incomingNodes = new ArrayList<Node>();
-		this.incomingWeights = new ArrayList<Double>();
-		this.incomingNodes.add(null); // For Bias.
-		this.incomingWeights.add(0.0); // For Bias.
-		this.value = 0.0;
-		this.previous = 0.0;
-		this.squash = SquashFunction.LOGISTIC;
+		this(SquashFunction.LOGISTIC);
 	}
 
 	public List<Node> getIncomingNodes()
