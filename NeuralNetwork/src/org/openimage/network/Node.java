@@ -39,6 +39,7 @@ public interface Node
 	 * Set the Node's value. This should be used sparingly.
 	 */
 	public void setValue(double value);
+
 	/**
 	 * @return The Neuron's value before being squashed.
 	 */
@@ -52,6 +53,12 @@ public interface Node
 	 *         respective weights, then squashed.
 	 */
 	public double activate();
+
+	/**
+	 * Compute the activation with the given input.
+	 * @return The output of squashing the input.
+	 */
+	public double activate(double input);
 
 	/**
 	 * Reset the value of the node.

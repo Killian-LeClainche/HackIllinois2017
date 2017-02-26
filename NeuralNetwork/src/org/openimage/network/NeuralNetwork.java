@@ -57,13 +57,13 @@ public class NeuralNetwork
 		int n = (int) Math.sqrt(imageInputNodes.length);
 
 		double[] trackedOutputValues = new double[outputs.size()];
-		
-		for (int y = 0; y + Param.BLOCK_SIZE < n; y += Param.BLOCK_SIZE)
+
+		for (int row = 0; row + Param.BLOCK_SIZE < n + 1; row += Param.BLOCK_SIZE)
 		{
-			for (int x = 0; x + Param.BLOCK_SIZE < x; x += Param.BLOCK_SIZE)
+			for (int col = 0; col + Param.BLOCK_SIZE < n + 1; col += Param.BLOCK_SIZE)
 			{
-				tick(imageInputNodes, n, x, y);
-	
+				tick(imageInputNodes, row, col, n);
+
 				// Write the output of the node to the tracker
 				int count = 0;
 				Iterator<Node> outputIter = outputs.iterator();
@@ -111,28 +111,31 @@ public class NeuralNetwork
 
 	/**
 	 * 
-	 * @param imageInputNodes 2D array represented as a 1D array
-	 * @param index The block number of the array.
-	 * @param n width of the array
+	 * @param imageInputNodes
+	 *            2D array represented as a 1D array
+	 * @param row
+	 * @param col
+	 * @param n
+	 *            width of the array
 	 */
-	private void tick(double[] imageInputNodes, int size, int row, int col)
+	private void tick(double[] imageInputNodes, int row, int col, int n)
 	{
 		Iterator<Node> nodeIter = inputs.iterator();
-		
+
 		int k;
 		for (int i = row; i < row + Param.BLOCK_SIZE; i++)
 		{
 			for (int j = col; j < col + Param.BLOCK_SIZE; j++)
 			{
 				Node node = nodeIter.next();
-				k = i + (j * size);
+				k = toIndex(row, col, n);
 				node.setValue(imageInputNodes[k]);
 			}
 		}
-		
+
 		tick();
 	}
-	
+
 	private void tick()
 	{
 		Iterator<Node> nodeIter1 = completeNodeList.iterator();
@@ -153,6 +156,40 @@ public class NeuralNetwork
 		{
 			Node node = nodeIter1.next();
 			node.reset();
+		}
+	}
+
+	public static int toIndex(int row, int col, int n)
+	{
+		return col + (row * n);
+	}
+
+	public static void main(String args[])
+	{
+		double[] imageInputNodes = new double[16 * 16];
+		List<Node> inputs = new ArrayList<Node>();
+		for (int i = 0; i < 64; i++)
+		{
+			inputs.add(new Neuron());
+		}
+
+		int n = (int) Math.sqrt(imageInputNodes.length);
+
+		for (int y = 0; y + Param.BLOCK_SIZE < n + 1; y += Param.BLOCK_SIZE)
+		{
+			for (int x = 0; x + Param.BLOCK_SIZE < n + 1; x += Param.BLOCK_SIZE)
+			{
+				System.out.print(y + "\t" + x + "\t\t");
+			}
+			System.out.println();
+		}
+		System.out.println();
+		for (int y = 0; y + Param.BLOCK_SIZE < n + 1; y += Param.BLOCK_SIZE)
+		{
+			for (int x = 0; x + Param.BLOCK_SIZE < n + 1; x += Param.BLOCK_SIZE)
+			{
+				System.out.println(toIndex(y, x, n));
+			}
 		}
 	}
 }

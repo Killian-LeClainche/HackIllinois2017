@@ -4,9 +4,11 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Random;
 import java.util.concurrent.Future;
 
 import org.openimage.Main;
+import org.openimage.Param;
 import org.openimage.io.SamplePool;
 import org.openimage.network.FitnessFinder;
 
@@ -25,14 +27,14 @@ public class GeneticAlgorithm
 	private int fittestGenome; // index of the best genome in population
 
 	// Learning Statistics (current population)
-	private int genomeCount;
+	private int generationCount;
 	private double totalFitness;
 	private double bestFitness;
 	private double averageFitness;
 	private double worstFitness;
 
 	// Evolutionary Probabilities
-	private double MutationRate;
+	private double mutationRate;
 	private double crossoverRate;
 
 	private String[] classificationNames; //we have to figure out how to get this 
@@ -68,7 +70,33 @@ public class GeneticAlgorithm
 	 */
 	private void crossover(ArrayList<Double>mother, ArrayList<Double>father, ArrayList<Double>child1, ArrayList<Double>child2)
 	{
+		Random generator = new Random();
+		//If the random value is outside the crossover rate or parents are the same, do not crossover
+		if ( (generator.nextDouble() > crossoverRate) || (mother == father)) 
+		{
+			child1 = mother;
+			child2 = father;
 
+			return;
+		}
+		//determine the crossover point on the chromosome
+		int crossoverPoint = generator.nextInt(chromosomeLength);
+		
+		//create new offspring
+		for(int i = 0; i < crossoverPoint; i++)
+		{
+			child1.add(mother.get(i));
+			child2.add(father.get(i));
+
+		}
+		for (int i = crossoverPoint; i < mother.size(); i++)
+		{
+			child1.add(father.get(i));
+			child2.add(mother.get(i));
+		}
+
+		return;
+		
 	}
 
 	/**
@@ -79,7 +107,15 @@ public class GeneticAlgorithm
 	 */
 	private void mutate(ArrayList<Double>chromosome)
 	{
-
+		Random generator = new Random();
+		//Traverse chromosome and perturb weights based on mutation rate
+		for(int i = 0; i < chromosome.size(); i++)
+		{
+			if(generator.nextDouble() < mutationRate)
+			{
+				chromosome.set(i, chromosome.get(i) + ((generator.nextDouble()-generator.nextDouble()) * Param.MAX_PERTURBATION));
+			}
+		}
 	}
 
 	/**
