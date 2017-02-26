@@ -229,9 +229,9 @@ public class GeneticAlgorithm
 			//generate a random sample for all classifications.
 			for(int i = 0; i < classificationNames.length; i++)
 			{
-				classifications[i] = samplePool.getSamplePool(i, 50);
+				classifications[i] = samplePool.getSamplePool(i, samplePool.getPoolSize(i));
 			}
-			count = 1000;
+			count = 1000000;
 			System.out.println("NEW POOL!");
 		}
 
