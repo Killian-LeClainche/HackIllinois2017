@@ -55,6 +55,12 @@ public class GeneticAlgorithm
 		{
 			population.add(new NeuralNetwork().getGenome());
 		}
+		
+		populationSize = population.size();
+		mutationRate = .1;
+		crossoverRate = 0.7;
+		genomeLength = Param.BLOCK_SIZE * Param.BLOCK_SIZE;
+		genomeLength *= genomeLength;
 	}
 
 

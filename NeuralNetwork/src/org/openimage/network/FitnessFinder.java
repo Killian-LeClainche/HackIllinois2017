@@ -31,7 +31,6 @@ public class FitnessFinder implements Runnable
 	public void run()
 	{
 		this.genome.fitness = find(geneticAlgorithm.getClassificationNames(), geneticAlgorithm.getClassifications());
-		System.out.println("FINISHED INDEX: " + index);
 	}
 
 	/**
