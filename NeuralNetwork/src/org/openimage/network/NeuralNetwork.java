@@ -310,6 +310,13 @@ public class NeuralNetwork
 	public static void main(String args[])
 	{
 		NeuralNetwork seed = new NeuralNetwork();
+		System.out.println(seed.getGenome().weights);
+	}
+	
+	/*
+	public static void main(String args[])
+	{
+		NeuralNetwork seed = new NeuralNetwork();
 		NeuralNetwork n1 = new NeuralNetwork(seed.getGenome());
 		NeuralNetwork n2 = new NeuralNetwork(n1.getGenome());
 		List<Double> d1 = n1.getGenome().weights;
@@ -331,4 +338,5 @@ public class NeuralNetwork
 		System.out.println("Size: " + d1.size() + " " + d2.size());
 		System.out.println("Equal: " + d1.equals(d2));
 	}
+	*/
 }
