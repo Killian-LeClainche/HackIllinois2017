@@ -1,6 +1,7 @@
 package org.openimage.network;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -253,7 +254,7 @@ public class LSTM implements Node
 
     public String toString()
     {
-        //return "LSTM { " +
-        return "";
+        return "LSTM { gates: " + Arrays.toString(this.gates) + ", previous: " + this.previous +
+                ", value: " + this.value + " }";
     }
 }
