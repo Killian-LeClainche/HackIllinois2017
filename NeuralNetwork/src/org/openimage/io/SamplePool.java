@@ -66,16 +66,30 @@ public class SamplePool
 		classifications = names;
 	}
 
+	/**
+	 * Gets the amount of classifications there are
+	 * @return
+	 */
 	public int getClassificationSize()
 	{
 		return classifications.length;
 	}
 
+	/**
+	 * Gets the Pool size of a particular classification
+	 * @param index : the index of the classification
+	 * @return
+	 */
 	public int getPoolSize(int index)
 	{
 		return classifications[index].getPoolSize();
 	}
 
+	/**
+	 * Get the name of a particular classification
+	 * @param index : the index of the classification
+	 * @return
+	 */
 	public String getClassificationName(int index)
 	{
 		return classifications[index].getName();
