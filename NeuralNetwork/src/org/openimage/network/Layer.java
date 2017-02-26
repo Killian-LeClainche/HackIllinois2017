@@ -4,14 +4,33 @@ import java.util.ArrayList;
 
 public class Layer
 {
+    ArrayList<Node> nodes;
+
     public Layer (int size, int lstmCount)
     {
         // TODO Generate a layer with Size Nodes, with a set number of LSTM Nodes.
+        for (int i = 0; i < lstmCount; i++)
+        {
+            LSTM lstm = new LSTM();
+            nodes.add(lstm);
+        }
+
+        for (int i = lstmCount; i < size; i++)
+        {
+            Neuron neuron = new Neuron();
+            nodes.add(neuron);
+        }
     }
 
-    public Layer (ArrayList<Node> nodes)
+    public Layer (ArrayList<Node> nodes, ArrayList<Double> weights)
     {
-        // TODO Generate a layer with given Nodes.
+        // TODO Generate a layer with given Nodes and respective weights.
+
+    }
+
+    public void addWeights(ArrayList<Double> weights)
+    {
+        // TODO (Max is doing this for Jarett)
     }
 
     public void connectAfter(Layer before)
