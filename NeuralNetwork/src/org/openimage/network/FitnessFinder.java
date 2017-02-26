@@ -8,7 +8,7 @@ import org.openimage.genetic.Genome;
  * 
  * @author Jarett Lee
  */
-public class FitnessFinder extends Thread
+public class FitnessFinder implements Runnable
 {
 	private Genome genome;
 	private NeuralNetwork neuralNetwork;

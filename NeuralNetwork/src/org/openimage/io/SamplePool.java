@@ -98,7 +98,7 @@ public class SamplePool
 		while (randomList.size() < sampleSize)
 		{
 			int randomValue = random.nextInt(sample.getPoolSize());
-			if (randomList.contains(randomValue))
+			if (!randomList.contains(randomValue))
 			{
 				randomList.add(randomValue);
 			}

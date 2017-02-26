@@ -22,20 +22,26 @@ public class Main
 		taskExecutor = Executors.newFixedThreadPool(Math.max(Runtime.getRuntime().availableProcessors() - 1, 1));
 		
 		final GeneticAlgorithm genAlg = new GeneticAlgorithm();
+		System.out.println("Finished loading images...");
 		new Thread()
 		{
 			public void run()
 			{
+				int gen = 0;
+				System.out.println("Let's begin");
 				while(flag)
 				{
+					gen++;
 					genAlg.epoch();
-					System.out.println("Best Fitness: " + genAlg.getBestFitness());
-					System.out.println("Total Fitness: " + genAlg.getTotalFitness());
-					System.out.println("Average Fitness: " + genAlg.getAverageFitness());
+					System.out.print("Generation: " + gen + "\t");
+					System.out.print("Best Fitness: " + genAlg.getBestFitness() + "\t");
+					System.out.print("Total Fitness: " + genAlg.getTotalFitness() + "\t");
+					System.out.print("Average Fitness: " + genAlg.getAverageFitness() + "\t");
 					System.out.println("Worst Fitness: " + genAlg.getWorstFitness());
 
 				}
 				print(genAlg.getPopulation().get(0));
+				System.exit(1);
 			}
 		}.start();
 		
