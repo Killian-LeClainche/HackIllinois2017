@@ -87,7 +87,7 @@ public class NeuralNetwork
 				while (outputIter.hasNext())
 				{
 					Node node = outputIter.next();
-					trackedOutputValues[count++] = node.getValue();
+					trackedOutputValues[count++] += node.getValue();
 				}
 			}
 		}
@@ -102,10 +102,10 @@ public class NeuralNetwork
 			while (outputIter.hasNext())
 			{
 				Node node = outputIter.next();
-				trackedOutputValues[count++] = node.getValue();
+				trackedOutputValues[count++] += node.getValue();
 			}
 		}
-
+		
 		int maxIndex = 0;
 		for (int i = 1; i < trackedOutputValues.length; i++)
 		{
